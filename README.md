@@ -20,6 +20,14 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 * Depends: Pyhton (>= 3)
 * Author: Armel SOUBEIGA
 
+## Contributors
+
+* [1] Violaine ANTOINE 
+
+## References
+
+* [1] Denœux, T. (Year). evclust: An R Package for Evidential Clustering. Université de technologie de Compiègne. url [https://cran.r-project.org/web/packages/evclust/index.html](https://cran.r-project.org/web/packages/evclust/index.html)
+* [2] Masson, M. H. et T. Denœux (2008). ECM : An evidential version of the fuzzy c-means algorithm. Pattern Recognition 41, 1384–1397
 
 
 ## Installation
