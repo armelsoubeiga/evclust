@@ -6,17 +6,19 @@
 [![python](https://img.shields.io/badge/python-%5E3.8-blue)]()
 [![os](https://img.shields.io/badge/OS-Ubuntu%2C%20Mac%2C%20Windows-purple)]()
 
+<br/>
+
 Various clustering algorithms that produce a credal partition, i.e., a set of Dempster-Shafer mass functions representing the membership of objects to clusters. The mass functions quantify the cluster-membership uncertainty of the objects. The algorithms are: Evidential c-Means, Relational Evidential c-Means, Constrained Evidential c-Means, Multiples Relational Evidential c-Means. 
 
 
 ## Informations
 
-Title: Evidential c-Means Clustering
-Version: 0.1
-Date: 2023-06-26
-License: GPL-3
-Depends: Pyhton (>= 3)
-Author: Armel SOUBEIGA
+* Title: Evidential c-Means Clustering
+* Version: 0.1
+* Date: 2023-06-26
+* License: GPL-3
+* Depends: Pyhton (>= 3)
+* Author: Armel SOUBEIGA
 
 
 
@@ -32,4 +34,4 @@ Interested in contributing? Check out the [Contributing Guidelines](https://py-p
 
 ## License
 
-`py-pkgs-cookiecutter` was created by Tomas Beuzen and Tiffany Timbers. It is licensed under the terms of the BSD license.
+`evclust` was created by Armel SOUBEIGA. It is licensed under the terms of the MIT license.
