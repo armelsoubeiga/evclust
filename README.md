@@ -18,11 +18,11 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 * Date: 2023-06-26
 * License: GPL-3
 * Depends: Pyhton (>= 3)
-* Author: Armel SOUBEIGA
+* Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
 
 ## Contributors
 
-* [1] Violaine ANTOINE 
+* [1] [Violaine ANTOINE](https://perso.isima.fr/~viantoin/) 
 
 ## References
 
