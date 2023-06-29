@@ -10,6 +10,40 @@
 
 Various clustering algorithms that produce a credal partition, i.e., a set of Dempster-Shafer mass functions representing the membership of objects to clusters. The mass functions quantify the cluster-membership uncertainty of the objects. The algorithms are: Evidential c-Means, Relational Evidential c-Means, Constrained Evidential c-Means, Multiples Relational Evidential c-Means. 
 
+Example: consider a set of n = 5 individuals and c = 3 clusters, we have the following credal partition :
+<style>
+    .table-wrapper {
+        display: inline-block;
+        vertical-align: top;
+    }
+    .image-wrapper {
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>
+
+<div class="table-wrapper">
+
+|         | m\_1(A) | m\_2(A) | m\_3(A) | m\_4(A) |
+|---------|-------|-------|-------|-------|
+| ∅       | 1     | 0     | 0     | 0     |
+| {ω1}    | 0     | 0     | 0.2   | 0     |
+| {ω2}    | 0     | 1     | 0.4   | 0     |
+| {ω1,ω2} | 0     | 0     | 0     | 0     |
+| {ω3}    | 0     | 0     | 0.4   | 0     |
+| {ω1,ω3} | 0     | 0     | 0     | 0     |
+| {ω2,ω3} | 0     | 0     | 0     | 0     |
+| Ω       | 0     | 0     | 0     | 1     |
+
+</div>
+
+<div class="image-wrapper">
+
+![Image 1](docs/imgs/image1.jpg)
+![Image 2](docs/imgs/image2.jpg)
+![Image 3](docs/imgs/image3.jpg)
+
+</div>
 
 ## Informations
 
@@ -19,10 +53,9 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 * License: GPL-3
 * Depends: Pyhton (>= 3)
 * Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
+* Maintainer: Armel SOUBEIGA, [armel.soubeiga@uca.fr](armel.soubeiga@uca.fr)
+* Contributors : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/) 
 
-## Contributors
-
-* [1] [Violaine ANTOINE](https://perso.isima.fr/~viantoin/) 
 
 ## References
 
@@ -38,7 +71,7 @@ $ pip install evclust
 
 ## Contributing
 
-Interested in contributing? Check out the [Contributing Guidelines](https://py-pkgs-cookiecutter.readthedocs.io/en/latest/contributing.html). Please note that this project is released with a [Code of Conduct](https://py-pkgs-cookiecutter.readthedocs.io/en/latest/conduct.html). By contributing to this project, you agree to abide by its terms.
+Interested in contributing? Check out the [Contributing Guidelines](https://evclust.readthedocs.io/en/latest/contributing.html). Please note that this project is released with a [Code of Conduct](https://evclust.readthedocs.io/en/latest/conduct.html). By contributing to this project, you agree to abide by its terms.
 
 ## License
 
