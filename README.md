@@ -17,10 +17,10 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 * Title: Evidential c-Means Clustering
 * Version: 0.1
 * Date: 2023-06-26
-* License: GPL-3
+* License: MIT
 * Depends: Pyhton (>= 3)
 * Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
-* Maintainer: Armel SOUBEIGA, [armel.soubeiga@uca.fr](armel.soubeiga@uca.fr)
+* Maintainer: [armel.soubeiga@uca.fr](armel.soubeiga@uca.fr)
 * Lead : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/)
 * Contributors :  
 
