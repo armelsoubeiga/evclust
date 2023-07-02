@@ -8,6 +8,13 @@
 
 <br/>
 
+<div align="center">
+<img src="https://raw.githubusercontent.com/armelsoubeiga/evclust/master/docs/assets/logo.png" height="180px" />
+[Get Started](https://evclust.readthedocs.io) | [pip install](https://pypi.org/project/evclust/)
+</div>
+
+<br/>
+
 Various clustering algorithms that produce a credal partition, i.e., a set of Dempster-Shafer mass functions representing the membership of objects to clusters. The mass functions quantify the cluster-membership uncertainty of the objects. The algorithms are: Evidential c-Means, Relational Evidential c-Means, Constrained Evidential c-Means, Multiples Relational Evidential c-Means. 
 
 </div>
@@ -18,7 +25,7 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 * Version: 0.1
 * Date: 2023-06-26
 * License: MIT
-* Depends: Pyhton (>= 3)
+* Depends: Pyhton (<3.12, >=3.8)
 * Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
 * Maintainer: [armel.soubeiga@uca.fr](armel.soubeiga@uca.fr)
 * Contributors : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/), [Benoit Albert](https://sites.google.com/view/benoitalbert/home)
