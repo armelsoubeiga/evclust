@@ -7,9 +7,10 @@ This module contains the main function for ecm
 """
 
 #---------------------- Packges------------------------------------------------
-import numpy as np
-from sklearn.cluster import KMeans
 from evclust.utils import makeF, extractMass
+import numpy as np
+from scipy.cluster.vq import kmeans
+
 
 
 
@@ -79,9 +80,8 @@ def ecm(x, c, g0=None, type='full', pairs=None, Omega=True, ntrials=1, alpha=1, 
     for itrial in range(ntrials):
         if g0 is None:
             if init == "kmeans":
-                kmeans = KMeans(n_clusters=c)
-                kmeans.fit(x)
-                g = kmeans.cluster_centers_
+                centroids, distortion = kmeans(x, c)
+                g = centroids
             else:
                 g = x[np.random.choice(n, c), :] + 0.1 * np.random.randn(c * d).reshape(c, d)
         else:
@@ -100,7 +100,7 @@ def ecm(x, c, g0=None, type='full', pairs=None, Omega=True, ntrials=1, alpha=1, 
             # calculation of distances to centers
             D = np.zeros((n, f-1))
             for j in range(f-1):
-                D[:, j] = np.sum((x - np.tile(gplus[j, :], (n, 1))) ** 2, axis=1)
+                D[:, j] = np.nansum((x - np.tile(gplus[j, :], (n, 1))) ** 2, axis=1)
 
             # Calculation of masses
             m = np.zeros((n, f-1))
@@ -148,7 +148,7 @@ def ecm(x, c, g0=None, type='full', pairs=None, Omega=True, ntrials=1, alpha=1, 
             g = np.linalg.solve(A, B)
 
             mvide = 1 - np.sum(m, axis=1)
-            J = np.sum((m ** beta) * D * np.tile(card.reshape(1, f-1), (n, 1))) + delta2 * np.sum(mvide ** beta)
+            J = np.nansum((m ** beta) * D * np.tile(card.reshape(1, f-1), (n, 1))) + delta2 * np.nansum(mvide ** beta)
             if disp:
                 print([iter, J])
             pasfini = (np.abs(J - Jold) > epsi)

@@ -21,8 +21,7 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 * Depends: Pyhton (>= 3)
 * Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
 * Maintainer: [armel.soubeiga@uca.fr](armel.soubeiga@uca.fr)
-* Lead : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/)
-* Contributors :  
+* Contributors : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/), [Benoit Albert](https://sites.google.com/view/benoitalbert/home)
 
 
 ## References

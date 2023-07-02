@@ -9,17 +9,14 @@ This module contains all tests datasets
 #---------------------- Packges------------------------------------------------
 import pathlib
 import pandas as pd
-import os
-
 DATASETS_DIR = pathlib.Path(__file__).parent / "datasets"
-#DATASETS_DIR = "datasets"
+
 
 
 #---------------------- Data 1-------------------------------------------------
 def load_decathlon():
     """The Decathlon dataset from FactoMineR."""
     
-    #decathlon = pd.read_csv(os.path.join(DATASETS_DIR, "decathlon.csv"))
     decathlon = pd.read_csv(DATASETS_DIR / "decathlon.csv")
     decathlon.columns = ["athlete", *map(str.lower, decathlon.columns[1:])]
     decathlon.athlete = decathlon.athlete.apply(str.title)

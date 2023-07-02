@@ -8,9 +8,12 @@ This module contains the utils function
 
 #---------------------- Packges------------------------------------------------
 import numpy as np
-#import matplotlib.pyplot as plt
-
-
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from scipy.spatial import ConvexHull
+import seaborn as sns
+from sklearn.decomposition import PCA
 
 #---------------------- makeF--------------------------------------------------
 def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
@@ -173,16 +176,25 @@ def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trac
         ii = np.where(pl[i, :] >= bel[i, y_bel[i]])[0]
         Ynd[i, ii] = 1
 
-    P = F / card[:, np.newaxis]
+    #P = F / card[:, np.newaxis]
+    nonzero_card = np.where(card != 0)  
+    P = np.zeros_like(F)
+    P[nonzero_card] = F[nonzero_card] / card[nonzero_card, np.newaxis]
     P[0, :] = 0
     betp = np.matmul(mass, P)       # unnormalized pignistic probability
     betp_n = C[:, np.newaxis] * betp        # normalized pignistic probability
 
-    lower_approx = [np.where((Y[:, i] == 1) & (np.sum(Y, axis=1) == 1))[0] for i in range(c)]  # lower approximation
-    upper_approx = [np.where(Y[:, i] == 1)[0] for i in range(c)]  # upper approximation
-    lower_approx_nd = [np.where((Ynd[:, i] == 1) & (np.sum(Ynd, axis=1) == 1))[0] for i in range(c)]  # lower approximation
-    upper_approx_nd = [np.where(Ynd[:, i] == 1)[0] for i in range(c)]  # upper approximation
-
+    lower_approx, upper_approx = [], []
+    lower_approx_nd, upper_approx_nd = [], []
+    nclus = np.sum(Y, axis=1)
+    outlier = np.where(nclus == 0)[0]  # outliers
+    nclus_nd = np.sum(Ynd, axis=1)
+    for i in range(c):
+        upper_approx.append(np.where(Y[:, i] == 1)[0])  # upper approximation
+        lower_approx.append(np.where((Y[:, i] == 1) & (nclus == 1))[0])  # upper approximation
+        upper_approx_nd.append(np.where(Ynd[:, i] == 1)[0])  # upper approximation
+        lower_approx_nd.append(np.where((Ynd[:, i] == 1) & (nclus_nd == 1))[0])  # upper approximation
+    
     # Nonspecificity
     card = np.concatenate(([c], card[1:f]))
     Card = np.tile(card, (n, 1))
@@ -192,7 +204,7 @@ def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trac
             'y_pl': y_pl, 'y_bel': y_bel, 'Y': Y, 'betp': betp, 'betp_n': betp_n, 'p': p,
             'upper_approx': upper_approx, 'lower_approx': lower_approx, 'Ynd': Ynd,
             'upper_approx_nd': upper_approx_nd, 'lower_approx_nd': lower_approx_nd,
-            'N': N, 'outlier': np.where(np.sum(Y, axis=1) == 0)[0], 'g': g, 'S': S,
+            'N': N, 'outlier': outlier , 'g': g, 'S': S,
             'crit': crit, 'Kmat': Kmat, 'trace': trace, 'D': D, 'method': method, 'W': W, 'J': J, 'param': param}
 
     return clus
@@ -259,6 +271,200 @@ def ev_summary(clus):
 
 
 
+#---------------------- plot------------------------------------------------
+def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
+                  cexvar='pl', cex_outliers=5, cex_protos=5, lwd=1,
+                  ask=False, plot_Shepard=False, plot_approx=True,
+                  plot_protos=True, xlab='$x_1$' , ylab='$x_2$'):
+    """
+    Plotting a credal partition. Generates plots of a credal partition.     
+    This function plots different views of a credal partition in a two-dimensional attribute space.
+    
+    
+    Parameters:
+    ----------
+    x : object
+        An object of class "credpart", encoding a credal partition.
+    X : array-like, optional
+        A data matrix. If it has more than two columns (attributes), only the first two columns are used.
+    ytrue : array-like, optional
+        The vector of true class labels. If supplied, a different color is used for each true cluster.
+        Otherwise, the maximum-plausibility clusters are used instead.
+    Outliers : bool, optional
+        If True, the outliers are plotted, and they are not included in the lower and upper approximations of the clusters.
+    Approx : int, optional
+        If Approx==1 (default), the lower and upper cluster approximations are computed using the interval dominance rule.
+        Otherwise, the maximum mass rule is used.
+    cex : float, optional
+        Maximum size of data points.
+    cexvar : str, optional
+        Parameter determining if the size of the data points is proportional to the plausibilities ('pl', the default),
+        the plausibilities of the normalized credal partition ('pl.n'), the degrees of belief ('bel'),
+        the degrees of belief of the normalized credal partition ('bel.n'), or if it is constant ('cst', default).
+    cex_outliers : float, optional
+        Size of data points for outliers.
+    cex_protos : float, optional
+        Size of data points for prototypes (if applicable).
+    lwd : int, optional
+        Line width for drawing the lower and upper approximations.
+    ask : bool, optional
+        Logical; if True, the user is asked before each plot.
+    plot_Shepard : bool, optional
+        Logical; if True and if the credal partition was generated by kevclus, the Shepard diagram is plotted.
+    plot_approx : bool, optional
+        Logical; if True (default) the convex hulls of the lower and upper approximations are plotted.
+    plot_protos : bool, optional
+        Logical; if True (default) the prototypes are plotted (for methods generating prototypes, like ECM).
+    xlab : str, optional
+        Label of horizontal axis.
+    ylab : str, optional
+        Label of vertical axis.
+    
+    Returns:
+    None
+    
+    The maximum plausibility hard partition, as well as the lower and upper approximations of each cluster
+    are drawn in the two-dimensional space specified by matrix X. If prototypes are defined (for methods "ecm"
+    and "cecm"), they are also represented on the plot. For methods "kevclus", "kcevclus" or "nnevclus",
+    a second plot with Shepard's diagram (degrees of conflict vs. transformed dissimilarities) is drawn.
+    If input X is not supplied and the Shepard diagram exists, then only the Shepard diagram is drawn.
+    """
+  
+    clus = x
+    if X is not None:
+        x = X
+        y = ytrue
+        plt.rcParams['interactive'] = ask
+        
+        if y is None:
+            y = clus['y_pl']
+        c = len(np.unique(clus['y_pl']))
+        
+        if Approx == 1:
+            lower_approx = clus['lower_approx_nd']
+            upper_approx = clus['upper_approx_nd']
+        else:
+            lower_approx = clus['lower_approx']
+            upper_approx = clus['upper_approx']
+        
+        if Outliers:
+            for i in range(c):
+                lower_approx[i] = np.setdiff1d(lower_approx[i], clus['outlier'])
+                upper_approx[i] = np.setdiff1d(upper_approx[i], clus['outlier'])
+        
+        if cexvar == 'pl':
+            cex = cex * np.apply_along_axis(np.max, 1, clus['pl'])
+        elif cexvar == 'pl_n':
+            cex = cex * np.apply_along_axis(np.max, 1, clus['pl_n'])
+        elif cexvar == 'bel':
+            cex = cex * np.apply_along_axis(np.max, 1, clus['bel'])
+        elif cexvar == 'bel_n':
+            cex = cex * np.apply_along_axis(np.max, 1, clus['bel_n'])
+        
+        colors = [mcolors.to_rgba('C{}'.format(i)) for i in y]
+        color = [mcolors.to_rgba('C{}'.format(i)) for i in np.unique(y)]
+        plt.scatter(x.iloc[:, 0], x.iloc[:, 1], c=colors,  s=cex)
+        if Outliers:
+            plt.scatter(x.iloc[clus['outlier'], 0], x.iloc[clus['outlier'], 1], c='black', marker='x', s=cex_outliers)
+        if 'g' in clus and plot_protos:
+            plt.scatter(clus['g'][:, 0], clus['g'][:, 1], c=color, marker='s', s=cex_protos)
+        
+        if plot_approx:
+            for i in range(1, c + 1):
+                xx = x.iloc[lower_approx[i - 1]]
+                if xx.shape[0] >= 3:
+                    hull = ConvexHull(xx.iloc[:, :2])
+                    for simplex in hull.simplices:
+                        plt.plot(xx.iloc[simplex, 0], xx.iloc[simplex, 1], linewidth=lwd, color='C{}'.format(i-1))
+                xx = x.iloc[upper_approx[i - 1]]
+                if xx.shape[0] >= 3:
+                    hull = ConvexHull(xx.iloc[:, :2])
+                    for simplex in hull.simplices:
+                        plt.plot(xx.iloc[simplex, 0], xx.iloc[simplex, 1],  linestyle='dashed', linewidth=lwd, color='C{}'.format(i-1))
+        
+        plt.xlabel(xlab)
+        plt.ylabel(ylab)
+        plt.tight_layout()
+        plt.show()
+        
+        
+        
+
+
+
+
+
 
 
 #---------------------- plot------------------------------------------------
+def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
+    """
+    Plot PCA results with cluster colors. 
+    
+    This function performs PCA on the input data and plots the resulting PCA scores,
+    using the specified cluster information in 'x'.
+
+    Parameters:
+    data : DataFrame
+        The input data containing the attributes (columns) and samples (rows).
+    x : object
+        An object of class "credpart", encoding a credal partition.
+    normalize : bool, optional
+        If True, the data will be normalized before performing PCA. Default is False.
+    splite : bool, optional
+        If True, provides access to several different axes-level functions that show the views of clusters. 
+
+    Returns:
+    None
+
+    The function plots the PCA scores in a scatter plot with cluster colors.
+    """
+    if normalize:
+        data = (data - data.mean()) / data.std()  # Normalize the data
+
+    mas = pd.DataFrame(x["mass"])
+    c = len(np.unique(x['y_pl']))
+    result = []
+    for i in range(1,c+1):
+        if i == 1:
+            result.append('1')
+        elif i == 2:
+            result.append('2')
+        else:
+            result.extend([str(i)] + [f"{i}_{j}" for j in range(1, i)])
+
+    mas.columns = ["Cl_atypique"] + result + ["Cl_incertains"]
+    mas["Cluster"] = mas.apply(lambda row: row.idxmax(), axis=1)
+
+    pca = PCA(n_components=2)
+    pca_result = pca.fit_transform(data)
+
+    variance_percent = np.round(pca.explained_variance_ratio_ * 100, 1)
+
+    ind_coord = pd.DataFrame(pca_result, columns=["Dim.1", "Dim.2"])
+    ind_coord["Cluster"] = pd.Categorical(mas["Cluster"])
+    mean_coords = ind_coord.groupby('Cluster').mean()
+
+    pcolor = sns.color_palette("Dark2", n_colors=len(ind_coord["Cluster"].unique()))
+    plt.figure(figsize=(8, 6))
+
+    if splite:
+        sns.relplot(data=ind_coord, x="Dim.1", y="Dim.2", hue="Cluster", col="Cluster", 
+                    style="Cluster", palette=pcolor, s=cex, col_wrap=int((c**2)/2)) 
+    else:
+        sns.scatterplot(data=ind_coord, x="Dim.1", y="Dim.2", hue="Cluster", palette=pcolor, 
+                        style="Cluster", s=cex)
+        sns.scatterplot(data=mean_coords, x="Dim.1", y="Dim.2", s=(cex+25), hue="Cluster", 
+                        palette=pcolor, style="Cluster",legend=False)
+
+        
+    sns.despine()
+    legend = plt.legend(title="Cluster", loc='lower right', markerscale=0.3)
+    plt.setp(legend.get_title(), fontsize=7) 
+    plt.setp(legend.get_texts(), fontsize=7)
+    plt.tick_params(axis='both', labelsize=7)
+    plt.xlabel("X Label", fontsize=7)
+    plt.ylabel("Y Label", fontsize=7)
+    plt.xlabel(f"Dim 1 ({variance_percent[0]}%)")
+    plt.ylabel(f"Dim 2 ({variance_percent[1]}%)")
+    plt.show()
