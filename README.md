@@ -9,8 +9,11 @@
 <br/>
 
 <div align="center">
+
 <img src="https://raw.githubusercontent.com/armelsoubeiga/evclust/master/docs/assets/logo.png" height="180px" />
+
 [Get Started](https://evclust.readthedocs.io) | [pip install](https://pypi.org/project/evclust/)
+
 </div>
 
 <br/>
