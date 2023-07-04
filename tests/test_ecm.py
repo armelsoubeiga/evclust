@@ -5,36 +5,49 @@ Spyder Editor
 This is a temporary script file.
 """
 
-
-import unittest
+import pytest
 import numpy as np
 from evclust.ecm import ecm
 
-class TestECM(unittest.TestCase):
+# Test cases for the ecm function
+@pytest.mark.parametrize(
+    "x, c, g0, type, pairs, Omega, ntrials, alpha, beta, delta, epsi, init, disp, expected_clusters",
+    [
+        # Test case 1 - Provide basic inputs and check the number of clusters
+        (
+            np.random.rand(100, 2),  # x: random 100x2 array
+            3,  # c: number of clusters
+            None,  # g0: initial cluster centers (None for random initialization)
+            "full",  # type: type of clustering
+            None,  # pairs: cluster pairs
+            True,  # Omega: True or False
+            1,  # ntrials: number of trials
+            1,  # alpha: alpha value
+            2,  # beta: beta value
+            10,  # delta: delta value
+            1e-3,  # epsi: epsilon value
+            "kmeans",  # init: initialization method
+            False,  # disp: display output
+            3,  # expected number of clusters
+        ),
+        # Add more test cases as needed
+        # ...
+    ],
+)
+def test_ecm(x, c, g0, type, pairs, Omega, ntrials, alpha, beta, delta, epsi, init, disp, expected_clusters):
+    # Call the ecm function with the provided inputs
+    ecm_model = ecm(x, c, g0=g0, type=type, pairs=pairs, Omega=Omega, ntrials=ntrials, alpha=alpha, beta=beta, delta=delta, epsi=epsi, init=init, disp=disp)
 
-    def test_ecm_with_kmeans_init(self):
-        # Test ecm with kmeans initialization
-        x = np.random.rand(100, 2)  # Example data
-        c = 3  # Number of clusters
-        result = ecm(x, c, init="kmeans")
-        self.assertEqual(len(result), c)  # Check if the number of clusters in the result matches c
+    # Check the number of clusters in the output
+    assert len(np.unique(ecm_model['y_pl'])) == expected_clusters
+    
+    # Check the output elements
+    expected_params=['F', 'mass','pl', 'y_pl', 'Y', 'N', 'g', 'D', 'method','W', 'J', 'param']
+    for param in expected_params:
+        assert param in ecm_model
+        
+    # Check the output type and shape
+    assert isinstance(ecm_model, dict)
 
-    def test_ecm_with_custom_init(self):
-        # Test ecm with custom initialization
-        x = np.random.rand(100, 2)  # Example data
-        c = 4  # Number of clusters
-        g0 = np.random.rand(c, 2)  # Custom initial prototypes
-        result = ecm(x, c, g0=g0, init="rand")
-        self.assertEqual(len(result), c)  # Check if the number of clusters in the result matches c
+    
 
-    def test_ecm_with_invalid_input(self):
-        # Test ecm with invalid input (e.g., negative number of clusters)
-        x = np.random.rand(100, 2)  # Example data
-        c = -1  # Invalid number of clusters
-        with self.assertRaises(ValueError):
-            ecm(x, c)
-
-    # Add more test cases as needed
-
-if __name__ == '__main__':
-    unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(TestECM))

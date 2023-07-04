@@ -14,7 +14,12 @@ matplotlib = "^3.7.1"
 scipy = "1.10.0"
 seaborn = "^0.12.2"
 
+
 [tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

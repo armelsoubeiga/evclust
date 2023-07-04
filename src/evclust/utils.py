@@ -67,7 +67,19 @@ def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
 
 
 
+#---------------------- makeF--------------------------------------------------
+def get_ensembles(table):
+    result = []
+    for row in table:
+        row_str = 'Cl_' + '_'.join([str(i + 1) if elem == 1 else str(int(elem)) for i, elem in enumerate(row) if elem != 0])
+        result.append(row_str)
 
+    result[0] = 'Cl_atypique'
+    result[-1] = 'Cl_incertains'
+
+    cleaned_result = [''.join(ch for i, ch in enumerate(row_str) if ch != '_' or (i > 0 and row_str[i-1] != '_')) for row_str in result]
+
+    return cleaned_result
 
 
 
@@ -424,16 +436,8 @@ def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
 
     mas = pd.DataFrame(x["mass"])
     c = len(np.unique(x['y_pl']))
-    result = []
-    for i in range(1,c+1):
-        if i == 1:
-            result.append('1')
-        elif i == 2:
-            result.append('2')
-        else:
-            result.extend([str(i)] + [f"{i}_{j}" for j in range(1, i)])
-
-    mas.columns = ["Cl_atypique"] + result + ["Cl_incertains"]
+    cols = get_ensembles(x['F'])
+    mas.columns = cols
     mas["Cluster"] = mas.apply(lambda row: row.idxmax(), axis=1)
 
     pca = PCA(n_components=2)
