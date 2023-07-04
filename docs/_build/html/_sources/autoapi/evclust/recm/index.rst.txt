@@ -1,0 +1,11 @@
+:py:mod:`evclust.recm`
+======================
+
+.. py:module:: evclust.recm
+
+.. autoapi-nested-parse::
+
+   This module contains the main function for cecm : Relational ecm
+
+
+

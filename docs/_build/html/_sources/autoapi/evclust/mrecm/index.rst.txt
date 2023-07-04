@@ -1,0 +1,11 @@
+:py:mod:`evclust.mrecm`
+=======================
+
+.. py:module:: evclust.mrecm
+
+.. autoapi-nested-parse::
+
+   This module contains the main function for cecm : Multi Relational ecm
+
+
+

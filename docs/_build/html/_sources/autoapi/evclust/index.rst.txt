@@ -1,0 +1,29 @@
+:py:mod:`evclust`
+=================
+
+.. py:module:: evclust
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   cat-ecm/index.rst
+   cecm/index.rst
+   datasets/index.rst
+   ecm/index.rst
+   ecm+/index.rst
+   mrecm/index.rst
+   recm/index.rst
+   utils/index.rst
+
+
+Package Contents
+----------------
+
+.. py:data:: __version__
+
+   
+

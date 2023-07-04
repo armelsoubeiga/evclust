@@ -22,11 +22,15 @@ def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
 
     Parameters:
     ----------
-    c (int): Number of clusters.
-    type (str): Type of focal sets ("simple": {}, singletons, and Ω; "full": all 2^c subsets of Ω;
+    c (int): 
+        Number of clusters.
+    type (str): 
+        Type of focal sets ("simple": {}, singletons, and Ω; "full": all 2^c subsets of Ω;
                 "pairs": {}, singletons, Ω, and all or selected pairs).
-    pairs (ndarray or None): Set of pairs to be included in the focal sets; if None, all pairs are included. Used only if type="pairs".
-    Omega (bool): If True (default), Ω is a focal set (for types 'simple' and 'pairs').
+    pairs (ndarray or None): 
+        Set of pairs to be included in the focal sets; if None, all pairs are included. Used only if type="pairs".
+    Omega (bool): 
+        If True (default), Ω is a focal set (for types 'simple' and 'pairs').
 
 
     Returns:
@@ -104,53 +108,92 @@ def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trac
 
     Parameters:
     ----------
-        mass (ndarray): Matrix of mass functions. The first column corresponds to the degree of conflict.
-        F (ndarray): Matrix of focal sets. The first row always corresponds to the empty set.
-        g (ndarray, optional): The prototypes (if defined). Defaults to None.
-        S (ndarray, optional): The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.
-        method (str): The method used to construct the credal partition.
-        crit (float, optional): The value of the optimized criterion (depends on the method used). Defaults to None.
-        Kmat (ndarray, optional): The matrix of degrees of conflict. Same size as D (for method "kevclus"). Defaults to None.
-        trace (ndarray, optional): The trace of criterion values (for methods "kevclus" and "EkNNclus"). Defaults to None.
-        D (ndarray, optional): The normalized dissimilarity matrix (for method "kevclus"). Defaults to None.
-        W (ndarray, optional): The weight matrix (for method "EkNNclus"). Defaults to None.
-        J (ndarray, optional): The matrix of indices (for method "kevclus"). Defaults to None.
-        param (list, optional): A method-dependent list of parameters. Defaults to None.
+    mass (ndarray): 
+        Matrix of mass functions. The first column corresponds to the degree of conflict.
+    F (ndarray): 
+        Matrix of focal sets. The first row always corresponds to the empty set.
+    g (ndarray, optional): 
+        The prototypes (if defined). Defaults to None.
+    S (ndarray, optional): 
+        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.
+    method (str): 
+        The method used to construct the credal partition.
+    crit (float, optional): 
+        The value of the optimized criterion (depends on the method used). Defaults to None.
+    Kmat (ndarray, optional): 
+        The matrix of degrees of conflict. Same size as D (for method "kevclus"). Defaults to None.
+    trace (ndarray, optional): 
+        The trace of criterion values (for methods "kevclus" and "EkNNclus"). Defaults to None.
+    D (ndarray, optional): 
+        The normalized dissimilarity matrix (for method "kevclus"). Defaults to None.
+    W (ndarray, optional): 
+        The weight matrix (for method "EkNNclus"). Defaults to None.
+    J (ndarray, optional): 
+        The matrix of indices (for method "kevclus"). Defaults to None.
+    param (list, optional): 
+        A method-dependent list of parameters. Defaults to None.
 
     Returns:
     -------
-        dict: An object of class "credpart" with the following components:
-            - method (str): The method used to construct the credal partition.
-            - F (ndarray): Matrix of focal sets. The first row always corresponds to the empty set.
-            - conf (ndarray): Masses assigned to the empty set.
-            - mass (ndarray): Mass functions.
-            - mass_n (ndarray): Normalized mass functions.
-            - g (ndarray, optional): The prototypes (if defined).
-            - S (ndarray, optional): The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).
-            - pl (ndarray): Unnormalized plausibilities of the singletons.
-            - pl_n (ndarray): Normalized plausibilities of the singletons.
-            - p (ndarray): Probabilities derived from pl by the plausibility transformation.
-            - bel (ndarray): Unnormalized beliefs of the singletons.
-            - bel_n (ndarray): Normalized beliefs of the singletons.
-            - y_pl (ndarray): Maximum plausibility clusters.
-            - y_bel (ndarray): Maximum belief clusters.
-            - betp (ndarray): Unnormalized pignistic probabilities of the singletons.
-            - betp_n (ndarray): Normalized pignistic probabilities of the singletons.
-            - Y (ndarray): Sets of clusters with maximum mass.
-            - outlier (ndarray): Array of 0's and 1's, indicating which objects are outliers.
-            - lower_approx (list): Lower approximations of clusters, a list of length c.
-            - upper_approx (list): Upper approximations of clusters, a list of length c.
-            - Ynd (ndarray): Sets of clusters selected by the interval dominance rule.
-            - lower_approx_nd (list): Lower approximations of clusters using the interval dominance rule, a list of length c.
-            - upper_approx_nd (list): Upper approximations of clusters using the interval dominance rule, a list of length c.
-            - N (float): Average nonspecificity.
-            - crit (float, optional): The value of the optimized criterion (depends on the method used).
-            - Kmat (ndarray, optional): The matrix of degrees of conflict. Same size as D (for method "kevclus").
-            - D (ndarray, optional): The normalized dissimilarity matrix (for method "kevclus").
-            - trace (ndarray, optional): The trace of criterion values (for methods "kevclus" and "EkNNclus").
-            - W (ndarray, optional): The weight matrix (for method "EkNNclus").
-            - J (ndarray, optional): The matrix of indices (for method "kevclus").
-            - param (list, optional): A method-dependent list of parameters.
+    method (str): 
+        The method used to construct the credal partition.
+    F (ndarray): 
+        Matrix of focal sets. The first row always corresponds to the empty set.
+
+    mass (ndarray): 
+        Mass functions.
+    g (ndarray, optional): 
+        The prototypes (if defined).
+    S (ndarray, optional): 
+        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).
+    pl (ndarray): 
+        Unnormalized plausibilities of the singletons.
+    pl_n (ndarray): 
+        Normalized plausibilities of the singletons.
+    p (ndarray): 
+        Probabilities derived from pl by the plausibility transformation.
+    bel (ndarray): 
+        Unnormalized beliefs of the singletons.
+    bel_n (ndarray): 
+        Normalized beliefs of the singletons.
+    y_pl (ndarray): 
+        Maximum plausibility clusters.
+    y_bel (ndarray): 
+        Maximum belief clusters.
+    betp (ndarray): 
+        Unnormalized pignistic probabilities of the singletons.
+    betp_n (ndarray):
+        Normalized pignistic probabilities of the singletons.
+    Y (ndarray): 
+        Sets of clusters with maximum mass.
+    outlier (ndarray): 
+        Array of 0's and 1's, indicating which objects are outliers.
+    lower_approx (list): 
+        Lower approximations of clusters, a list of length c.
+    upper_approx (list): 
+        Upper approximations of clusters, a list of length c.
+    Ynd (ndarray): 
+        Sets of clusters selected by the interval dominance rule.
+    lower_approx_nd (list):
+        Lower approximations of clusters using the interval dominance rule, a list of length c.
+    upper_approx_nd (list): 
+        Upper approximations of clusters using the interval dominance rule, a list of length c.
+    N (float): 
+        Average nonspecificity.
+    crit (float, optional): 
+        The value of the optimized criterion (depends on the method used).
+    Kmat (ndarray, optional): 
+        The matrix of degrees of conflict. Same size as D (for method "kevclus").
+    D (ndarray, optional): 
+        The normalized dissimilarity matrix (for method "kevclus").
+    trace (ndarray, optional): 
+        The trace of criterion values (for methods "kevclus" and "EkNNclus").
+    W (ndarray, optional): 
+        The weight matrix (for method "EkNNclus").
+    J (ndarray, optional): 
+        The matrix of indices (for method "kevclus").
+    param (list, optional): 
+        A method-dependent list of parameters.
 
     References:
     ---------
@@ -333,6 +376,7 @@ def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
         Label of vertical axis.
     
     Returns:
+    ----------
     None
     
     The maximum plausibility hard partition, as well as the lower and upper approximations of each cluster
@@ -417,6 +461,7 @@ def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
     using the specified cluster information in 'x'.
 
     Parameters:
+    ----------
     data : DataFrame
         The input data containing the attributes (columns) and samples (rows).
     x : object
@@ -427,6 +472,7 @@ def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
         If True, provides access to several different axes-level functions that show the views of clusters. 
 
     Returns:
+    --------
     None
 
     The function plots the PCA scores in a scatter plot with cluster colors.

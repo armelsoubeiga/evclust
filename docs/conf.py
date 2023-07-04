@@ -5,6 +5,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
 # -- Project information -----------------------------------------------------
+import datetime
 
 project = "evclust"
 author = "Armel SOUBEIGA"

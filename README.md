@@ -43,8 +43,39 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 ## Installation
 
 ```bash
-$ pip install evclust
+$ pip install evclust 
 ```
+
+
+## Usage
+
+`ecm` Computes a credal partition from a matrix of attribute data using the Evidential c-means (ECM) algorithm.
+
+```python
+# Import test data
+from evclust.datasets import load_decathlon, load_iris
+df = load_iris()
+df.head()
+df=df.drop(['species'], axis = 1)
+
+# Evidential clustering with c=3
+from evclust.ecm import ecm
+model = ecm(x=df, c=3,beta = 1.1,  alpha=0.1, delta=9)
+
+# Read the output
+from evclust.utils import ev_summary, ev_pcaplot
+ev_summary(model)    
+ev_pcaplot(data=df, x=model, normalize=False)    
+```
+
+## Descriptions
+
+Evidential clustering is a modern approach in clustering algorithms that addresses uncertainty in group membership by employing the Dempster-Shafer theory. This approach yields a credal partition, represented by a tuple of mass functions, which captures the uncertain assignment of objects to clusters.
+
+This package offers efficient algorithms for evidential clustering. The package provides functions for visualizing, evaluating, and utilizing credal partitions, allowing for a comprehensive analysis of uncertain group assignments. 
+
+It is worth mentioning that the **evclust** package in **Python** is based on the previously developed package in **R** by [**Thierry Denoeux**](https://cran.rstudio.com/web/packages/evclust/vignettes/evclust_vignette.pdf)
+
 
 ## Contributing
 
