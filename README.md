@@ -1,8 +1,8 @@
 # evclust: Evidential c-Means Clustering
 
-[![Documentation Status](https://readthedocs.org/projects/py-pkgs-cookiecutter/badge/?version=latest)](https://py-pkgs-cookiecutter.readthedocs.io/en/latest/)
+[![Documentation Status](https://readthedocs.org/projects/evclust/badge/?version=latest)](https://evclust.readthedocs.io/en/latest/)
 ![tests](https://github.com/py-pkgs/py-pkgs-cookiecutter/workflows/test/badge.svg)
-[![release](https://img.shields.io/github/release/py-pkgs/py-pkgs-cookiecutter.svg)](https://github.com/py-pkgs/py-pkgs-cookiecutter/releases)
+[![release](https://img.shields.io/github/v/release/armelsoubeiga/evclust.svg)](https://github.com/armelsoubeiga/evclust/releases)
 [![python](https://img.shields.io/badge/python-%5E3.8-blue)]()
 [![os](https://img.shields.io/badge/OS-Ubuntu%2C%20Mac%2C%20Windows-purple)]()
 
