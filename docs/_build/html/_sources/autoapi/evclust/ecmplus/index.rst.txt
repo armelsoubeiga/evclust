@@ -1,0 +1,11 @@
+:py:mod:`evclust.ecmplus`
+=========================
+
+.. py:module:: evclust.ecmplus
+
+.. autoapi-nested-parse::
+
+   This module contains the main function for cecm : ecm+
+
+
+

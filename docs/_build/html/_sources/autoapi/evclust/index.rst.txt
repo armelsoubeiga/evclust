@@ -14,7 +14,7 @@ Submodules
    cecm/index.rst
    datasets/index.rst
    ecm/index.rst
-   ecm+/index.rst
+   ecmplus/index.rst
    mrecm/index.rst
    recm/index.rst
    utils/index.rst
