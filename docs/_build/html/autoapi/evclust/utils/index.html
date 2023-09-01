@@ -22,6 +22,7 @@
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Changelog" href="../../../changelog.html" />
     <link rel="prev" title="evclust.recm" href="../recm/index.html" /> 
 </head>
 
@@ -45,10 +46,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example_ecm.html">Example usage ecm clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example_recm.html">Example usage recm clustering</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust</span></code></a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
@@ -66,6 +65,9 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
 </ul>
 
         </div>
@@ -111,6 +113,18 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.extractMass" title="evclust.utils.extractMass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractMass</span></code></a>(mass, F[, g, S, method, crit, Kmat, ...])</p></td>
 <td><p>Creates an object of class &quot;credpart&quot;. <cite>extractMass</cite> computes different outputs (hard, fuzzy, rough partitions, etc.)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.setCentersECM" title="evclust.utils.setCentersECM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCentersECM</span></code></a>(x, m, F, Smean, alpha, beta)</p></td>
+<td><p>Computation of centers in CECM. Function called by cecm.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.createMLCL" title="evclust.utils.createMLCL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">createMLCL</span></code></a>(y, nbConst)</p></td>
+<td><p>Random generation of Must-Link (ML) and Cannot-Link (CL) constraints.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.setDistances" title="evclust.utils.setDistances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDistances</span></code></a>(x, F, g, m, alpha, distance)</p></td>
+<td><p>Computation of distances to centers and variance matrices in each cluster.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.solqp" title="evclust.utils.solqp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solqp</span></code></a>(Q, A, b, c, x[, verbose, toler, beta])</p></td>
+<td><p>Solve the quadratic program in standard form:</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.ev_summary" title="evclust.utils.ev_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ev_summary</span></code></a>(clus)</p></td>
 <td><p>Summary of a credal partition. <cite>summary_credpart</cite> is the summary method for &quot;credpart&quot; objects.</p></td>
@@ -283,27 +297,217 @@ There are three methods for this class: plot.credpart, summary.credpart, and pre
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.setCentersECM">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">setCentersECM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Smean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.setCentersECM" title="Permalink to this definition"></a></dt>
+<dd><p>Computation of centers in CECM. Function called by cecm.</p>
+<section id="id4">
+<h4>Parameters:<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>x:</dt><dd><p>The data matrix.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>m:</dt><dd><p>The mass matrix.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>F:</dt><dd><p>The focal sets matrix.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Smean:</dt><dd><p>A list of matrices representing the centers of the focal sets.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>alpha:</dt><dd><p>The alpha parameter.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>beta:</dt><dd><p>The beta parameter.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id5">
+<h4>Returns:<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>g:</dt><dd><p>The computed centers matrix.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.createMLCL">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">createMLCL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbConst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.createMLCL" title="Permalink to this definition"></a></dt>
+<dd><p>Random generation of Must-Link (ML) and Cannot-Link (CL) constraints.</p>
+<section id="id6">
+<h4>Parameters:<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>y:</dt><dd><p>Vector of class labels.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>nbConst:</dt><dd><p>Number of constraints.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id7">
+<h4>Returns:<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<p>A dictionary with two keys:
+- ML:</p>
+<blockquote>
+<div><p>Matrix of ML constraints. Each row corresponds to a constraint.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>CL:</dt><dd><p>Matrix of CL constraints. Each row corresponds to a constraint.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.setDistances">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">setDistances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.setDistances" title="Permalink to this definition"></a></dt>
+<dd><p>Computation of distances to centers and variance matrices in each cluster.
+Function called by cecm.</p>
+<section id="id8">
+<h4>Parameters:<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<ul class="simple">
+<li><dl class="simple">
+<dt>x:</dt><dd><p>Data matrix.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>F:</dt><dd><p>Focal matrix.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>g:</dt><dd><p>Centers matrix.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>m:</dt><dd><p>Membership matrix.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>alpha:</dt><dd><p>Alpha parameter.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>distance:</dt><dd><p>Distance type (0 for Euclidean, 1 for Mahalanobis).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="id9">
+<h4>Returns:<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
+<p>A dictionary with two keys:
+- D:</p>
+<blockquote>
+<div><p>Matrix of distances to centers. Each column corresponds to a center.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Smean:</dt><dd><p>List of variance matrices in each cluster.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.solqp">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">solqp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.solqp" title="Permalink to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Solve the quadratic program in standard form:</dt><dd><p>minimize    0.5 * (x’Qx) + c’x
+subject to  Ax = b, x &gt;= 0</p>
+</dd>
+</dl>
+<section id="id10">
+<h4>Parameters:<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h4>
+<dl class="simple">
+<dt>Q (ndarray):</dt><dd><p>Sparse symmetric objective matrix.</p>
+</dd>
+<dt>A (ndarray):</dt><dd><p>Sparse constraint left-hand matrix.</p>
+</dd>
+<dt>b (ndarray):</dt><dd><p>Constraint right-hand column vector.</p>
+</dd>
+<dt>c (ndarray):</dt><dd><p>Objective column vector.</p>
+</dd>
+<dt>x (ndarray):</dt><dd><p>Initial solution vector.</p>
+</dd>
+<dt>verbose (bool):</dt><dd><p>If True, print the message when the optimal solution is found.</p>
+</dd>
+<dt>toler (float):</dt><dd><p>Relative stopping tolerance. The optimization stops when the objective value
+is close to the local optimal value within the range of the tolerance.</p>
+</dd>
+<dt>beta (float):</dt><dd><p>Step size for the algorithm. 0 &lt; beta &lt; 1.</p>
+</dd>
+</dl>
+</section>
+<section id="id11">
+<h4>Returns:<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h4>
+<p>dict: A dictionary containing the optimal solution and additional information.
+‘x’:</p>
+<blockquote>
+<div><p>Optimal solution vector.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>‘y’:</dt><dd><p>Optimal dual solution (Lagrange multiplier).</p>
+</dd>
+<dt>‘obhis’:</dt><dd><p>Objective value history vs iterations.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="evclust.utils.ev_summary">
 <span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.ev_summary" title="Permalink to this definition"></a></dt>
 <dd><p>Summary of a credal partition. <cite>summary_credpart</cite> is the summary method for “credpart” objects.</p>
 <p>This function extracts basic information from “credpart” objects, such as created by
 ecm, recm, cecm, EkNNclus, or kevclus.</p>
-<section id="id4">
-<h4>Parameters:<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<section id="id12">
+<h4>Parameters:<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h4>
 <dl class="simple">
 <dt>clus<span class="classifier">object</span></dt><dd><p>An object of class “credpart”, encoding a credal partition.</p>
 </dd>
 </dl>
 </section>
-<section id="id5">
-<h4>Returns:<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<section id="id13">
+<h4>Returns:<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h4>
 <dl class="simple">
 <dt>None</dt><dd><p>Prints basic information on the credal partition.</p>
 </dd>
 </dl>
 </section>
-<section id="id6">
-<h4>References:<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<section id="id14">
+<h4>References:<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h4>
 <p>T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, Possibilistic and Rough: An
 Investigation of Belief Functions in Clustering. 8th International conference on soft
 methods in probability and statistics, Rome, 12-14 September, 2016.</p>
@@ -312,8 +516,8 @@ Pattern Recognition, Vol. 41, Issue 4, pages 1384–1397, 2008.</p>
 <p>T. Denoeux, S. Sriboonchitta and O. Kanjanatarakul. Evidential clustering of large
 dissimilarity data. Knowledge-Based Systems, vol. 106, pages 179-195, 2016.</p>
 </section>
-<section id="id7">
-<h4>Examples:<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<section id="id15">
+<h4>Examples:<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h4>
 </section>
 </dd></dl>
 
@@ -322,8 +526,8 @@ dissimilarity data. Knowledge-Based Systems, vol. 106, pages 179-195, 2016.</p>
 <span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytrue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Outliers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Approx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cexvar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_outliers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_Shepard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_approx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$x_1$'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$x_2$'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.ev_plot" title="Permalink to this definition"></a></dt>
 <dd><p>Plotting a credal partition. Generates plots of a credal partition.
 This function plots different views of a credal partition in a two-dimensional attribute space.</p>
-<section id="id8">
-<h4>Parameters:<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<section id="id16">
+<h4>Parameters:<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h4>
 <dl class="simple">
 <dt>x<span class="classifier">object</span></dt><dd><p>An object of class “credpart”, encoding a credal partition.</p>
 </dd>
@@ -363,8 +567,8 @@ the degrees of belief of the normalized credal partition (‘bel.n’), or if it
 </dd>
 </dl>
 </section>
-<section id="id9">
-<h4>Returns:<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
+<section id="id17">
+<h4>Returns:<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h4>
 <p>None</p>
 <p>The maximum plausibility hard partition, as well as the lower and upper approximations of each cluster
 are drawn in the two-dimensional space specified by matrix X. If prototypes are defined (for methods “ecm”
@@ -380,8 +584,8 @@ If input X is not supplied and the Shepard diagram exists, then only the Shepard
 <dd><p>Plot PCA results with cluster colors.</p>
 <p>This function performs PCA on the input data and plots the resulting PCA scores,
 using the specified cluster information in ‘x’.</p>
-<section id="id10">
-<h4>Parameters:<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h4>
+<section id="id18">
+<h4>Parameters:<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h4>
 <dl class="simple">
 <dt>data<span class="classifier">DataFrame</span></dt><dd><p>The input data containing the attributes (columns) and samples (rows).</p>
 </dd>
@@ -393,8 +597,8 @@ using the specified cluster information in ‘x’.</p>
 </dd>
 </dl>
 </section>
-<section id="id11">
-<h4>Returns:<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h4>
+<section id="id19">
+<h4>Returns:<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h4>
 <p>None</p>
 <p>The function plots the PCA scores in a scatter plot with cluster colors.</p>
 </section>
@@ -409,6 +613,7 @@ using the specified cluster information in ‘x’.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../recm/index.html" class="btn btn-neutral float-left" title="evclust.recm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

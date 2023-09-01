@@ -46,10 +46,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example_ecm.html">Example usage ecm clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example_recm.html">Example usage recm clustering</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust</span></code></a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
@@ -67,6 +65,9 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
 </ul>
 
         </div>
@@ -98,6 +99,72 @@
   <section id="module-evclust.recm">
 <span id="evclust-recm"></span><h1><a class="reference internal" href="#module-evclust.recm" title="evclust.recm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.recm</span></code></a><a class="headerlink" href="#module-evclust.recm" title="Permalink to this heading"></a></h1>
 <p>This module contains the main function for cecm : Relational ecm</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.recm.recm" title="evclust.recm.recm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recm</span></code></a>(D, c[, type, pairs, Omega, m0, ntrials, alpha, ...])</p></td>
+<td><p>Relational Evidential c-means algorithm. <cite>recm</cite> computes a credal partition from a dissimilarity matrix using the Relational Evidential c-means (RECM) algorithm.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.recm.recm">
+<span class="sig-prename descclassname"><span class="pre">evclust.recm.</span></span><span class="sig-name descname"><span class="pre">recm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">D</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntrials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.recm.recm" title="Permalink to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Relational Evidential c-means algorithm. <cite>recm</cite> computes a credal partition from a dissimilarity matrix using the Relational Evidential c-means (RECM) algorithm.</p>
+<p>RECM is a relational version of the Evidential c-Means (ECM) algorithm. Convergence is guaranteed only if elements of matrix D are squared Euclidean distances.
+However, the algorithm is quite robust and generally provides sensible results even if the dissimilarities are not metric.
+By default, each mass function in the credal partition has 2^c focal sets, where c is the supplied number of clusters.
+We can also limit the number of focal sets to subsets of clusters with cardinalities 0, 1 and c (recommended if c &gt;= 10), or to all or some selected pairs of clusters.
+If an initial credal partition m0 is provided, the number of trials is automatically set to 1.</p>
+<blockquote>
+<div><dl class="simple">
+<dt>D (ndarray):</dt><dd><p>Dissimilarity matrix of size (n,n), where n is the number of objects. Dissimilarities must be squared Euclidean distances to ensure convergence.</p>
+</dd>
+<dt>c (int):</dt><dd><p>Number of clusters.</p>
+</dd>
+<dt>type (str):</dt><dd><p>Type of focal sets (“simple”: empty set, singletons and Omega; “full”: all 2^c subsets of Omega; “pairs”: empty set, singletons, Omega, and all or selected pairs).</p>
+</dd>
+<dt>pairs (ndarray or None):</dt><dd><p>Set of pairs to be included in the focal sets; if None, all pairs are included. Used only if type=”pairs”.</p>
+</dd>
+<dt>Omega (bool):</dt><dd><p>If True (default), the whole frame is included (for types ‘simple’ and ‘pairs’).</p>
+</dd>
+<dt>m0 (ndarray or None):</dt><dd><p>Initial credal partition. Should be a matrix with n rows and a number of columns equal to the number f of focal sets specified by ‘type’ and ‘pairs’.</p>
+</dd>
+<dt>ntrials (int):</dt><dd><p>Number of runs of the optimization algorithm (set to 1 if m0 is supplied).</p>
+</dd>
+<dt>alpha (float):</dt><dd><p>Exponent of the cardinality in the cost function.</p>
+</dd>
+<dt>beta (float):</dt><dd><p>Exponent of masses in the cost function.</p>
+</dd>
+<dt>delta (float):</dt><dd><p>Distance to the empty set.</p>
+</dd>
+<dt>epsi (float):</dt><dd><p>Minimum amount of improvement.</p>
+</dd>
+<dt>maxit (int):</dt><dd><p>Maximum number of iterations.</p>
+</dd>
+<dt>disp (bool):</dt><dd><p>If True (default), intermediate results are displayed.</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl class="simple">
+<dt>clus (object):</dt><dd><p>The credal partition (an object of class “credpart”).</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><p>M.-H. Masson and T. Denoeux. RECM: Relational Evidential c-means algorithm. Pattern Recognition Letters, Vol. 30, pages 1015–1026, 2009.</p>
+</div></blockquote>
+<p>Author:</p>
+</div></blockquote>
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 

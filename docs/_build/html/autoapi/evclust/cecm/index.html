@@ -46,10 +46,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../example.html">Example usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example_ecm.html">Example usage ecm clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../example_recm.html">Example usage recm clustering</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust</span></code></a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
@@ -67,6 +65,9 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
 </ul>
 
         </div>
@@ -97,7 +98,71 @@
              
   <section id="module-evclust.cecm">
 <span id="evclust-cecm"></span><h1><a class="reference internal" href="#module-evclust.cecm" title="evclust.cecm"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.cecm</span></code></a><a class="headerlink" href="#module-evclust.cecm" title="Permalink to this heading"></a></h1>
-<p>This module contains the main function for cecm :Contraints ecm</p>
+<p>This module contains the main function for cecm : Contraints ecm</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.cecm.cecm" title="evclust.cecm.cecm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cecm</span></code></a>(x, c[, type, pairs, ntrials, ML, CL, g0, alpha, ...])</p></td>
+<td><p>Constrained Evidential c-means algorithm.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.cecm.cecm">
+<span class="sig-prename descclassname"><span class="pre">evclust.cecm.</span></span><span class="sig-name descname"><span class="pre">cecm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ntrials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ML</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">CL</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.cecm.cecm" title="Permalink to this definition"></a></dt>
+<dd><p>Constrained Evidential c-means algorithm.</p>
+<p>cecm computes a credal partition from a matrix of attribute data and pairwise constraints using the Constrained
+Evidential c-means (CECM) algorithm.</p>
+<p>CECM is a version of ECM allowing the user to specify pairwise constraints to guide the clustering process.
+Pairwise constraints are of two kinds: must-link constraints are pairs of objects that are known to belong to the
+same class, and cannot-link constraints are pairs of objects that are known to belong to different classes. CECM can
+also learn a metric for each cluster, like the Gustafson-Kessel algorithm in fuzzy clustering. At each iteration,
+the algorithm solves a quadratic programming problem using an interior ellipsoidal trust region and barrier function
+algorithm with dual solution updating technique in the standard QP form (Ye, 1992).</p>
+<p>If initial prototypes g0 are provided, the number of trials is automatically set to 1.</p>
+<p>Parameters:
+- x: Input matrix of size n x d, where n is the number of objects and d is the number of attributes.
+- c: Number of clusters.
+- type: Type of focal sets (“simple”: empty set, singletons and Omega; “full”: all 2^c subsets of Omega; “pairs”:</p>
+<blockquote>
+<div><p>empty set, singletons, Omega, and all or selected pairs).</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>pairs: Set of pairs to be included in the focal sets. If None, all pairs are included. Used only if type=”pairs”.</p></li>
+<li><p>ntrials: Number of runs of the optimization algorithm (set to 1 if g0 is supplied).</p></li>
+<li><p>ML: Matrix nbML x 2 of must-link constraints. Each row of ML contains the indices of objects that belong to the same
+class.</p></li>
+<li><p>CL: Matrix nbCL x 2 of cannot-link constraints. Each row of CL contains the indices of objects that belong to
+different classes.</p></li>
+<li><p>g0: Initial prototypes, matrix of size c x d. If not supplied, the prototypes are initialized randomly.</p></li>
+<li><p>alpha: Exponent of the cardinality in the cost function.</p></li>
+<li><p>delta: Distance to the empty set.</p></li>
+<li><p>xi: Tradeoff between the objective function Jecm and the constraints: Jcecm=(1-xi)Jecm + xi Jconst.</p></li>
+<li><p>distance: Type of distance use: 0=Euclidean, 1=Mahalanobis.</p></li>
+<li><p>epsi: Minimum amount of improvement.</p></li>
+<li><p>disp: If True, intermediate results are displayed.</p></li>
+</ul>
+<p>Returns:
+The credal partition (an object of class “credpart”).</p>
+<p>References:
+- V. Antoine, B. Quost, M.-H. Masson and T. Denoeux. CECM: Constrained Evidential C-Means algorithm.</p>
+<blockquote>
+<div><p>Computational Statistics and Data Analysis, Vol. 56, Issue 4, pages 894-914, 2012.</p>
+</div></blockquote>
+<ul class="simple">
+<li><ol class="upperalpha simple" start="25">
+<li><p>Ye. On affine-scaling algorithm for nonconvex quadratic programming. Math. Programming 56 (1992) 285-300.</p></li>
+</ol>
+</li>
+</ul>
+<p>Author: Thierry Denoeux (from a MATLAB code written by Violaine Antoine).</p>
+</dd></dl>
+
+</section>
+</section>
 </section>
 
 

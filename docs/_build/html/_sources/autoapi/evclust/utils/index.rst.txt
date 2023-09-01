@@ -21,6 +21,10 @@ Functions
    evclust.utils.makeF
    evclust.utils.get_ensembles
    evclust.utils.extractMass
+   evclust.utils.setCentersECM
+   evclust.utils.createMLCL
+   evclust.utils.setDistances
+   evclust.utils.solqp
    evclust.utils.ev_summary
    evclust.utils.ev_plot
    evclust.utils.ev_pcaplot
@@ -172,6 +176,117 @@ Functions
    Examples:
    ---------
 
+
+
+.. py:function:: setCentersECM(x, m, F, Smean, alpha, beta)
+
+   Computation of centers in CECM. Function called by cecm.
+
+   Parameters:
+   ----------
+   - x:
+       The data matrix.
+   - m:
+       The mass matrix.
+   - F:
+       The focal sets matrix.
+   - Smean:
+       A list of matrices representing the centers of the focal sets.
+   - alpha:
+       The alpha parameter.
+   - beta:
+       The beta parameter.
+
+   Returns:
+   -------
+   - g:
+       The computed centers matrix.
+
+
+.. py:function:: createMLCL(y, nbConst)
+
+   Random generation of Must-Link (ML) and Cannot-Link (CL) constraints.
+
+   Parameters:
+   ----------
+   - y:
+       Vector of class labels.
+   - nbConst:
+       Number of constraints.
+
+   Returns:
+   -------
+   A dictionary with two keys:
+   - ML:
+       Matrix of ML constraints. Each row corresponds to a constraint.
+   - CL:
+       Matrix of CL constraints. Each row corresponds to a constraint.
+
+
+.. py:function:: setDistances(x, F, g, m, alpha, distance)
+
+   Computation of distances to centers and variance matrices in each cluster.
+   Function called by cecm.
+
+   Parameters:
+   ----------
+   - x:
+       Data matrix.
+   - F:
+       Focal matrix.
+   - g:
+       Centers matrix.
+   - m:
+       Membership matrix.
+   - alpha:
+       Alpha parameter.
+   - distance:
+       Distance type (0 for Euclidean, 1 for Mahalanobis).
+
+   Returns:
+   --------
+   A dictionary with two keys:
+   - D:
+       Matrix of distances to centers. Each column corresponds to a center.
+   - Smean:
+       List of variance matrices in each cluster.
+
+
+.. py:function:: solqp(Q, A, b, c, x, verbose=False, toler=1e-05, beta=0.8)
+
+   Solve the quadratic program in standard form:
+       minimize    0.5 * (x'Qx) + c'x
+       subject to  Ax = b, x >= 0
+
+   Parameters:
+   ----------
+   Q (ndarray):
+       Sparse symmetric objective matrix.
+   A (ndarray):
+       Sparse constraint left-hand matrix.
+   b (ndarray):
+       Constraint right-hand column vector.
+   c (ndarray):
+       Objective column vector.
+   x (ndarray):
+       Initial solution vector.
+   verbose (bool):
+       If True, print the message when the optimal solution is found.
+   toler (float):
+       Relative stopping tolerance. The optimization stops when the objective value
+       is close to the local optimal value within the range of the tolerance.
+   beta (float):
+       Step size for the algorithm. 0 < beta < 1.
+
+   Returns:
+   ----------
+   dict: A dictionary containing the optimal solution and additional information.
+   'x':
+       Optimal solution vector.
+   'y':
+       Optimal dual solution (Lagrange multiplier).
+   'obhis':
+       Objective value history vs iterations.
 
 
 .. py:function:: ev_summary(clus)

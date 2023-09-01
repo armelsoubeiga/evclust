@@ -5,7 +5,66 @@
 
 .. autoapi-nested-parse::
 
-   This module contains the main function for cecm :Contraints ecm
+   This module contains the main function for cecm : Contraints ecm
 
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   evclust.cecm.cecm
+
+
+
+.. py:function:: cecm(x, c, type='full', pairs=None, ntrials=1, ML=None, CL=None, g0=None, alpha=1, delta=10, xi=0.5, distance=0, epsi=0.001, disp=True)
+
+   Constrained Evidential c-means algorithm.
+
+   cecm computes a credal partition from a matrix of attribute data and pairwise constraints using the Constrained
+   Evidential c-means (CECM) algorithm.
+
+   CECM is a version of ECM allowing the user to specify pairwise constraints to guide the clustering process.
+   Pairwise constraints are of two kinds: must-link constraints are pairs of objects that are known to belong to the
+   same class, and cannot-link constraints are pairs of objects that are known to belong to different classes. CECM can
+   also learn a metric for each cluster, like the Gustafson-Kessel algorithm in fuzzy clustering. At each iteration,
+   the algorithm solves a quadratic programming problem using an interior ellipsoidal trust region and barrier function
+   algorithm with dual solution updating technique in the standard QP form (Ye, 1992).
+
+   If initial prototypes g0 are provided, the number of trials is automatically set to 1.
+
+   Parameters:
+   - x: Input matrix of size n x d, where n is the number of objects and d is the number of attributes.
+   - c: Number of clusters.
+   - type: Type of focal sets ("simple": empty set, singletons and Omega; "full": all 2^c subsets of Omega; "pairs":
+     empty set, singletons, Omega, and all or selected pairs).
+   - pairs: Set of pairs to be included in the focal sets. If None, all pairs are included. Used only if type="pairs".
+   - ntrials: Number of runs of the optimization algorithm (set to 1 if g0 is supplied).
+   - ML: Matrix nbML x 2 of must-link constraints. Each row of ML contains the indices of objects that belong to the same
+     class.
+   - CL: Matrix nbCL x 2 of cannot-link constraints. Each row of CL contains the indices of objects that belong to
+     different classes.
+   - g0: Initial prototypes, matrix of size c x d. If not supplied, the prototypes are initialized randomly.
+   - alpha: Exponent of the cardinality in the cost function.
+   - delta: Distance to the empty set.
+   - xi: Tradeoff between the objective function Jecm and the constraints: Jcecm=(1-xi)Jecm + xi Jconst.
+   - distance: Type of distance use: 0=Euclidean, 1=Mahalanobis.
+   - epsi: Minimum amount of improvement.
+   - disp: If True, intermediate results are displayed.
+
+   Returns:
+   The credal partition (an object of class "credpart").
+
+   References:
+   - V. Antoine, B. Quost, M.-H. Masson and T. Denoeux. CECM: Constrained Evidential C-Means algorithm.
+     Computational Statistics and Data Analysis, Vol. 56, Issue 4, pages 894-914, 2012.
+   - Y. Ye. On affine-scaling algorithm for nonconvex quadratic programming. Math. Programming 56 (1992) 285-300.
+
+   Author: Thierry Denoeux (from a MATLAB code written by Violaine Antoine).
 
 
