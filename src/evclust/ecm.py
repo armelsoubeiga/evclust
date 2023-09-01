@@ -161,7 +161,8 @@ def ecm(x, c, g0=None, type='full', pairs=None, Omega=True, ntrials=1, alpha=1, 
             g = np.linalg.solve(A, B)
 
             mvide = 1 - np.sum(m, axis=1)
-            J = np.nansum((m ** beta) * D * np.tile(card.reshape(1, f-1), (n, 1))) + delta2 * np.nansum(mvide ** beta)
+            #J = np.nansum((m ** beta) * D * np.tile(card.reshape(1, f-1), (n, 1))) + delta2 * np.nansum(mvide ** beta)
+            J = np.nansum((m ** beta) * D[:, :f - 1] * np.tile(card[:f - 1] ** alpha, (n, 1))) + delta2 * np.nansum(mvide[:f - 1] ** beta)
             if disp:
                 print([iter, J])
             pasfini = (np.abs(J - Jold) > epsi)

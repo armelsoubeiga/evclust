@@ -12,8 +12,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from scipy.spatial import ConvexHull
+from itertools import combinations
 import seaborn as sns
 from sklearn.decomposition import PCA
+
+
+
+
+
+
+
 
 #---------------------- makeF--------------------------------------------------
 def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
@@ -71,7 +79,7 @@ def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
 
 
 
-#---------------------- makeF--------------------------------------------------
+#---------------------- get_ensembles------------------------------------------
 def get_ensembles(table):
     result = []
     for row in table:
@@ -84,6 +92,8 @@ def get_ensembles(table):
     cleaned_result = [''.join(ch for i, ch in enumerate(row_str) if ch != '_' or (i > 0 and row_str[i-1] != '_')) for row_str in result]
 
     return cleaned_result
+
+
 
 
 
@@ -270,6 +280,375 @@ def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trac
 
 
 
+
+
+#---------------------- setCentersECM--------------------------------------------
+def setCentersECM(x, m, F, Smean, alpha, beta):
+    
+    """
+    Computation of centers in CECM. Function called by cecm.
+
+    Parameters:
+    ----------
+    - x: 
+        The data matrix.
+    - m: 
+        The mass matrix.
+    - F: 
+        The focal sets matrix.
+    - Smean: 
+        A list of matrices representing the centers of the focal sets.
+    - alpha: 
+        The alpha parameter.
+    - beta: 
+        The beta parameter.
+
+    Returns:
+    -------
+    - g: 
+        The computed centers matrix.
+    """
+
+    nbFoc = F.shape[0]
+    K = F.shape[1]
+    n = x.shape[0]
+    nbAtt = x.shape[1]
+
+    card = np.sum(F[1:nbFoc, :], axis=1)
+    indSingleton = np.where(card == 1)[0] + 1
+
+    R = None
+    B = None
+    for l in range(K):
+        indl = indSingleton[l]
+        Rl = None
+        for i in range(n):
+            Ril = np.zeros((nbAtt, nbAtt))
+            Fl = np.tile(F[indl, :], (nbFoc, K))
+            indAj = np.where(np.sum(np.minimum(Fl, F), axis=1) == 1)[0] - 1
+            for j in range(len(indAj)):
+                Ril += card[indAj[j]] ** (alpha - 1) * m[i, indAj[j]] ** beta * Smean[indAj[j]]
+            Rl = np.vstack((Rl, Ril))
+        R = np.column_stack((R, Rl))
+
+        Bl = None
+        for k in range(K):
+            Bkl = np.zeros((nbAtt, nbAtt))
+            indk = indSingleton[k]
+            for i in range(n):
+                Fl = np.tile(np.sign(F[indl, :] + F[indk, :]), (nbFoc, K))
+                indAj = np.where(np.sum(np.minimum(Fl, F), axis=1) == np.sum(Fl[0, :]))[0] - 1
+                for j in range(len(indAj)):
+                    Bkl += card[indAj[j]] ** (alpha - 2) * m[i, indAj[j]] ** beta * Smean[indAj[j]]
+            Bl = np.vstack((Bl, Bkl))
+        B = np.column_stack((B, Bl))
+
+    X = x.flatten()
+    g = np.linalg.solve(B.T, R.T @ X)
+    g = g.reshape((K, nbAtt))
+    return g
+
+
+
+
+
+
+
+
+
+#---------------------- setCentersECM------------------------------------------
+def createMLCL(y, nbConst):
+    """
+    Random generation of Must-Link (ML) and Cannot-Link (CL) constraints.
+
+    Parameters:
+    ----------
+    - y: 
+        Vector of class labels.
+    - nbConst: 
+        Number of constraints.
+
+    Returns:
+    -------
+    A dictionary with two keys:
+    - ML: 
+        Matrix of ML constraints. Each row corresponds to a constraint.
+    - CL: 
+        Matrix of CL constraints. Each row corresponds to a constraint.
+    """
+
+    n = len(y)
+    pairs = list(combinations(range(n), 2))
+    N = len(pairs)
+    selected_pairs = np.random.choice(N, nbConst, replace=False)
+    const = np.array(pairs)[selected_pairs].T
+    ML = const[:, y[const[0]] == y[const[1]]]
+    CL = const[:, y[const[0]] != y[const[1]]]
+    
+    return {'ML': ML, 'CL': CL}
+
+
+
+
+
+
+
+#---------------------- setDistances------------------------------------------
+def setDistances(x, F, g, m, alpha, distance):
+    """
+    Computation of distances to centers and variance matrices in each cluster.
+    Function called by cecm.
+
+    Parameters:
+    ----------
+    - x: 
+        Data matrix.
+    - F: 
+        Focal matrix.
+    - g: 
+        Centers matrix.
+    - m: 
+        Membership matrix.
+    - alpha: 
+        Alpha parameter.
+    - distance: 
+        Distance type (0 for Euclidean, 1 for Mahalanobis).
+
+    Returns:
+    --------
+    A dictionary with two keys:
+    - D: 
+        Matrix of distances to centers. Each column corresponds to a center.
+    - Smean: 
+        List of variance matrices in each cluster.
+    """
+
+    nbFoc = F.shape[0]
+    K = F.shape[1]
+    n = x.shape[0]
+    nbAtt = x.shape[1]
+    beta = 2
+
+    gplus = np.zeros((nbFoc-1, nbAtt))
+    for i in range(1, nbFoc):
+        fi = F[i, :]
+        truc = np.tile(fi, (nbAtt, 1)).T
+        gplus[i-1, :] = np.sum(g * truc, axis=0) / np.sum(fi)
+
+    if distance == 0:
+        S = [np.eye(nbAtt)] * K  # Euclidean distance
+    else:
+        ind = np.where(np.sum(F, axis=1) == 1)[0]
+        S = []
+        for i in ind:
+            Sigmai = np.zeros((nbAtt, nbAtt))
+            for k in range(n):
+                omegai = np.tile(F[i, :], (K, 1))
+                indAj = np.where(np.sum(np.minimum(omegai, F), axis=1) > 0)[0]
+                for j in indAj:
+                    aux = x[k, :] - gplus[j-1, :]
+                    Sigmai += np.sum(F[j, :]) ** (alpha - 1) * m[k, j-1] ** beta * np.outer(aux, aux)
+            Si = np.linalg.det(Sigmai) ** (1/nbAtt) * np.linalg.inv(Sigmai)
+            S.append(Si)
+
+    Smean = []
+    for i in range(nbFoc-1):
+        aux = np.zeros((nbAtt, nbAtt))
+        for j in range(K):
+            aux += F[i+1, j] * S[j]
+        Smean.append(aux / max(np.sum(F[i+1, :]), 1))
+
+    D = np.zeros((n, nbFoc-1))
+    for j in range(nbFoc-1):
+        aux = x - np.tile(gplus[j, :], (n, 1))
+        if distance == 0:
+            D[:, j] = np.diag(np.dot(aux, aux.T))
+        else:
+            D[:, j] = np.diag(np.dot(np.dot(aux, Smean[j]), aux.T))
+
+    return {'D': D, 'Smean': Smean}
+
+
+
+
+
+
+
+
+
+
+
+#--------------------------- solqp---------------------------------------------
+def solqp(Q, A, b, c, x, verbose=False, toler=1e-5, beta=0.8):
+    """
+    Solve the quadratic program in standard form:
+        minimize    0.5 * (x'Qx) + c'x
+        subject to  Ax = b, x >= 0
+
+    Parameters:
+    ----------
+    Q (ndarray):
+        Sparse symmetric objective matrix.
+    A (ndarray): 
+        Sparse constraint left-hand matrix.
+    b (ndarray): 
+        Constraint right-hand column vector.
+    c (ndarray): 
+        Objective column vector.
+    x (ndarray): 
+        Initial solution vector.
+    verbose (bool): 
+        If True, print the message when the optimal solution is found.
+    toler (float): 
+        Relative stopping tolerance. The optimization stops when the objective value 
+        is close to the local optimal value within the range of the tolerance.
+    beta (float): 
+        Step size for the algorithm. 0 < beta < 1.
+
+    Returns:
+    ----------
+    dict: A dictionary containing the optimal solution and additional information.
+    'x': 
+        Optimal solution vector.
+    'y': 
+        Optimal dual solution (Lagrange multiplier).
+    'obhis': 
+        Objective value history vs iterations.
+    """
+    m = A.shape[0]
+    n = A.shape[1]
+    eps = np.finfo(float).eps
+
+    #ob = 0.5 * np.dot(x.T, np.dot(Q, x)) + np.dot(c.T, x)
+    ob = 0.5 * x.T @ Q @ x + c@ x
+
+    alpha = 0.9
+    comp = np.random.uniform(size=n)
+    #comp = np.linalg.solve(np.block([[np.diag(comp), A], [A.T, np.zeros((m, m))]]),np.concatenate([comp, np.zeros(m)]))[:n]
+    #comp = np.linalg.pinv(np.block([[np.diag(comp), A.T], [A, np.zeros((m, m))]])) @ np.concatenate([comp, np.zeros(m)])
+    
+    comp = np.linalg.solve(np.vstack((np.hstack((np.diag(comp), A.T)), np.hstack((A, np.zeros((m, m)))))),
+                          np.vstack((comp.reshape(-1, 1), np.zeros((m, 1)))))
+
+    comp = comp[:n]
+    comp = comp / x
+    nora = np.min(comp)
+    if nora < 0:
+        nora = -0.01 / nora
+    else:
+        nora = np.max(comp)
+        if nora == 0:
+            print('The problem has a unique feasible point')
+            #return
+        nora = 0.01 / nora
+        
+    x = x + nora * comp
+
+    obvalue = np.dot(x.T, np.dot(Q, x)) / 2 + np.dot(c, x)
+    obvalue = obvalue[0, 0]
+    
+    obvalue = np.sum(x.T @ (Q @ x)/2 + c @ x)
+    
+    obhis = [obvalue]
+    lower = -np.inf
+    zhis = [lower]
+    gap = 1
+    lamda = max(1, np.abs(obvalue) / np.sqrt(np.sqrt(n)))
+    iter = 0
+
+    while gap >= toler:
+        iter += 1
+
+        # spphase2
+        lamda = (1 - beta) * lamda
+        go = 0
+        #gg = np.dot(Q, x) + c
+        gg = np.dot(Q, x.reshape(-1, 1)) + c.reshape(-1, 1)
+        XX = np.diag(x)
+        AA = np.dot(A, XX)
+        XX = np.dot(XX, np.dot(Q, XX))
+
+        # Repeatly solve an ellipsoid constrained QP problem by solving a linear system equation until find a positive solution.
+        while go <= 0:
+            #u = np.linalg.solve(np.block([[XX + lamda * np.diag(np.ones(n)), AA.T], [AA, np.zeros((m, m))]]), np.concatenate([- np.multiply(x, gg.T.flatten()).reshape(-1, 1), np.zeros((m, 1))], axis=0))
+            #u = np.linalg.solve(np.block([[XX + lamda * np.diag(np.ones(n)), AA.T], [AA, np.zeros((m, m))]]), np.vstack([- np.multiply(x, gg.T).T, np.zeros((m, 1))]))
+            
+            a = np.hstack((XX + lamda * np.diag(np.ones(n)), AA.T))
+            b = np.hstack((AA, np.zeros((m, m))))
+            ree = np.vstack((a,b))
+            res = np.vstack((- np.multiply(x, gg.T).T, np.zeros((m, 1))))
+            u = np.linalg.solve(ree,res)
+
+            xx = x + np.multiply(x, u[:n].flatten())
+            xx = xx.T
+            go = np.min(xx)
+            if go > 0:
+                ob = float(np.dot(np.dot(xx, Q), xx.T)) / 2 + np.dot(c, xx.T)
+                go = min(go, obvalue - ob + eps)[0, 0]
+            lamda = 2 * lamda
+            if lamda >= (1 + np.abs(obvalue)) / toler:
+                print('The problem seems unbounded.')
+                y = -u[n:n+m]
+
+
+        y = -u[n:n+m]
+        u = u[:n]
+        nora = min(u)
+        if nora < 0:
+            nora = -alpha / nora
+        else:
+            if nora == 0:
+                nora = alpha
+            else:
+                nora = np.inf
+
+        u = np.multiply(x, u.flatten())
+        w1 = np.dot(np.dot(u, Q), u.T)[0, 0]
+        w2 = np.dot(-u, gg)[0, 0]
+
+        if w1 > 0:
+            nora = min(w2 / w1, nora)
+        if nora == np.inf:
+            ob = -np.inf
+        else:
+            x = x + nora * u
+            ob = np.dot(np.dot(x, Q), x.T) / 2 + np.dot(c, x.T)
+            ob = ob[0, 0]
+
+        # This is the Phase 2 procedure called by SPSOLQP.
+        if ob == -np.inf:
+            gap = 0
+            print('The problem is unbounded.')
+        else:
+            obhis.append(ob)
+            comp = np.dot(Q, x.T) + c - np.dot(A.T, y)
+            if np.min(comp) >= 0:
+                zhis.append(ob - np.dot(x, comp))
+                lower = zhis[iter]
+                gap = (ob - lower) / (1 + np.abs(ob))
+                obvalue = ob
+            else:
+                zhis.append(zhis[-1])
+                lower = zhis[iter]
+                gap = (obvalue - ob) / (1 + np.abs(ob))
+                obvalue = ob
+
+        if iter > 200:
+            print([gap, toler])
+
+    if verbose:
+        print('A (local) optimal solution is found.')
+
+    return {'x': x, 'y': y, 'obhis': obhis}
+
+
+
+
+
+
+
+
+
 #---------------------- summary------------------------------------------------
 def ev_summary(clus):
     """
@@ -422,7 +801,7 @@ def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
         plt.scatter(x.iloc[:, 0], x.iloc[:, 1], c=colors,  s=cex)
         if Outliers:
             plt.scatter(x.iloc[clus['outlier'], 0], x.iloc[clus['outlier'], 1], c='black', marker='x', s=cex_outliers)
-        if 'g' in clus and plot_protos:
+        if 'g' in clus and plot_protos and clus['g'] is not None:
             plt.scatter(clus['g'][:, 0], clus['g'][:, 1], c=color, marker='s', s=cex_protos)
         
         if plot_approx:

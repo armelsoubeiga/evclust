@@ -5,7 +5,7 @@
 
 import pytest
 import numpy as np
-from evclust.ecm import ecm
+from evclust.ecm import recm
 
 # Test cases for the ecm function
 @pytest.mark.parametrize(
@@ -32,20 +32,20 @@ from evclust.ecm import ecm
         # ...
     ],
 )
-def test_ecm(x, c, g0, type, pairs, Omega, ntrials, alpha, beta, delta, epsi, init, disp, expected_clusters):
+def test_recm(x, c, g0, type, pairs, Omega, ntrials, alpha, beta, delta, epsi, init, disp, expected_clusters):
     # Call the ecm function with the provided inputs
-    ecm_model = ecm(x, c, g0=g0, type=type, pairs=pairs, Omega=Omega, ntrials=ntrials, alpha=alpha, beta=beta, delta=delta, epsi=epsi, init=init, disp=disp)
+    recm_model = recm(x, c, g0=g0, type=type, pairs=pairs, Omega=Omega, ntrials=ntrials, alpha=alpha, beta=beta, delta=delta, epsi=epsi, init=init, disp=disp)
 
     # Check the number of clusters in the output
-    assert len(np.unique(ecm_model['y_pl'])) == expected_clusters
+    assert len(np.unique(recm_model['y_pl'])) == expected_clusters
     
     # Check the output elements
     expected_params=['F', 'mass','pl', 'y_pl', 'Y', 'N', 'g', 'D', 'method','W', 'J', 'param']
     for param in expected_params:
-        assert param in ecm_model
+        assert param in recm_model
         
     # Check the output type and shape
-    assert isinstance(ecm_model, dict)
+    assert isinstance(recm_model, dict)
 
     
 
