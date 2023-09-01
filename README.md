@@ -24,8 +24,8 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 ## Informations
 
 * Title: Evidential c-Means Clustering
-* Version: 0.1
-* Date: 2023-06-26
+* Version: 0.1.1
+* Date: 2023-09-01
 * License: MIT
 * Depends: Pyhton (<3.12, >=3.8)
 * Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
