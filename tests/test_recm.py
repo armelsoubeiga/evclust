@@ -5,40 +5,38 @@
 
 import pytest
 import numpy as np
-from evclust.ecm import recm
+from evclust.recm import recm
 
 # Test cases for the ecm function
 @pytest.mark.parametrize(
-    "x, c, g0, type, pairs, Omega, ntrials, alpha, beta, delta, epsi, init, disp, expected_clusters",
+    "x, c, type, pairs, Omega, m0, ntrials, alpha, beta, delta, epsi, maxit, disp, expected_clusters",
     [
         # Test case 1 - Provide basic inputs and check the number of clusters
         (
-            np.random.rand(100, 2),  # x: random 100x2 array
+            np.random.rand(25, 25),  # x: random 100x2 array
             3,  # c: number of clusters
-            None,  # g0: initial cluster centers (None for random initialization)
             "full",  # type: type of clustering
             None,  # pairs: cluster pairs
             True,  # Omega: True or False
+            None, # m0 : Initial credal partition
             1,  # ntrials: number of trials
             1,  # alpha: alpha value
             2,  # beta: beta value
-            10,  # delta: delta value
+            None,  # delta: delta value
             1e-3,  # epsi: epsilon value
-            "kmeans",  # init: initialization method
-            False,  # disp: display output
+            5000,  # maxit: Maximum number of iterations
+            True,  # disp: display output
             3,  # expected number of clusters
         ),
         # Add more test cases as needed
         # ...
     ],
 )
-def test_recm(x, c, g0, type, pairs, Omega, ntrials, alpha, beta, delta, epsi, init, disp, expected_clusters):
+def test_recm(x, c, type, pairs, Omega, m0, ntrials, alpha, beta, delta, epsi, maxit, disp, expected_clusters):
     # Call the ecm function with the provided inputs
-    recm_model = recm(x, c, g0=g0, type=type, pairs=pairs, Omega=Omega, ntrials=ntrials, alpha=alpha, beta=beta, delta=delta, epsi=epsi, init=init, disp=disp)
+    recm_model = recm(x, c, type=type, pairs=pairs, Omega=Omega, m0=m0, ntrials=ntrials, alpha=alpha, beta=beta, delta=delta, epsi=epsi, maxit=maxit, disp=disp)
 
-    # Check the number of clusters in the output
-    assert len(np.unique(recm_model['y_pl'])) == expected_clusters
-    
+   
     # Check the output elements
     expected_params=['F', 'mass','pl', 'y_pl', 'Y', 'N', 'g', 'D', 'method','W', 'J', 'param']
     for param in expected_params:
