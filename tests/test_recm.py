@@ -24,7 +24,7 @@ from evclust.recm import recm
             2,  # beta: beta value
             None,  # delta: delta value
             1e-3,  # epsi: epsilon value
-            5000,  # maxit: Maximum number of iterations
+            50,  # maxit: Maximum number of iterations
             True,  # disp: display output
             3,  # expected number of clusters
         ),

@@ -1,0 +1,1191 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>evclust.utils &#8212; evclust</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=1c202f92" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=98feffa1"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/evclust/utils';</script>
+    <link rel="icon" href="../../_static/logo.png"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Jul 17, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="evclust - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="evclust - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/armelsoubeiga/evclust" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/evclust/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://img.shields.io/pypi/dw/evclust" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+</ul></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../autoapi/evclust/index.html">evclust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/catecm/index.html">evclust.catecm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/datasets/index.html">evclust.datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/ecm/index.html">evclust.ecm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/ecmdd/index.html">evclust.ecmdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/recm/index.html">evclust.recm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/utils/index.html">evclust.utils</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example_ecm.html">Example usage ecm clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/example_recm.html">Example usage recm clustering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Informations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conduct.html">Code of Conduct</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/armelsoubeiga/evclust" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/armelsoubeiga/evclust/issues/new?title=Issue%20on%20page%20%2F_modules/evclust/utils.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for evclust.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># This file as well as the whole evclust package are licenced under the MIT licence (see the LICENCE.txt)</span>
+<span class="c1"># Armel SOUBEIGA (armelsoubeiga.github.io), France, 2023</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module contains the utils function </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#---------------------- Packges------------------------------------------------</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">mcolors</span>
+<span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">ConvexHull</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+
+
+
+<span class="c1">#---------------------- makeF--------------------------------------------------</span>
+
+<div class="viewcode-block" id="makeF">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.makeF">[docs]</a>
+<span class="k">def</span> <span class="nf">makeF</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;simple&#39;</span><span class="p">,</span> <span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;pairs&#39;</span><span class="p">],</span> <span class="n">pairs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Omega</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creation of a matrix of focal sets. `makeF` creates a matrix of focal sets.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    c (int): </span>
+<span class="sd">        Number of clusters.</span>
+<span class="sd">    type (str): </span>
+<span class="sd">        Type of focal sets (&quot;simple&quot;: {}, singletons, and Ω; &quot;full&quot;: all 2^c subsets of Ω;</span>
+<span class="sd">                &quot;pairs&quot;: {}, singletons, Ω, and all or selected pairs).</span>
+<span class="sd">    pairs (ndarray or None): </span>
+<span class="sd">        Set of pairs to be included in the focal sets; if None, all pairs are included. Used only if type=&quot;pairs&quot;.</span>
+<span class="sd">    Omega (bool): </span>
+<span class="sd">        If True (default), Ω is a focal set (for types &#39;simple&#39; and &#39;pairs&#39;).</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">        ndarray: A matrix (f, c) of focal sets.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>  <span class="c1"># All the 2^c focal sets</span>
+        <span class="n">ii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">c</span><span class="p">)</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+        <span class="n">CC</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">binary_repr</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">F</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">CC</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># type = &#39;simple&#39; or &#39;pairs&#39;</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">c</span><span class="p">)))</span>  <span class="c1"># the empty set and the singletons</span>
+        <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;pairs&#39;</span><span class="p">:</span>  <span class="c1"># type = &#39;pairs&#39;</span>
+            <span class="k">if</span> <span class="n">pairs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pairs not specified: we take them all</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+                        <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                        <span class="n">f</span><span class="p">[[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">F</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># pairs specified</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">pairs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                    <span class="n">f</span><span class="p">[</span><span class="n">pairs</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]]</span> <span class="o">=</span> <span class="mi">1</span>
+                    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">F</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">Omega</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">((</span><span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;pairs&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="mi">2</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">((</span><span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)):</span>
+            <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">F</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">c</span><span class="p">)))</span>  <span class="c1"># the whole frame</span>
+    <span class="k">return</span> <span class="n">F</span></div>
+
+
+
+
+<span class="c1">#---------------------- get_ensembles------------------------------------------</span>
+
+<div class="viewcode-block" id="get_ensembles">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.get_ensembles">[docs]</a>
+<span class="k">def</span> <span class="nf">get_ensembles</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
+        <span class="n">row_str</span> <span class="o">=</span> <span class="s1">&#39;Cl_&#39;</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">elem</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">if</span> <span class="n">elem</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row_str</span><span class="p">)</span>
+
+    <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Cl_atypique&#39;</span>
+    <span class="n">result</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Cl_incertains&#39;</span>
+
+    <span class="n">cleaned_result</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ch</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_str</span><span class="p">)</span> <span class="k">if</span> <span class="n">ch</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span> <span class="ow">or</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">row_str</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;_&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">row_str</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">cleaned_result</span></div>
+
+
+
+
+
+
+<span class="c1">#---------------------- extractMass--------------------------------------------</span>
+
+<div class="viewcode-block" id="extractMass">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.extractMass">[docs]</a>
+<span class="k">def</span> <span class="nf">extractMass</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Kmat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an object of class &quot;credpart&quot;. `extractMass` computes different outputs (hard, fuzzy, rough partitions, etc.)</span>
+<span class="sd">        from a credal partition and creates an object of class &quot;credpart&quot;.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
+<span class="sd">        mass (ndarray): </span>
+<span class="sd">            Matrix of mass functions. The first column corresponds to the degree of conflict.</span>
+<span class="sd">        F (ndarray): </span>
+<span class="sd">            Matrix of focal sets. The first row always corresponds to the empty set.</span>
+<span class="sd">        g (ndarray, optional): </span>
+<span class="sd">            The prototypes (if defined). Defaults to None.</span>
+<span class="sd">        S (ndarray, optional): </span>
+<span class="sd">            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.</span>
+<span class="sd">        method (str): </span>
+<span class="sd">            The method used to construct the credal partition.</span>
+<span class="sd">        crit (float, optional): </span>
+<span class="sd">            The value of the optimized criterion (depends on the method used). Defaults to None.</span>
+<span class="sd">        Kmat (ndarray, optional): </span>
+<span class="sd">            The matrix of degrees of conflict. Same size as D (for method &quot;kevclus&quot;). Defaults to None.</span>
+<span class="sd">        trace (ndarray, optional): </span>
+<span class="sd">            The trace of criterion values (for methods &quot;kevclus&quot; and &quot;EkNNclus&quot;). Defaults to None.</span>
+<span class="sd">        D (ndarray, optional): </span>
+<span class="sd">            The normalized dissimilarity matrix (for method &quot;kevclus&quot;). Defaults to None.</span>
+<span class="sd">        W (ndarray, optional): </span>
+<span class="sd">            The weight matrix (for method &quot;EkNNclus&quot;). Defaults to None.</span>
+<span class="sd">        J (ndarray, optional): </span>
+<span class="sd">            The matrix of indices (for method &quot;kevclus&quot;). Defaults to None.</span>
+<span class="sd">        param (list, optional): </span>
+<span class="sd">            A method-dependent list of parameters. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    ---------</span>
+<span class="sd">        method (str): </span>
+<span class="sd">            The method used to construct the credal partition.</span>
+<span class="sd">        F (ndarray): </span>
+<span class="sd">            Matrix of focal sets. The first row always corresponds to the empty set.</span>
+<span class="sd">        mass (ndarray): </span>
+<span class="sd">            Mass functions.</span>
+<span class="sd">        g (ndarray, optional): </span>
+<span class="sd">            The prototypes (if defined).</span>
+<span class="sd">        S (ndarray, optional): </span>
+<span class="sd">            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).</span>
+<span class="sd">        pl (ndarray): </span>
+<span class="sd">            Unnormalized plausibilities of the singletons.</span>
+<span class="sd">        pl_n (ndarray): </span>
+<span class="sd">            Normalized plausibilities of the singletons.</span>
+<span class="sd">        p (ndarray): </span>
+<span class="sd">            Probabilities derived from pl by the plausibility transformation.</span>
+<span class="sd">        bel (ndarray): </span>
+<span class="sd">            Unnormalized beliefs of the singletons.</span>
+<span class="sd">        bel_n (ndarray): </span>
+<span class="sd">            Normalized beliefs of the singletons.</span>
+<span class="sd">        y_pl (ndarray): </span>
+<span class="sd">            Maximum plausibility clusters.</span>
+<span class="sd">        y_bel (ndarray): </span>
+<span class="sd">            Maximum belief clusters.</span>
+<span class="sd">        betp (ndarray): </span>
+<span class="sd">            Unnormalized pignistic probabilities of the singletons.</span>
+<span class="sd">        betp_n (ndarray):</span>
+<span class="sd">            Normalized pignistic probabilities of the singletons.</span>
+<span class="sd">        Y (ndarray): </span>
+<span class="sd">            Sets of clusters with maximum mass.</span>
+<span class="sd">        outlier (ndarray): </span>
+<span class="sd">            Array of 0&#39;s and 1&#39;s, indicating which objects are outliers.</span>
+<span class="sd">        lower_approx (list): </span>
+<span class="sd">            Lower approximations of clusters, a list of length c.</span>
+<span class="sd">        upper_approx (list): </span>
+<span class="sd">            Upper approximations of clusters, a list of length c.</span>
+<span class="sd">        Ynd (ndarray): </span>
+<span class="sd">            Sets of clusters selected by the interval dominance rule.</span>
+<span class="sd">        lower_approx_nd (list):</span>
+<span class="sd">            Lower approximations of clusters using the interval dominance rule, a list of length c.</span>
+<span class="sd">        upper_approx_nd (list): </span>
+<span class="sd">            Upper approximations of clusters using the interval dominance rule, a list of length c.</span>
+<span class="sd">        N (float): </span>
+<span class="sd">            Average nonspecificity.</span>
+<span class="sd">        crit (float, optional): </span>
+<span class="sd">            The value of the optimized criterion (depends on the method used).</span>
+<span class="sd">        Kmat (ndarray, optional): </span>
+<span class="sd">            The matrix of degrees of conflict. Same size as D (for method &quot;kevclus&quot;).</span>
+<span class="sd">        D (ndarray, optional): </span>
+<span class="sd">            The normalized dissimilarity matrix (for method &quot;kevclus&quot;).</span>
+<span class="sd">        trace (ndarray, optional): </span>
+<span class="sd">            The trace of criterion values (for methods &quot;kevclus&quot; and &quot;EkNNclus&quot;).</span>
+<span class="sd">        W (ndarray, optional): </span>
+<span class="sd">            The weight matrix (for method &quot;EkNNclus&quot;).</span>
+<span class="sd">        J (ndarray, optional): </span>
+<span class="sd">            The matrix of indices (for method &quot;kevclus&quot;).</span>
+<span class="sd">        param (list, optional): </span>
+<span class="sd">            A method-dependent list of parameters.</span>
+<span class="sd"> </span>
+<span class="sd">    References:</span>
+<span class="sd">    ------------</span>
+<span class="sd">        T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, </span>
+<span class="sd">        Possibilistic and Rough: An Investigation of Belief Functions in Clustering. </span>
+<span class="sd">        8th International conference on soft methods in probability and statistics, Rome, 12-14 September, 2016.</span>
+<span class="sd">        </span>
+<span class="sd">        M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm. </span>
+<span class="sd">        Pattern Recognition, Vol. 41, Issue 4, pages 1384-1397, 2008.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">mass</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">F</span><span class="p">))</span>  <span class="c1"># add the empty set</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="n">mass</span><span class="p">))</span>
+    
+    <span class="n">f</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">card</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="n">conf</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>             <span class="c1"># degree of conflict</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">conf</span><span class="p">)</span>
+    <span class="n">mass_n</span> <span class="o">=</span> <span class="n">C</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">mass</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">f</span><span class="p">]</span>   <span class="c1"># normalized mass function</span>
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>          <span class="c1"># unnormalized plausibility</span>
+    <span class="n">pl_n</span> <span class="o">=</span> <span class="n">C</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">pl</span>             <span class="c1"># normalized plausibility</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pl</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>      <span class="c1"># plausibility-derived probability</span>
+    <span class="n">bel</span> <span class="o">=</span> <span class="n">mass</span><span class="p">[:,</span> <span class="n">card</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>    <span class="c1"># unnormalized belief</span>
+    <span class="n">bel_n</span> <span class="o">=</span> <span class="n">C</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">bel</span>            <span class="c1"># normalized belief</span>
+    <span class="n">y_pl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>       <span class="c1"># maximum plausibility cluster</span>
+    <span class="n">y_bel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">bel</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># maximum belief cluster</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="p">:]</span>    <span class="c1"># maximum mass set of clusters</span>
+
+    <span class="c1"># non dominated elements</span>
+    <span class="n">Ynd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">ii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">pl</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;=</span> <span class="n">bel</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">y_bel</span><span class="p">[</span><span class="n">i</span><span class="p">]])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">Ynd</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1">#P = F / card[:, np.newaxis]</span>
+    <span class="n">nonzero_card</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">card</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>  
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+    <span class="n">P</span><span class="p">[</span><span class="n">nonzero_card</span><span class="p">]</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="n">nonzero_card</span><span class="p">]</span> <span class="o">/</span> <span class="n">card</span><span class="p">[</span><span class="n">nonzero_card</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+    <span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">betp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>       <span class="c1"># unnormalized pignistic probability</span>
+    <span class="n">betp_n</span> <span class="o">=</span> <span class="n">C</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">betp</span>        <span class="c1"># normalized pignistic probability</span>
+
+    <span class="n">lower_approx</span><span class="p">,</span> <span class="n">upper_approx</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">lower_approx_nd</span><span class="p">,</span> <span class="n">upper_approx_nd</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+    <span class="n">nclus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">outlier</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">nclus</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># outliers</span>
+    <span class="n">nclus_nd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Ynd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+        <span class="n">upper_approx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># upper approximation</span>
+        <span class="n">lower_approx</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">Y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">nclus</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># upper approximation</span>
+        <span class="n">upper_approx_nd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Ynd</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># upper approximation</span>
+        <span class="n">lower_approx_nd</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">Ynd</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">nclus_nd</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">card</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">c</span><span class="p">],</span> <span class="n">card</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">f</span><span class="p">]))</span>
+    <span class="n">Card</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Card</span><span class="p">)</span> <span class="o">*</span> <span class="n">mass</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span>
+
+    <span class="n">clus</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;conf&#39;</span><span class="p">:</span> <span class="n">conf</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="n">F</span><span class="p">,</span> <span class="s1">&#39;mass&#39;</span><span class="p">:</span> <span class="n">mass</span><span class="p">,</span> <span class="s1">&#39;mass_n&#39;</span><span class="p">:</span> <span class="n">mass_n</span><span class="p">,</span> <span class="s1">&#39;pl&#39;</span><span class="p">:</span> <span class="n">pl</span><span class="p">,</span> <span class="s1">&#39;pl_n&#39;</span><span class="p">:</span> <span class="n">pl_n</span><span class="p">,</span> <span class="s1">&#39;bel&#39;</span><span class="p">:</span> <span class="n">bel</span><span class="p">,</span> <span class="s1">&#39;bel_n&#39;</span><span class="p">:</span> <span class="n">bel_n</span><span class="p">,</span>
+            <span class="s1">&#39;y_pl&#39;</span><span class="p">:</span> <span class="n">y_pl</span><span class="p">,</span> <span class="s1">&#39;y_bel&#39;</span><span class="p">:</span> <span class="n">y_bel</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">:</span> <span class="n">Y</span><span class="p">,</span> <span class="s1">&#39;betp&#39;</span><span class="p">:</span> <span class="n">betp</span><span class="p">,</span> <span class="s1">&#39;betp_n&#39;</span><span class="p">:</span> <span class="n">betp_n</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">:</span> <span class="n">p</span><span class="p">,</span>
+            <span class="s1">&#39;upper_approx&#39;</span><span class="p">:</span> <span class="n">upper_approx</span><span class="p">,</span> <span class="s1">&#39;lower_approx&#39;</span><span class="p">:</span> <span class="n">lower_approx</span><span class="p">,</span> <span class="s1">&#39;Ynd&#39;</span><span class="p">:</span> <span class="n">Ynd</span><span class="p">,</span>
+            <span class="s1">&#39;upper_approx_nd&#39;</span><span class="p">:</span> <span class="n">upper_approx_nd</span><span class="p">,</span> <span class="s1">&#39;lower_approx_nd&#39;</span><span class="p">:</span> <span class="n">lower_approx_nd</span><span class="p">,</span>
+            <span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="n">N</span><span class="p">,</span> <span class="s1">&#39;outlier&#39;</span><span class="p">:</span> <span class="n">outlier</span> <span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="n">g</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="n">S</span><span class="p">,</span>
+            <span class="s1">&#39;crit&#39;</span><span class="p">:</span> <span class="n">crit</span><span class="p">,</span> <span class="s1">&#39;Kmat&#39;</span><span class="p">:</span> <span class="n">Kmat</span><span class="p">,</span> <span class="s1">&#39;trace&#39;</span><span class="p">:</span> <span class="n">trace</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="n">D</span><span class="p">,</span> <span class="s1">&#39;method&#39;</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span> <span class="s1">&#39;W&#39;</span><span class="p">:</span> <span class="n">W</span><span class="p">,</span> <span class="s1">&#39;J&#39;</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="n">param</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">clus</span></div>
+
+
+
+
+
+<span class="c1">#---------------------- summary------------------------------------------------</span>
+<div class="viewcode-block" id="ev_summary">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.ev_summary">[docs]</a>
+<span class="k">def</span> <span class="nf">ev_summary</span><span class="p">(</span><span class="n">clus</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Summary of a credal partition. `summary_credpart` is the summary method for &quot;credpart&quot; objects.</span>
+<span class="sd">    </span>
+<span class="sd">    This function extracts basic information from &quot;credpart&quot; objects, such as created by</span>
+<span class="sd">    ecm, recm, cecm, EkNNclus, or kevclus.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    clus : object</span>
+<span class="sd">        An object of class &quot;credpart&quot;, encoding a credal partition.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    None</span>
+<span class="sd">        Prints basic information on the credal partition.</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    References:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, Possibilistic and Rough: An</span>
+<span class="sd">    Investigation of Belief Functions in Clustering. 8th International conference on soft</span>
+<span class="sd">    methods in probability and statistics, Rome, 12-14 September, 2016.</span>
+
+<span class="sd">    M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm.</span>
+<span class="sd">    Pattern Recognition, Vol. 41, Issue 4, pages 1384--1397, 2008.</span>
+
+<span class="sd">    T. Denoeux, S. Sriboonchitta and O. Kanjanatarakul. Evidential clustering of large</span>
+<span class="sd">    dissimilarity data. Knowledge-Based Systems, vol. 106, pages 179-195, 2016.</span>
+<span class="sd">    </span>
+<span class="sd">    Examples:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------ Credal partition ------&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> classes,&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> objects&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generated by </span><span class="si">{</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Focal sets:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value of the criterion = </span><span class="si">{</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;crit&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nonspecificity = </span><span class="si">{</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Prototypes:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of outliers = </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;outlier&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    
+    
+    
+    
+    
+
+
+
+<span class="c1">#---------------------- plot------------------------------------------------</span>
+<div class="viewcode-block" id="ev_plot">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.ev_plot">[docs]</a>
+<span class="k">def</span> <span class="nf">ev_plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ytrue</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Outliers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">Approx</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cex</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">cexvar</span><span class="o">=</span><span class="s1">&#39;pl&#39;</span><span class="p">,</span> <span class="n">cex_outliers</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">cex_protos</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">lwd</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">ask</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_Shepard</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">plot_approx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">plot_protos</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;$x_1$&#39;</span> <span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;$x_2$&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plotting a credal partition. Generates plots of a credal partition.     </span>
+<span class="sd">    This function plots different views of a credal partition in a two-dimensional attribute space.</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : object</span>
+<span class="sd">        An object of class &quot;credpart&quot;, encoding a credal partition.</span>
+<span class="sd">    X : array-like, optional</span>
+<span class="sd">        A data matrix. If it has more than two columns (attributes), only the first two columns are used.</span>
+<span class="sd">    ytrue : array-like, optional</span>
+<span class="sd">        The vector of true class labels. If supplied, a different color is used for each true cluster.</span>
+<span class="sd">        Otherwise, the maximum-plausibility clusters are used instead.</span>
+<span class="sd">    Outliers : bool, optional</span>
+<span class="sd">        If True, the outliers are plotted, and they are not included in the lower and upper approximations of the clusters.</span>
+<span class="sd">    Approx : int, optional</span>
+<span class="sd">        If Approx==1 (default), the lower and upper cluster approximations are computed using the interval dominance rule.</span>
+<span class="sd">        Otherwise, the maximum mass rule is used.</span>
+<span class="sd">    cex : float, optional</span>
+<span class="sd">        Maximum size of data points.</span>
+<span class="sd">    cexvar : str, optional</span>
+<span class="sd">        Parameter determining if the size of the data points is proportional to the plausibilities (&#39;pl&#39;, the default),</span>
+<span class="sd">        the plausibilities of the normalized credal partition (&#39;pl.n&#39;), the degrees of belief (&#39;bel&#39;),</span>
+<span class="sd">        the degrees of belief of the normalized credal partition (&#39;bel.n&#39;), or if it is constant (&#39;cst&#39;, default).</span>
+<span class="sd">    cex_outliers : float, optional</span>
+<span class="sd">        Size of data points for outliers.</span>
+<span class="sd">    cex_protos : float, optional</span>
+<span class="sd">        Size of data points for prototypes (if applicable).</span>
+<span class="sd">    lwd : int, optional</span>
+<span class="sd">        Line width for drawing the lower and upper approximations.</span>
+<span class="sd">    ask : bool, optional</span>
+<span class="sd">        Logical; if True, the user is asked before each plot.</span>
+<span class="sd">    plot_Shepard : bool, optional</span>
+<span class="sd">        Logical; if True and if the credal partition was generated by kevclus, the Shepard diagram is plotted.</span>
+<span class="sd">    plot_approx : bool, optional</span>
+<span class="sd">        Logical; if True (default) the convex hulls of the lower and upper approximations are plotted.</span>
+<span class="sd">    plot_protos : bool, optional</span>
+<span class="sd">        Logical; if True (default) the prototypes are plotted (for methods generating prototypes, like ECM).</span>
+<span class="sd">    xlab : str, optional</span>
+<span class="sd">        Label of horizontal axis.</span>
+<span class="sd">    ylab : str, optional</span>
+<span class="sd">        Label of vertical axis.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    None</span>
+<span class="sd">    </span>
+<span class="sd">    The maximum plausibility hard partition, as well as the lower and upper approximations of each cluster</span>
+<span class="sd">    are drawn in the two-dimensional space specified by matrix X. If prototypes are defined (for methods &quot;ecm&quot;</span>
+<span class="sd">    and &quot;cecm&quot;), they are also represented on the plot. For methods &quot;kevclus&quot;, &quot;kcevclus&quot; or &quot;nnevclus&quot;,</span>
+<span class="sd">    a second plot with Shepard&#39;s diagram (degrees of conflict vs. transformed dissimilarities) is drawn.</span>
+<span class="sd">    If input X is not supplied and the Shepard diagram exists, then only the Shepard diagram is drawn.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+  
+    <span class="n">clus</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">ytrue</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;interactive&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ask</span>
+        
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;y_pl&#39;</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;y_pl&#39;</span><span class="p">]))</span>
+        
+        <span class="k">if</span> <span class="n">Approx</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">lower_approx</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;lower_approx_nd&#39;</span><span class="p">]</span>
+            <span class="n">upper_approx</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;upper_approx_nd&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lower_approx</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;lower_approx&#39;</span><span class="p">]</span>
+            <span class="n">upper_approx</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;upper_approx&#39;</span><span class="p">]</span>
+        
+        <span class="k">if</span> <span class="n">Outliers</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+                <span class="n">lower_approx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span><span class="n">lower_approx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;outlier&#39;</span><span class="p">])</span>
+                <span class="n">upper_approx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">setdiff1d</span><span class="p">(</span><span class="n">upper_approx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;outlier&#39;</span><span class="p">])</span>
+        
+        <span class="k">if</span> <span class="n">cexvar</span> <span class="o">==</span> <span class="s1">&#39;pl&#39;</span><span class="p">:</span>
+            <span class="n">cex</span> <span class="o">=</span> <span class="n">cex</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;pl&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">cexvar</span> <span class="o">==</span> <span class="s1">&#39;pl_n&#39;</span><span class="p">:</span>
+            <span class="n">cex</span> <span class="o">=</span> <span class="n">cex</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;pl_n&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">cexvar</span> <span class="o">==</span> <span class="s1">&#39;bel&#39;</span><span class="p">:</span>
+            <span class="n">cex</span> <span class="o">=</span> <span class="n">cex</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;bel&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="n">cexvar</span> <span class="o">==</span> <span class="s1">&#39;bel_n&#39;</span><span class="p">:</span>
+            <span class="n">cex</span> <span class="o">=</span> <span class="n">cex</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">apply_along_axis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;bel_n&#39;</span><span class="p">])</span>
+        
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">mcolors</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="s1">&#39;C</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">y</span><span class="p">]</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="p">[</span><span class="n">mcolors</span><span class="o">.</span><span class="n">to_rgba</span><span class="p">(</span><span class="s1">&#39;C</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>  <span class="n">s</span><span class="o">=</span><span class="n">cex</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">Outliers</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;outlier&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;outlier&#39;</span><span class="p">],</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">cex_outliers</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;g&#39;</span> <span class="ow">in</span> <span class="n">clus</span> <span class="ow">and</span> <span class="n">plot_protos</span> <span class="ow">and</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">cex_protos</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">plot_approx</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">xx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">lower_approx</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">simplex</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">simplices</span><span class="p">:</span>
+                        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">simplex</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">simplex</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">lwd</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">xx</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">upper_approx</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+                <span class="k">if</span> <span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">hull</span> <span class="o">=</span> <span class="n">ConvexHull</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">simplex</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">simplices</span><span class="p">:</span>
+                        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">simplex</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">xx</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">simplex</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>  <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">lwd</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+        
+        
+        
+
+
+
+
+<span class="c1">#---------------------- plot with pca------------------------------------------------</span>
+<div class="viewcode-block" id="ev_pcaplot">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.ev_pcaplot">[docs]</a>
+<span class="k">def</span> <span class="nf">ev_pcaplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">splite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cex</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">cex_protos</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot PCA results with cluster colors. </span>
+<span class="sd">    </span>
+<span class="sd">    This function performs PCA on the input data and plots the resulting PCA scores,</span>
+<span class="sd">    using the specified cluster information in &#39;x&#39;.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : DataFrame</span>
+<span class="sd">        The input data containing the attributes (columns) and samples (rows).</span>
+<span class="sd">    x : object</span>
+<span class="sd">        An object of class &quot;credpart&quot;, encoding a credal partition.</span>
+<span class="sd">    normalize : bool, optional</span>
+<span class="sd">        If True, the data will be normalized before performing PCA. Default is False.</span>
+<span class="sd">    splite : bool, optional</span>
+<span class="sd">        If True, provides access to several different axes-level functions that show the views of clusters. </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    None</span>
+
+<span class="sd">    The function plots the PCA scores in a scatter plot with cluster colors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>  <span class="c1"># Normalize the data</span>
+
+    <span class="n">mas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;mass&quot;</span><span class="p">])</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;y_pl&#39;</span><span class="p">]))</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">get_ensembles</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">])</span>
+    <span class="n">mas</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">cols</span>
+    <span class="n">mas</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mas</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">pca_result</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">variance_percent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">ind_coord</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pca_result</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Dim.1&quot;</span><span class="p">,</span> <span class="s2">&quot;Dim.2&quot;</span><span class="p">])</span>
+    <span class="n">ind_coord</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">mas</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">])</span>
+    <span class="n">mean_coords</span> <span class="o">=</span> <span class="n">ind_coord</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;Cluster&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="n">pcolor</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;Dark2&quot;</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">ind_coord</span><span class="p">[</span><span class="s2">&quot;Cluster&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">splite</span><span class="p">:</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">relplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ind_coord</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Dim.1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Dim.2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span> 
+                    <span class="n">style</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">pcolor</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">cex</span><span class="p">,</span> <span class="n">col_wrap</span><span class="o">=</span><span class="nb">int</span><span class="p">((</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span> 
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">ind_coord</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Dim.1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Dim.2&quot;</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="n">pcolor</span><span class="p">,</span> 
+                        <span class="n">style</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">cex</span><span class="p">)</span>
+        <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">mean_coords</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;Dim.1&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;Dim.2&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="p">(</span><span class="n">cex</span><span class="o">+</span><span class="mi">25</span><span class="p">),</span> <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span> 
+                        <span class="n">palette</span><span class="o">=</span><span class="n">pcolor</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span><span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+    <span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Cluster&quot;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">markerscale</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">legend</span><span class="o">.</span><span class="n">get_title</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">legend</span><span class="o">.</span><span class="n">get_texts</span><span class="p">(),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;X Label&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Y Label&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dim 1 (</span><span class="si">{</span><span class="n">variance_percent</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dim 2 (</span><span class="si">{</span><span class="n">variance_percent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+    
+    
+    
+    
+    
+
+<span class="c1">#---------------------- Utils for cat ecm------------------------------------------------  </span>
+<div class="viewcode-block" id="catecm_get_dom_vals_and_size">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_get_dom_vals_and_size">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_get_dom_vals_and_size</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the feature domains and size.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
+<span class="sd">        Training instances to cluster.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dom_vals : array of shape n_unique_vals</span>
+<span class="sd">        The domains of the features.</span>
+
+<span class="sd">    n_attr_doms : int</span>
+<span class="sd">        The length of the number of categories of X.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dom_vals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_attr_doms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">):</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]))</span>
+        <span class="n">dom_vals</span> <span class="o">+=</span> <span class="n">unique</span>
+        <span class="n">n_attr_doms</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">dom_vals</span><span class="p">,</span> <span class="n">n_attr_doms</span></div>
+
+
+<div class="viewcode-block" id="catecm_check_params">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_check_params">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_check_params</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the correcteness of input parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
+<span class="sd">        The input intances to be clustered.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
+<span class="sd">        If X contains features with one unique category the feature is dropped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">attr_with_one_uniq_val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">uniq_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">l</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">n_l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">uniq_vals</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_l</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">attr_with_one_uniq_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">attr_with_one_uniq_val</span><span class="p">:</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Attributes </span><span class="si">{</span><span class="n">attr_with_one_uniq_val</span><span class="si">}</span><span class="s2"> contain one unique</span><span class="se">\</span>
+<span class="s2">            value,they will be dropped before training.&quot;</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">attr_with_one_uniq_val</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span></div>
+
+
+<div class="viewcode-block" id="catecm_init_centers_singletons">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_init_centers_singletons">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_init_centers_singletons</span><span class="p">(</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the centers of clusters.&quot;&quot;&quot;</span>
+    <span class="n">w0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="n">size_attr_doms</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">+=</span> <span class="n">n_l</span>
+            <span class="n">rand_num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_l</span><span class="p">))</span>
+            <span class="n">rand_num</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_num</span><span class="p">)</span>
+            <span class="n">w0</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand_num</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="k">return</span> <span class="n">w0</span></div>
+
+
+<div class="viewcode-block" id="catecm_update_centers_focalsets_gt_2">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_update_centers_focalsets_gt_2">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_update_centers_focalsets_gt_2</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the centers of focal sets with size greater than two.&quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">w</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">w</span></div>
+
+
+<div class="viewcode-block" id="catecm_distance_objects_to_centers">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_distance_objects_to_centers">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_distance_objects_to_centers</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">,</span> <span class="n">_dom_vals</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the distance between objects and clusters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
+<span class="sd">        Training instances to cluster.</span>
+<span class="sd">    w : ndarray of shape (n_attr_doms, n_clusters)</span>
+<span class="sd">        The centers of clusters.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dist : np.array</span>
+<span class="sd">        The distances between objects and clusters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="n">dim_dist</span> <span class="o">=</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">dim_dist</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim_dist</span><span class="p">):</span>
+            <span class="n">sum_</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">x_l</span><span class="p">,</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">):</span>
+                <span class="n">l</span> <span class="o">+=</span> <span class="n">n_l</span>
+                <span class="n">dom_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_dom_vals</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">])</span>
+                <span class="n">w_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+                <span class="n">sum_</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w_</span><span class="p">[</span><span class="n">dom_val</span> <span class="o">==</span> <span class="n">x_l</span><span class="p">])</span>
+                <span class="n">k</span> <span class="o">+=</span> <span class="n">n_l</span>
+            <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum_</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dist</span></div>
+
+
+<div class="viewcode-block" id="catecm_get_credal_partition">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_get_credal_partition">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_get_credal_partition</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span>  <span class="n">dist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the credal partition from the distances between objects and cluster centers.&quot;&quot;&quot;</span>
+    <span class="n">power_alpha</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">power_beta</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="n">credal_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]:</span>
+            <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">idx_0</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1">#  If the index in dist is i, the index in m is i + 1 as dim(m) = dim(dist) + 1</span>
+            <span class="n">idx_0</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx_0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sum_dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="n">power_alpha</span> <span class="o">*</span>
+                <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="n">power_beta</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">])</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+                <span class="n">len_fs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">len_fs</span><span class="o">**</span><span class="n">power_alpha</span> <span class="o">*</span>
+                                    <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="n">power_beta</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+                                        <span class="n">sum_dij</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="n">power_beta</span><span class="p">)</span>
+    <span class="n">credal_p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">credal_p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">credal_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">credal_p</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">credal_p</span></div>
+
+
+<div class="viewcode-block" id="catecm_update_centers_singletons">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_update_centers_singletons">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_update_centers_singletons</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">,</span> <span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">_dom_vals</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the centers of singletons.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : ndarray of shape (n, p)</span>
+<span class="sd">        Training instances to cluster.</span>
+
+<span class="sd">    credal_p : ndarray (n, f)</span>
+<span class="sd">        The credal partition.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    w : ndarray of shape (n_attr_doms, f)</span>
+<span class="sd">        The updated centers of singletons.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mbeta</span> <span class="o">=</span> <span class="n">credal_p</span><span class="o">**</span><span class="n">beta</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">size_attr_doms</span><span class="p">):</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">n_l</span>
+                <span class="n">w_jl</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="n">a_l</span> <span class="o">=</span> <span class="n">_dom_vals</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">]</span>
+                
+                <span class="n">attr_values_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_l</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_l</span><span class="p">):</span>
+                    <span class="n">len_fs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                    <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mbeta</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">l</span><span class="p">])</span> <span class="o">==</span> <span class="n">a_l</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">j</span><span class="p">])</span>
+                    <span class="n">attr_values_freq</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">len_fs</span><span class="o">**</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">freq</span>
+                <span class="n">idx_max_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">attr_values_freq</span><span class="p">)</span>
+                <span class="n">w_jl</span><span class="p">[</span><span class="n">idx_max_freq</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">w</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_jl</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="k">except</span> <span class="ne">RuntimeWarning</span><span class="p">:</span>
+        <span class="n">exit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">w</span></div>
+
+
+<div class="viewcode-block" id="catecm_cost">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_cost">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_cost</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the cost (intertia) from an iteration.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dist : ndarray of shape (n_samples, n_clusters)</span>
+<span class="sd">        The distance between objects and clusters.</span>
+
+<span class="sd">    credal_p : ndarray of shape (n_samples, n_focalsets)</span>
+<span class="sd">        The credal partition matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    cost : float</span>
+<span class="sd">        The cost of the current iteration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="n">len_fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span> <span class="k">for</span> <span class="n">fs</span> <span class="ow">in</span> <span class="n">focalsets</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+    <span class="n">bba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">credal_p</span><span class="p">)</span>
+    <span class="n">bba_power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">bba</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bba</span><span class="o">**</span><span class="n">beta</span><span class="p">,</span> <span class="n">bba</span><span class="p">)</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">len_fs</span><span class="o">**</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">bba_power</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">dist</span><span class="o">**</span><span class="mf">2.</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">delta</span><span class="o">**</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">bba_power</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">cost</span></div>
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Armel SOUBEIGA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Armel SOUBEIGA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Jul 17, 2024.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

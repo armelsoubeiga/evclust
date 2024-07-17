@@ -1,148 +1,480 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>evclust.utils &mdash; evclust  documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>evclust.utils &#8212; evclust</title>
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=1c202f92" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=98feffa1"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/evclust/utils/index';</script>
+    <link rel="icon" href="../../../_static/logo.png"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <link rel="next" title="Changelog" href="../../../changelog.html" />
-    <link rel="prev" title="evclust.recm" href="../recm/index.html" /> 
-</head>
+    <link rel="next" title="Example usage ecm clustering" href="../../../examples/example_ecm.html" />
+    <link rel="prev" title="evclust.recm" href="../recm/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Jul 17, 2024"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-          
-          
-          <a href="../../../index.html" class="icon icon-home">
-            evclust
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../../example_ecm.html">Example usage ecm clustering</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../example_recm.html">Example usage recm clustering</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust</span></code></a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../index.html#submodules">Submodules</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="../cecm/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.cecm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../datasets/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.datasets</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../ecm/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.ecm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../ecmplus/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.ecmplus</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../mrecm/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.mrecm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../recm/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.recm</span></code></a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.utils</span></code></a></li>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="evclust - Home"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="evclust - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/armelsoubeiga/evclust" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/evclust/" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://img.shields.io/pypi/dw/evclust" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+</ul></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../index.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">evclust</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../catecm/index.html">evclust.catecm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../datasets/index.html">evclust.datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ecm/index.html">evclust.ecm</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ecmdd/index.html">evclust.ecmdd</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../recm/index.html">evclust.recm</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">evclust.utils</a></li>
 </ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../index.html#package-contents">Package Contents</a></li>
+</details></li>
 </ul>
-</li>
+</details></li>
 </ul>
-</li>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/example_ecm.html">Example usage ecm clustering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/example_recm.html">Example usage recm clustering</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Informations</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../conduct.html">Code of Conduct</a></li>
 </ul>
 
-        </div>
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
       </div>
-    </nav>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../index.html">evclust</a>
-      </nav>
+<div class="sbt-scroll-pixel-helper"></div>
 
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
-          <li class="breadcrumb-item"><a href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust</span></code></a></li>
-      <li class="breadcrumb-item active"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.utils</span></code></li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="../../../_sources/autoapi/evclust/utils/index.rst.txt" rel="nofollow"> View page source</a>
-      </li>
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/armelsoubeiga/evclust" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/armelsoubeiga/evclust/edit/main/autoapi/evclust/utils/index.rst" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/armelsoubeiga/evclust/issues/new?title=Issue%20on%20page%20%2Fautoapi/evclust/utils/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
   </ul>
-  <hr/>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/autoapi/evclust/utils/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>evclust.utils</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.makeF"><code class="docutils literal notranslate"><span class="pre">makeF()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.get_ensembles"><code class="docutils literal notranslate"><span class="pre">get_ensembles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.extractMass"><code class="docutils literal notranslate"><span class="pre">extractMass()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.ev_summary"><code class="docutils literal notranslate"><span class="pre">ev_summary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.ev_plot"><code class="docutils literal notranslate"><span class="pre">ev_plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.ev_pcaplot"><code class="docutils literal notranslate"><span class="pre">ev_pcaplot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_get_dom_vals_and_size"><code class="docutils literal notranslate"><span class="pre">catecm_get_dom_vals_and_size()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_check_params"><code class="docutils literal notranslate"><span class="pre">catecm_check_params()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_init_centers_singletons"><code class="docutils literal notranslate"><span class="pre">catecm_init_centers_singletons()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_update_centers_focalsets_gt_2"><code class="docutils literal notranslate"><span class="pre">catecm_update_centers_focalsets_gt_2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_distance_objects_to_centers"><code class="docutils literal notranslate"><span class="pre">catecm_distance_objects_to_centers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_get_credal_partition"><code class="docutils literal notranslate"><span class="pre">catecm_get_credal_partition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_update_centers_singletons"><code class="docutils literal notranslate"><span class="pre">catecm_update_centers_singletons()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_cost"><code class="docutils literal notranslate"><span class="pre">catecm_cost()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="module-evclust.utils">
-<span id="evclust-utils"></span><h1><a class="reference internal" href="#module-evclust.utils" title="evclust.utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">evclust.utils</span></code></a><a class="headerlink" href="#module-evclust.utils" title="Permalink to this heading"></a></h1>
+<span id="evclust-utils"></span><h1>evclust.utils<a class="headerlink" href="#module-evclust.utils" title="Link to this heading">#</a></h1>
 <p>This module contains the utils function</p>
 <section id="module-contents">
-<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading"></a></h2>
-<section id="functions">
-<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading"></a></h3>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.makeF" title="evclust.utils.makeF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">makeF</span></code></a>(c[, type, pairs, Omega])</p></td>
-<td><p>Creation of a matrix of focal sets. <cite>makeF</cite> creates a matrix of focal sets.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.get_ensembles" title="evclust.utils.get_ensembles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_ensembles</span></code></a>(table)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.extractMass" title="evclust.utils.extractMass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extractMass</span></code></a>(mass, F[, g, S, method, crit, Kmat, ...])</p></td>
-<td><p>Creates an object of class &quot;credpart&quot;. <cite>extractMass</cite> computes different outputs (hard, fuzzy, rough partitions, etc.)</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.setCentersECM" title="evclust.utils.setCentersECM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setCentersECM</span></code></a>(x, m, F, Smean, alpha, beta)</p></td>
-<td><p>Computation of centers in CECM. Function called by cecm.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.createMLCL" title="evclust.utils.createMLCL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">createMLCL</span></code></a>(y, nbConst)</p></td>
-<td><p>Random generation of Must-Link (ML) and Cannot-Link (CL) constraints.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.setDistances" title="evclust.utils.setDistances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">setDistances</span></code></a>(x, F, g, m, alpha, distance)</p></td>
-<td><p>Computation of distances to centers and variance matrices in each cluster.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.solqp" title="evclust.utils.solqp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">solqp</span></code></a>(Q, A, b, c, x[, verbose, toler, beta])</p></td>
-<td><p>Solve the quadratic program in standard form:</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.ev_summary" title="evclust.utils.ev_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ev_summary</span></code></a>(clus)</p></td>
-<td><p>Summary of a credal partition. <cite>summary_credpart</cite> is the summary method for &quot;credpart&quot; objects.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#evclust.utils.ev_plot" title="evclust.utils.ev_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ev_plot</span></code></a>(x[, X, ytrue, Outliers, Approx, cex, cexvar, ...])</p></td>
-<td><p>Plotting a credal partition. Generates plots of a credal partition.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#evclust.utils.ev_pcaplot" title="evclust.utils.ev_pcaplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ev_pcaplot</span></code></a>(data, x[, normalize, splite, cex, cex_protos])</p></td>
-<td><p>Plot PCA results with cluster colors.</p></td>
-</tr>
-</tbody>
-</table>
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="evclust.utils.makeF">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">makeF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['simple',</span> <span class="pre">'full',</span> <span class="pre">'pairs']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.makeF" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">makeF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['simple',</span> <span class="pre">'full',</span> <span class="pre">'pairs']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pairs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#makeF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.makeF" title="Link to this definition">#</a></dt>
 <dd><p>Creation of a matrix of focal sets. <cite>makeF</cite> creates a matrix of focal sets.</p>
 <section id="parameters">
-<h4>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h4>
+<h3>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>c (int):</dt><dd><p>Number of clusters.</p>
 </dd>
@@ -158,38 +490,29 @@
 </dl>
 </section>
 <section id="returns">
-<h4>Returns:<a class="headerlink" href="#returns" title="Permalink to this heading"></a></h4>
-<p>ndarray: A matrix (f, c) of focal sets.</p>
-</section>
-<section id="examples">
-<h4>Examples:<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h4>
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p>ndarray: A matrix (f, c) of focal sets.</p>
+</div></blockquote>
 </section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="evclust.utils.get_ensembles">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">get_ensembles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.get_ensembles" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">get_ensembles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#get_ensembles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.get_ensembles" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="evclust.utils.extractMass">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">extractMass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Kmat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.extractMass" title="Permalink to this definition"></a></dt>
-<dd><p>Creates an object of class “credpart”. <cite>extractMass</cite> computes different outputs (hard, fuzzy, rough partitions, etc.)
-from a credal partition and creates an object of class “credpart”.</p>
-<p>This function collects varied information on a credal partition and stores it in
-an object of class “credpart”. The lower and upper
-approximations of clusters define rough partitions. They can be computed in two ways:
-either from the set of clusters with maximum mass, or from the set of non-dominated clusters.
-A cluster ω_k is non-dominated if pl(ω_k) ≥ bel(ω_l) for all l different from k.
-Once a set of cluster Y_i has been computed for each object,
-object i belongs to the lower approximation of cluster k if Y_i = ω_k.
-It belongs to the upper approximation of cluster k if ω_k ∈ Y_i.
-See Masson and Denoeux (2008) for more details, and Denoeux and Kanjanatarakul (2016) for
-the interval dominance rule. The function creates an object of class “credpart”.
-There are three methods for this class: plot.credpart, summary.credpart, and predict.credpart.</p>
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">extractMass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mass</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Kmat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">D</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">W</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">J</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#extractMass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.extractMass" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Creates an object of class “credpart”. <cite>extractMass</cite> computes different outputs (hard, fuzzy, rough partitions, etc.)</dt><dd><p>from a credal partition and creates an object of class “credpart”.</p>
+</dd>
+</dl>
 <section id="id1">
-<h4>Parameters:<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
-<dl class="simple">
+<h3>Parameters:<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><dl class="simple">
 <dt>mass (ndarray):</dt><dd><p>Matrix of mass functions. The first column corresponds to the degree of conflict.</p>
 </dd>
 <dt>F (ndarray):</dt><dd><p>Matrix of focal sets. The first row always corresponds to the empty set.</p>
@@ -215,10 +538,12 @@ There are three methods for this class: plot.credpart, summary.credpart, and pre
 <dt>param (list, optional):</dt><dd><p>A method-dependent list of parameters. Defaults to None.</p>
 </dd>
 </dl>
+</div></blockquote>
 </section>
 <section id="id2">
-<h4>Returns:<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
-<dl class="simple">
+<h3>Returns:<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><dl class="simple">
 <dt>method (str):</dt><dd><p>The method used to construct the credal partition.</p>
 </dd>
 <dt>F (ndarray):</dt><dd><p>Matrix of focal sets. The first row always corresponds to the empty set.</p>
@@ -278,236 +603,42 @@ There are three methods for this class: plot.credpart, summary.credpart, and pre
 <dt>param (list, optional):</dt><dd><p>A method-dependent list of parameters.</p>
 </dd>
 </dl>
+</div></blockquote>
 </section>
 <section id="references">
-<h4>References:<a class="headerlink" href="#references" title="Permalink to this heading"></a></h4>
+<h3>References:<a class="headerlink" href="#references" title="Link to this heading">#</a></h3>
 <blockquote>
-<div><ul class="simple">
-<li><ol class="upperalpha simple" start="20">
-<li><p>Denoeux and O. Kanjanatarakul. Beyond Fuzzy, Possibilistic and Rough: An Investigation of Belief Functions in Clustering. 8th International conference on soft methods in probability and statistics, Rome, 12-14 September, 2016.</p></li>
-</ol>
-</li>
-<li><p>M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm. Pattern Recognition, Vol. 41, Issue 4, pages 1384-1397, 2008.</p></li>
-</ul>
+<div><p>T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy,
+Possibilistic and Rough: An Investigation of Belief Functions in Clustering.
+8th International conference on soft methods in probability and statistics, Rome, 12-14 September, 2016.</p>
+<p>M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm.
+Pattern Recognition, Vol. 41, Issue 4, pages 1384-1397, 2008.</p>
 </div></blockquote>
-</section>
-<section id="id3">
-<h4>Examples:<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="evclust.utils.setCentersECM">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">setCentersECM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Smean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.setCentersECM" title="Permalink to this definition"></a></dt>
-<dd><p>Computation of centers in CECM. Function called by cecm.</p>
-<section id="id4">
-<h4>Parameters:<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
-<ul class="simple">
-<li><dl class="simple">
-<dt>x:</dt><dd><p>The data matrix.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>m:</dt><dd><p>The mass matrix.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>F:</dt><dd><p>The focal sets matrix.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>Smean:</dt><dd><p>A list of matrices representing the centers of the focal sets.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>alpha:</dt><dd><p>The alpha parameter.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>beta:</dt><dd><p>The beta parameter.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</section>
-<section id="id5">
-<h4>Returns:<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
-<ul class="simple">
-<li><dl class="simple">
-<dt>g:</dt><dd><p>The computed centers matrix.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="evclust.utils.createMLCL">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">createMLCL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nbConst</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.createMLCL" title="Permalink to this definition"></a></dt>
-<dd><p>Random generation of Must-Link (ML) and Cannot-Link (CL) constraints.</p>
-<section id="id6">
-<h4>Parameters:<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
-<ul class="simple">
-<li><dl class="simple">
-<dt>y:</dt><dd><p>Vector of class labels.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>nbConst:</dt><dd><p>Number of constraints.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</section>
-<section id="id7">
-<h4>Returns:<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
-<p>A dictionary with two keys:
-- ML:</p>
-<blockquote>
-<div><p>Matrix of ML constraints. Each row corresponds to a constraint.</p>
-</div></blockquote>
-<ul class="simple">
-<li><dl class="simple">
-<dt>CL:</dt><dd><p>Matrix of CL constraints. Each row corresponds to a constraint.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="evclust.utils.setDistances">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">setDistances</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distance</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.setDistances" title="Permalink to this definition"></a></dt>
-<dd><p>Computation of distances to centers and variance matrices in each cluster.
-Function called by cecm.</p>
-<section id="id8">
-<h4>Parameters:<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
-<ul class="simple">
-<li><dl class="simple">
-<dt>x:</dt><dd><p>Data matrix.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>F:</dt><dd><p>Focal matrix.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>g:</dt><dd><p>Centers matrix.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>m:</dt><dd><p>Membership matrix.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>alpha:</dt><dd><p>Alpha parameter.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>distance:</dt><dd><p>Distance type (0 for Euclidean, 1 for Mahalanobis).</p>
-</dd>
-</dl>
-</li>
-</ul>
-</section>
-<section id="id9">
-<h4>Returns:<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
-<p>A dictionary with two keys:
-- D:</p>
-<blockquote>
-<div><p>Matrix of distances to centers. Each column corresponds to a center.</p>
-</div></blockquote>
-<ul class="simple">
-<li><dl class="simple">
-<dt>Smean:</dt><dd><p>List of variance matrices in each cluster.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</section>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="evclust.utils.solqp">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">solqp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">toler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.8</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.solqp" title="Permalink to this definition"></a></dt>
-<dd><dl class="simple">
-<dt>Solve the quadratic program in standard form:</dt><dd><p>minimize    0.5 * (x’Qx) + c’x
-subject to  Ax = b, x &gt;= 0</p>
-</dd>
-</dl>
-<section id="id10">
-<h4>Parameters:<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h4>
-<dl class="simple">
-<dt>Q (ndarray):</dt><dd><p>Sparse symmetric objective matrix.</p>
-</dd>
-<dt>A (ndarray):</dt><dd><p>Sparse constraint left-hand matrix.</p>
-</dd>
-<dt>b (ndarray):</dt><dd><p>Constraint right-hand column vector.</p>
-</dd>
-<dt>c (ndarray):</dt><dd><p>Objective column vector.</p>
-</dd>
-<dt>x (ndarray):</dt><dd><p>Initial solution vector.</p>
-</dd>
-<dt>verbose (bool):</dt><dd><p>If True, print the message when the optimal solution is found.</p>
-</dd>
-<dt>toler (float):</dt><dd><p>Relative stopping tolerance. The optimization stops when the objective value
-is close to the local optimal value within the range of the tolerance.</p>
-</dd>
-<dt>beta (float):</dt><dd><p>Step size for the algorithm. 0 &lt; beta &lt; 1.</p>
-</dd>
-</dl>
-</section>
-<section id="id11">
-<h4>Returns:<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h4>
-<p>dict: A dictionary containing the optimal solution and additional information.
-‘x’:</p>
-<blockquote>
-<div><p>Optimal solution vector.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>‘y’:</dt><dd><p>Optimal dual solution (Lagrange multiplier).</p>
-</dd>
-<dt>‘obhis’:</dt><dd><p>Objective value history vs iterations.</p>
-</dd>
-</dl>
 </section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="evclust.utils.ev_summary">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.ev_summary" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">clus</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#ev_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.ev_summary" title="Link to this definition">#</a></dt>
 <dd><p>Summary of a credal partition. <cite>summary_credpart</cite> is the summary method for “credpart” objects.</p>
 <p>This function extracts basic information from “credpart” objects, such as created by
 ecm, recm, cecm, EkNNclus, or kevclus.</p>
-<section id="id12">
-<h4>Parameters:<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h4>
+<section id="id3">
+<h3>Parameters:<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>clus<span class="classifier">object</span></dt><dd><p>An object of class “credpart”, encoding a credal partition.</p>
 </dd>
 </dl>
 </section>
-<section id="id13">
-<h4>Returns:<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h4>
+<section id="id4">
+<h3>Returns:<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>None</dt><dd><p>Prints basic information on the credal partition.</p>
 </dd>
 </dl>
 </section>
-<section id="id14">
-<h4>References:<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h4>
+<section id="id5">
+<h3>References:<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, Possibilistic and Rough: An
 Investigation of Belief Functions in Clustering. 8th International conference on soft
 methods in probability and statistics, Rome, 12-14 September, 2016.</p>
@@ -516,18 +647,18 @@ Pattern Recognition, Vol. 41, Issue 4, pages 1384–1397, 2008.</p>
 <p>T. Denoeux, S. Sriboonchitta and O. Kanjanatarakul. Evidential clustering of large
 dissimilarity data. Knowledge-Based Systems, vol. 106, pages 179-195, 2016.</p>
 </section>
-<section id="id15">
-<h4>Examples:<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h4>
+<section id="examples">
+<h3>Examples:<a class="headerlink" href="#examples" title="Link to this heading">#</a></h3>
 </section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="evclust.utils.ev_plot">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytrue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Outliers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Approx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cexvar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_outliers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_Shepard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_approx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$x_1$'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$x_2$'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.ev_plot" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ytrue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Outliers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Approx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cexvar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_outliers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lwd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_Shepard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_approx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$x_1$'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$x_2$'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#ev_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.ev_plot" title="Link to this definition">#</a></dt>
 <dd><p>Plotting a credal partition. Generates plots of a credal partition.
 This function plots different views of a credal partition in a two-dimensional attribute space.</p>
-<section id="id16">
-<h4>Parameters:<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h4>
+<section id="id6">
+<h3>Parameters:<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>x<span class="classifier">object</span></dt><dd><p>An object of class “credpart”, encoding a credal partition.</p>
 </dd>
@@ -567,8 +698,8 @@ the degrees of belief of the normalized credal partition (‘bel.n’), or if it
 </dd>
 </dl>
 </section>
-<section id="id17">
-<h4>Returns:<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h4>
+<section id="id7">
+<h3>Returns:<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>None</p>
 <p>The maximum plausibility hard partition, as well as the lower and upper approximations of each cluster
 are drawn in the two-dimensional space specified by matrix X. If prototypes are defined (for methods “ecm”
@@ -580,12 +711,12 @@ If input X is not supplied and the Shepard diagram exists, then only the Shepard
 
 <dl class="py function">
 <dt class="sig sig-object py" id="evclust.utils.ev_pcaplot">
-<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_pcaplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evclust.utils.ev_pcaplot" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">ev_pcaplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cex_protos</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#ev_pcaplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.ev_pcaplot" title="Link to this definition">#</a></dt>
 <dd><p>Plot PCA results with cluster colors.</p>
 <p>This function performs PCA on the input data and plots the resulting PCA scores,
 using the specified cluster information in ‘x’.</p>
-<section id="id18">
-<h4>Parameters:<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h4>
+<section id="id8">
+<h3>Parameters:<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <dl class="simple">
 <dt>data<span class="classifier">DataFrame</span></dt><dd><p>The input data containing the attributes (columns) and samples (rows).</p>
 </dd>
@@ -597,46 +728,265 @@ using the specified cluster information in ‘x’.</p>
 </dd>
 </dl>
 </section>
-<section id="id19">
-<h4>Returns:<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h4>
+<section id="id9">
+<h3>Returns:<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
 <p>None</p>
 <p>The function plots the PCA scores in a scatter plot with cluster colors.</p>
 </section>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_get_dom_vals_and_size">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_get_dom_vals_and_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_get_dom_vals_and_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_get_dom_vals_and_size" title="Link to this definition">#</a></dt>
+<dd><p>Get the feature domains and size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training instances to cluster.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>dom_vals</strong> (<em>array of shape n_unique_vals</em>) – The domains of the features.</p></li>
+<li><p><strong>n_attr_doms</strong> (<em>int</em>) – The length of the number of categories of X.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_check_params">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_check_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_check_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_check_params" title="Link to this definition">#</a></dt>
+<dd><p>Check the correcteness of input parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – The input intances to be clustered.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>X</strong> – If X contains features with one unique category the feature is dropped.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of shape (n_samples, n_features)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_init_centers_singletons">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_init_centers_singletons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_attr_doms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_attr_doms</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_init_centers_singletons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_init_centers_singletons" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the centers of clusters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_update_centers_focalsets_gt_2">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_update_centers_focalsets_gt_2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_update_centers_focalsets_gt_2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_update_centers_focalsets_gt_2" title="Link to this definition">#</a></dt>
+<dd><p>Update the centers of focal sets with size greater than two.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_distance_objects_to_centers">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_distance_objects_to_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_attr_doms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_dom_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">w</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_distance_objects_to_centers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_distance_objects_to_centers" title="Link to this definition">#</a></dt>
+<dd><p>Compute the distance between objects and clusters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_features</em><em>)</em>) – Training instances to cluster.</p></li>
+<li><p><strong>w</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n_attr_doms</em><em>, </em><em>n_clusters</em><em>)</em>) – The centers of clusters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dist</strong> – The distances between objects and clusters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_get_credal_partition">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_get_credal_partition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_get_credal_partition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_get_credal_partition" title="Link to this definition">#</a></dt>
+<dd><p>Compute the credal partition from the distances between objects and cluster centers.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_update_centers_singletons">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_update_centers_singletons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_attr_doms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_attr_doms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_dom_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credal_p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_update_centers_singletons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_update_centers_singletons" title="Link to this definition">#</a></dt>
+<dd><p>Update the centers of singletons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n</em><em>, </em><em>p</em><em>)</em>) – Training instances to cluster.</p></li>
+<li><p><strong>credal_p</strong> (<em>ndarray</em><em> (</em><em>n</em><em>, </em><em>f</em><em>)</em>) – The credal partition.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>w</strong> – The updated centers of singletons.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray of shape (n_attr_doms, f)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="evclust.utils.catecm_cost">
+<span class="sig-prename descclassname"><span class="pre">evclust.utils.</span></span><span class="sig-name descname"><span class="pre">catecm_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">F</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">credal_p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/evclust/utils.html#catecm_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evclust.utils.catecm_cost" title="Link to this definition">#</a></dt>
+<dd><p>Compute the cost (intertia) from an iteration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dist</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_clusters</em><em>)</em>) – The distance between objects and clusters.</p></li>
+<li><p><strong>credal_p</strong> (<em>ndarray</em><em> of </em><em>shape</em><em> (</em><em>n_samples</em><em>, </em><em>n_focalsets</em><em>)</em>) – The credal partition matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>cost</strong> – The cost of the current iteration.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
-</section>
 
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "armelsoubeiga/evclust",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./autoapi\evclust\utils"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
-           </div>
-          </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../recm/index.html" class="btn btn-neutral float-left" title="evclust.recm" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../../../changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+                </article>
+              
 
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2023, Armel SOUBEIGA.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
-        </div>
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../recm/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">evclust.recm</p>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+    </a>
+    <a class="right-next"
+       href="../../../examples/example_ecm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Example usage ecm clustering</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
-</body>
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.makeF"><code class="docutils literal notranslate"><span class="pre">makeF()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.get_ensembles"><code class="docutils literal notranslate"><span class="pre">get_ensembles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.extractMass"><code class="docutils literal notranslate"><span class="pre">extractMass()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.ev_summary"><code class="docutils literal notranslate"><span class="pre">ev_summary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.ev_plot"><code class="docutils literal notranslate"><span class="pre">ev_plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.ev_pcaplot"><code class="docutils literal notranslate"><span class="pre">ev_pcaplot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_get_dom_vals_and_size"><code class="docutils literal notranslate"><span class="pre">catecm_get_dom_vals_and_size()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_check_params"><code class="docutils literal notranslate"><span class="pre">catecm_check_params()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_init_centers_singletons"><code class="docutils literal notranslate"><span class="pre">catecm_init_centers_singletons()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_update_centers_focalsets_gt_2"><code class="docutils literal notranslate"><span class="pre">catecm_update_centers_focalsets_gt_2()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_distance_objects_to_centers"><code class="docutils literal notranslate"><span class="pre">catecm_distance_objects_to_centers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_get_credal_partition"><code class="docutils literal notranslate"><span class="pre">catecm_get_credal_partition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_update_centers_singletons"><code class="docutils literal notranslate"><span class="pre">catecm_update_centers_singletons()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evclust.utils.catecm_cost"><code class="docutils literal notranslate"><span class="pre">catecm_cost()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Armel SOUBEIGA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, Armel SOUBEIGA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Jul 17, 2024.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>

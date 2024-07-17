@@ -3,7 +3,9 @@
 # Armel SOUBEIGA (armelsoubeiga.github.io), France, 2023
 
 """
-This module contains the main function for cecm : Relational ecm
+This module contains the main function for recm : 
+    M.-H. Masson and T. Denoeux. RECM: Relational Evidential c-means algorithm. 
+    Pattern Recognition Letters, Vol. 30, pages 1015--1026, 2009.
 """
 
 #---------------------- Packges------------------------------------------------
@@ -12,20 +14,14 @@ import numpy as np
 
 
 def recm(D, c, type='full', pairs=None, Omega=True, m0=None, ntrials=1, alpha=1, beta=1.5,
-         delta=None, epsi=1e-4, maxit=5000, disp=True):
+         delta=None, epsi=1e-4, maxit=50, disp=True):
     
     """
     Relational Evidential c-means algorithm. `recm` computes a credal partition from a dissimilarity matrix using the Relational Evidential c-means (RECM) algorithm.
 
-    RECM is a relational version of the Evidential c-Means (ECM) algorithm. Convergence is guaranteed only if elements of matrix D are squared Euclidean distances.
-    However, the algorithm is quite robust and generally provides sensible results even if the dissimilarities are not metric.
-    By default, each mass function in the credal partition has 2^c focal sets, where c is the supplied number of clusters.
-    We can also limit the number of focal sets to subsets of clusters with cardinalities 0, 1 and c (recommended if c >= 10), or to all or some selected pairs of clusters.
-    If an initial credal partition m0 is provided, the number of trials is automatically set to 1.
-
     Parameters:
-    ----------
-        D (ndarray): 
+    -----------
+        D (Matric): 
             Dissimilarity matrix of size (n,n), where n is the number of objects. Dissimilarities must be squared Euclidean distances to ensure convergence.
         c (int): 
             Number of clusters.
@@ -53,18 +49,16 @@ def recm(D, c, type='full', pairs=None, Omega=True, m0=None, ntrials=1, alpha=1,
             If True (default), intermediate results are displayed.
 
     Returns:
-    -------
-        clus (object): 
-            The credal partition (an object of class "credpart").
+    --------
+        The credal partition (an object of class "credpart").
 
     References:
-    ----------
-        M.-H. Masson and T. Denoeux. RECM: Relational Evidential c-means algorithm. Pattern Recognition Letters, Vol. 30, pages 1015--1026, 2009.
-
-    Author:
-   -------
-        Armel Soubeiga (from Thierry Denoeux code in R and from a MATLAB code written by Marie-Helene Masson).
+    -----------
+        M.-H. Masson and T. Denoeux. RECM: Relational Evidential c-means algorithm. 
+        Pattern Recognition Letters, Vol. 30, pages 1015--1026, 2009.
     """
+    
+    #---------------------- initialisations -----------------------------------
     if delta is None:
         delta = np.quantile(D[np.triu_indices(D.shape[0], k=1)], q=0.95)
         
@@ -92,6 +86,8 @@ def recm(D, c, type='full', pairs=None, Omega=True, m0=None, ntrials=1, alpha=1,
         if m0.shape[0] != n or m0.shape[1] != f:
             raise ValueError("ERROR: dimension of m0 is not compatible with specified focal sets")
 
+
+    #------------------------ iterations---------------------------------------
     # Optimization
     Jbest = np.inf
     for itrial in range(1, ntrials + 1):

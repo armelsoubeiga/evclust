@@ -1,4 +1,6 @@
-# evclust: Evidential c-Means Clustering
+# Introduction
+
+## evclust: Evidential Clustering
 
 [![Documentation Status](https://readthedocs.org/projects/evclust/badge/?version=latest)](https://evclust.readthedocs.io/en/latest/)
 ![tests](https://github.com/py-pkgs/py-pkgs-cookiecutter/workflows/test/badge.svg)
@@ -18,25 +20,30 @@
 
 <br/>
 
-Various clustering algorithms that produce a credal partition, i.e., a set of Dempster-Shafer mass functions representing the membership of objects to clusters. The mass functions quantify the cluster-membership uncertainty of the objects. The algorithms are: Evidential c-Means, Relational Evidential c-Means, Constrained Evidential c-Means, Multiples Relational Evidential c-Means. 
+Various clustering algorithms that produce a credal partition, i.e., a set of Dempster-Shafer mass functions representing the membership of objects to clusters. The mass functions quantify the cluster-membership uncertainty of the objects. 
 
+## News
+* The available algorithms are: Evidential c-Means (ecm), Relational Evidential c-Means (recm), Evidential c-Medoids (ecmdd), and Evidential c-Mods for categorical data (catecm). 
+
+* Coming soon :
+    * New notebook examples for using the ecmdd and catecm algorithms
+    * Constrained Evidential c-Means (cecm), Evidential c-Medians (ecmm), Credal c-Means (cc-Means)
 
 ## Informations
 
-* Title: Evidential c-Means Clustering
-* Version: 0.1.1
-* Date: 2023-09-01
+* Title: Evidential Clustering
+* Version: 0.1.5 -- Date: 2024-07-17
+* Previous version: 0.1.1 -- Date: 2023-09-01
 * License: MIT
-* Depends: Pyhton (<3.12, >=3.8)
+* Depends: Pyhton >=3.8
 * Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
 * Maintainer: [armel.soubeiga@uca.fr](armel.soubeiga@uca.fr)
-* Contributors : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/), [Benoit Albert](https://sites.google.com/view/benoitalbert/home)
+* Contributors : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/)
 
 
 ## References
 
 * [1] Denœux, T. (Year). evclust: An R Package for Evidential Clustering. Université de technologie de Compiègne. url [https://cran.r-project.org/web/packages/evclust/index.html](https://cran.r-project.org/web/packages/evclust/index.html)
-* [2] Masson, M. H. et T. Denœux (2008). ECM : An evidential version of the fuzzy c-means algorithm. Pattern Recognition 41, 1384–1397
 
 
 ## Installation
@@ -44,7 +51,6 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 ```bash
 $ pip install evclust 
 ```
-
 
 ## Usage
 
@@ -73,7 +79,9 @@ Evidential clustering is a modern approach in clustering algorithms that address
 
 This package offers efficient algorithms for evidential clustering. The package provides functions for visualizing, evaluating, and utilizing credal partitions, allowing for a comprehensive analysis of uncertain group assignments. 
 
-It is worth mentioning that the **evclust** package in **Python** is based on the previously developed package in **R** by [**Thierry Denoeux**](https://cran.rstudio.com/web/packages/evclust/vignettes/evclust_vignette.pdf)
+**evclust** is referenced by [**The Belief Functions and Applications Society (BFAS)**](https://bfasociety.org/)
+
+**evclust** is also available in **R** by [**Thierry Denoeux**](https://cran.rstudio.com/web/packages/evclust/vignettes/evclust_vignette.pdf)
 
 
 ## Contributing

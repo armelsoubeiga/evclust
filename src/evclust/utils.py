@@ -19,17 +19,14 @@ from sklearn.decomposition import PCA
 
 
 
-
-
-
-
 #---------------------- makeF--------------------------------------------------
+
 def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
     """
     Creation of a matrix of focal sets. `makeF` creates a matrix of focal sets.
 
     Parameters:
-    ----------
+    -----------
     c (int): 
         Number of clusters.
     type (str): 
@@ -43,12 +40,7 @@ def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
 
     Returns:
     --------
-    ndarray: A matrix (f, c) of focal sets.
-
-
-    Examples:
-    ---------
-
+        ndarray: A matrix (f, c) of focal sets.
     """
     if type == 'full':  # All the 2^c focal sets
         ii = np.arange(2**c)
@@ -80,6 +72,7 @@ def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
 
 
 #---------------------- get_ensembles------------------------------------------
+
 def get_ensembles(table):
     result = []
     for row in table:
@@ -90,7 +83,6 @@ def get_ensembles(table):
     result[-1] = 'Cl_incertains'
 
     cleaned_result = [''.join(ch for i, ch in enumerate(row_str) if ch != '_' or (i > 0 and row_str[i-1] != '_')) for row_str in result]
-
     return cleaned_result
 
 
@@ -98,121 +90,107 @@ def get_ensembles(table):
 
 
 #---------------------- extractMass--------------------------------------------
+
 def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trace=None, D=None, W=None, J=None, param=None):
-    """
-    Creates an object of class "credpart". `extractMass` computes different outputs (hard, fuzzy, rough partitions, etc.)
-    from a credal partition and creates an object of class "credpart".
-
-    This function collects varied information on a credal partition and stores it in
-    an object of class "credpart". The lower and upper
-    approximations of clusters define rough partitions. They can be computed in two ways:
-    either from the set of clusters with maximum mass, or from the set of non-dominated clusters.
-    A cluster ω_k is non-dominated if pl(ω_k) ≥ bel(ω_l) for all l different from k.
-    Once a set of cluster Y_i has been computed for each object,
-    object i belongs to the lower approximation of cluster k if Y_i = ω_k.
-    It belongs to the upper approximation of cluster k if ω_k ∈ Y_i.
-    See Masson and Denoeux (2008) for more details, and Denoeux and Kanjanatarakul (2016) for
-    the interval dominance rule. The function creates an object of class "credpart".
-    There are three methods for this class: plot.credpart, summary.credpart, and predict.credpart.
-
+    """Creates an object of class "credpart". `extractMass` computes different outputs (hard, fuzzy, rough partitions, etc.)
+        from a credal partition and creates an object of class "credpart".
 
     Parameters:
-    ----------
-    mass (ndarray): 
-        Matrix of mass functions. The first column corresponds to the degree of conflict.
-    F (ndarray): 
-        Matrix of focal sets. The first row always corresponds to the empty set.
-    g (ndarray, optional): 
-        The prototypes (if defined). Defaults to None.
-    S (ndarray, optional): 
-        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.
-    method (str): 
-        The method used to construct the credal partition.
-    crit (float, optional): 
-        The value of the optimized criterion (depends on the method used). Defaults to None.
-    Kmat (ndarray, optional): 
-        The matrix of degrees of conflict. Same size as D (for method "kevclus"). Defaults to None.
-    trace (ndarray, optional): 
-        The trace of criterion values (for methods "kevclus" and "EkNNclus"). Defaults to None.
-    D (ndarray, optional): 
-        The normalized dissimilarity matrix (for method "kevclus"). Defaults to None.
-    W (ndarray, optional): 
-        The weight matrix (for method "EkNNclus"). Defaults to None.
-    J (ndarray, optional): 
-        The matrix of indices (for method "kevclus"). Defaults to None.
-    param (list, optional): 
-        A method-dependent list of parameters. Defaults to None.
+    ------------
+        mass (ndarray): 
+            Matrix of mass functions. The first column corresponds to the degree of conflict.
+        F (ndarray): 
+            Matrix of focal sets. The first row always corresponds to the empty set.
+        g (ndarray, optional): 
+            The prototypes (if defined). Defaults to None.
+        S (ndarray, optional): 
+            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.
+        method (str): 
+            The method used to construct the credal partition.
+        crit (float, optional): 
+            The value of the optimized criterion (depends on the method used). Defaults to None.
+        Kmat (ndarray, optional): 
+            The matrix of degrees of conflict. Same size as D (for method "kevclus"). Defaults to None.
+        trace (ndarray, optional): 
+            The trace of criterion values (for methods "kevclus" and "EkNNclus"). Defaults to None.
+        D (ndarray, optional): 
+            The normalized dissimilarity matrix (for method "kevclus"). Defaults to None.
+        W (ndarray, optional): 
+            The weight matrix (for method "EkNNclus"). Defaults to None.
+        J (ndarray, optional): 
+            The matrix of indices (for method "kevclus"). Defaults to None.
+        param (list, optional): 
+            A method-dependent list of parameters. Defaults to None.
 
     Returns:
-    -------
-    method (str): 
-        The method used to construct the credal partition.
-    F (ndarray): 
-        Matrix of focal sets. The first row always corresponds to the empty set.
-
-    mass (ndarray): 
-        Mass functions.
-    g (ndarray, optional): 
-        The prototypes (if defined).
-    S (ndarray, optional): 
-        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).
-    pl (ndarray): 
-        Unnormalized plausibilities of the singletons.
-    pl_n (ndarray): 
-        Normalized plausibilities of the singletons.
-    p (ndarray): 
-        Probabilities derived from pl by the plausibility transformation.
-    bel (ndarray): 
-        Unnormalized beliefs of the singletons.
-    bel_n (ndarray): 
-        Normalized beliefs of the singletons.
-    y_pl (ndarray): 
-        Maximum plausibility clusters.
-    y_bel (ndarray): 
-        Maximum belief clusters.
-    betp (ndarray): 
-        Unnormalized pignistic probabilities of the singletons.
-    betp_n (ndarray):
-        Normalized pignistic probabilities of the singletons.
-    Y (ndarray): 
-        Sets of clusters with maximum mass.
-    outlier (ndarray): 
-        Array of 0's and 1's, indicating which objects are outliers.
-    lower_approx (list): 
-        Lower approximations of clusters, a list of length c.
-    upper_approx (list): 
-        Upper approximations of clusters, a list of length c.
-    Ynd (ndarray): 
-        Sets of clusters selected by the interval dominance rule.
-    lower_approx_nd (list):
-        Lower approximations of clusters using the interval dominance rule, a list of length c.
-    upper_approx_nd (list): 
-        Upper approximations of clusters using the interval dominance rule, a list of length c.
-    N (float): 
-        Average nonspecificity.
-    crit (float, optional): 
-        The value of the optimized criterion (depends on the method used).
-    Kmat (ndarray, optional): 
-        The matrix of degrees of conflict. Same size as D (for method "kevclus").
-    D (ndarray, optional): 
-        The normalized dissimilarity matrix (for method "kevclus").
-    trace (ndarray, optional): 
-        The trace of criterion values (for methods "kevclus" and "EkNNclus").
-    W (ndarray, optional): 
-        The weight matrix (for method "EkNNclus").
-    J (ndarray, optional): 
-        The matrix of indices (for method "kevclus").
-    param (list, optional): 
-        A method-dependent list of parameters.
-
+    ---------
+        method (str): 
+            The method used to construct the credal partition.
+        F (ndarray): 
+            Matrix of focal sets. The first row always corresponds to the empty set.
+        mass (ndarray): 
+            Mass functions.
+        g (ndarray, optional): 
+            The prototypes (if defined).
+        S (ndarray, optional): 
+            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).
+        pl (ndarray): 
+            Unnormalized plausibilities of the singletons.
+        pl_n (ndarray): 
+            Normalized plausibilities of the singletons.
+        p (ndarray): 
+            Probabilities derived from pl by the plausibility transformation.
+        bel (ndarray): 
+            Unnormalized beliefs of the singletons.
+        bel_n (ndarray): 
+            Normalized beliefs of the singletons.
+        y_pl (ndarray): 
+            Maximum plausibility clusters.
+        y_bel (ndarray): 
+            Maximum belief clusters.
+        betp (ndarray): 
+            Unnormalized pignistic probabilities of the singletons.
+        betp_n (ndarray):
+            Normalized pignistic probabilities of the singletons.
+        Y (ndarray): 
+            Sets of clusters with maximum mass.
+        outlier (ndarray): 
+            Array of 0's and 1's, indicating which objects are outliers.
+        lower_approx (list): 
+            Lower approximations of clusters, a list of length c.
+        upper_approx (list): 
+            Upper approximations of clusters, a list of length c.
+        Ynd (ndarray): 
+            Sets of clusters selected by the interval dominance rule.
+        lower_approx_nd (list):
+            Lower approximations of clusters using the interval dominance rule, a list of length c.
+        upper_approx_nd (list): 
+            Upper approximations of clusters using the interval dominance rule, a list of length c.
+        N (float): 
+            Average nonspecificity.
+        crit (float, optional): 
+            The value of the optimized criterion (depends on the method used).
+        Kmat (ndarray, optional): 
+            The matrix of degrees of conflict. Same size as D (for method "kevclus").
+        D (ndarray, optional): 
+            The normalized dissimilarity matrix (for method "kevclus").
+        trace (ndarray, optional): 
+            The trace of criterion values (for methods "kevclus" and "EkNNclus").
+        W (ndarray, optional): 
+            The weight matrix (for method "EkNNclus").
+        J (ndarray, optional): 
+            The matrix of indices (for method "kevclus").
+        param (list, optional): 
+            A method-dependent list of parameters.
+ 
     References:
-    ---------
-        - T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, Possibilistic and Rough: An Investigation of Belief Functions in Clustering. 8th International conference on soft methods in probability and statistics, Rome, 12-14 September, 2016.
-        - M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm. Pattern Recognition, Vol. 41, Issue 4, pages 1384-1397, 2008.
-
-    Examples:
-    ---------
-
+    ------------
+        T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, 
+        Possibilistic and Rough: An Investigation of Belief Functions in Clustering. 
+        8th International conference on soft methods in probability and statistics, Rome, 12-14 September, 2016.
+        
+        M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm. 
+        Pattern Recognition, Vol. 41, Issue 4, pages 1384-1397, 2008.
     """
     n = mass.shape[0]
     c = F.shape[1]
@@ -258,9 +236,8 @@ def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trac
         upper_approx.append(np.where(Y[:, i] == 1)[0])  # upper approximation
         lower_approx.append(np.where((Y[:, i] == 1) & (nclus == 1))[0])  # upper approximation
         upper_approx_nd.append(np.where(Ynd[:, i] == 1)[0])  # upper approximation
-        lower_approx_nd.append(np.where((Ynd[:, i] == 1) & (nclus_nd == 1))[0])  # upper approximation
-    
-    # Nonspecificity
+        lower_approx_nd.append(np.where((Ynd[:, i] == 1) & (nclus_nd == 1))[0])
+
     card = np.concatenate(([c], card[1:f]))
     Card = np.tile(card, (n, 1))
     N = np.sum(np.log(Card) * mass) / np.log(c) / n
@@ -273,378 +250,6 @@ def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trac
             'crit': crit, 'Kmat': Kmat, 'trace': trace, 'D': D, 'method': method, 'W': W, 'J': J, 'param': param}
 
     return clus
-
-
-
-
-
-
-
-
-
-#---------------------- setCentersECM--------------------------------------------
-def setCentersECM(x, m, F, Smean, alpha, beta):
-    
-    """
-    Computation of centers in CECM. Function called by cecm.
-
-    Parameters:
-    ----------
-    - x: 
-        The data matrix.
-    - m: 
-        The mass matrix.
-    - F: 
-        The focal sets matrix.
-    - Smean: 
-        A list of matrices representing the centers of the focal sets.
-    - alpha: 
-        The alpha parameter.
-    - beta: 
-        The beta parameter.
-
-    Returns:
-    -------
-    - g: 
-        The computed centers matrix.
-    """
-
-    nbFoc = F.shape[0]
-    K = F.shape[1]
-    n = x.shape[0]
-    nbAtt = x.shape[1]
-
-    card = np.sum(F[1:nbFoc, :], axis=1)
-    indSingleton = np.where(card == 1)[0] + 1
-
-    R = None
-    B = None
-    for l in range(K):
-        indl = indSingleton[l]
-        Rl = None
-        for i in range(n):
-            Ril = np.zeros((nbAtt, nbAtt))
-            Fl = np.tile(F[indl, :], (nbFoc, K))
-            indAj = np.where(np.sum(np.minimum(Fl, F), axis=1) == 1)[0] - 1
-            for j in range(len(indAj)):
-                Ril += card[indAj[j]] ** (alpha - 1) * m[i, indAj[j]] ** beta * Smean[indAj[j]]
-            Rl = np.vstack((Rl, Ril))
-        R = np.column_stack((R, Rl))
-
-        Bl = None
-        for k in range(K):
-            Bkl = np.zeros((nbAtt, nbAtt))
-            indk = indSingleton[k]
-            for i in range(n):
-                Fl = np.tile(np.sign(F[indl, :] + F[indk, :]), (nbFoc, K))
-                indAj = np.where(np.sum(np.minimum(Fl, F), axis=1) == np.sum(Fl[0, :]))[0] - 1
-                for j in range(len(indAj)):
-                    Bkl += card[indAj[j]] ** (alpha - 2) * m[i, indAj[j]] ** beta * Smean[indAj[j]]
-            Bl = np.vstack((Bl, Bkl))
-        B = np.column_stack((B, Bl))
-
-    X = x.flatten()
-    g = np.linalg.solve(B.T, R.T @ X)
-    g = g.reshape((K, nbAtt))
-    return g
-
-
-
-
-
-
-
-
-
-#---------------------- setCentersECM------------------------------------------
-def createMLCL(y, nbConst):
-    """
-    Random generation of Must-Link (ML) and Cannot-Link (CL) constraints.
-
-    Parameters:
-    ----------
-    - y: 
-        Vector of class labels.
-    - nbConst: 
-        Number of constraints.
-
-    Returns:
-    -------
-    A dictionary with two keys:
-    - ML: 
-        Matrix of ML constraints. Each row corresponds to a constraint.
-    - CL: 
-        Matrix of CL constraints. Each row corresponds to a constraint.
-    """
-
-    n = len(y)
-    pairs = list(combinations(range(n), 2))
-    N = len(pairs)
-    selected_pairs = np.random.choice(N, nbConst, replace=False)
-    const = np.array(pairs)[selected_pairs].T
-    ML = const[:, y[const[0]] == y[const[1]]]
-    CL = const[:, y[const[0]] != y[const[1]]]
-    
-    return {'ML': ML, 'CL': CL}
-
-
-
-
-
-
-
-#---------------------- setDistances------------------------------------------
-def setDistances(x, F, g, m, alpha, distance):
-    """
-    Computation of distances to centers and variance matrices in each cluster.
-    Function called by cecm.
-
-    Parameters:
-    ----------
-    - x: 
-        Data matrix.
-    - F: 
-        Focal matrix.
-    - g: 
-        Centers matrix.
-    - m: 
-        Membership matrix.
-    - alpha: 
-        Alpha parameter.
-    - distance: 
-        Distance type (0 for Euclidean, 1 for Mahalanobis).
-
-    Returns:
-    --------
-    A dictionary with two keys:
-    - D: 
-        Matrix of distances to centers. Each column corresponds to a center.
-    - Smean: 
-        List of variance matrices in each cluster.
-    """
-
-    nbFoc = F.shape[0]
-    K = F.shape[1]
-    n = x.shape[0]
-    nbAtt = x.shape[1]
-    beta = 2
-
-    gplus = np.zeros((nbFoc-1, nbAtt))
-    for i in range(1, nbFoc):
-        fi = F[i, :]
-        truc = np.tile(fi, (nbAtt, 1)).T
-        gplus[i-1, :] = np.sum(g * truc, axis=0) / np.sum(fi)
-
-    if distance == 0:
-        S = [np.eye(nbAtt)] * K  # Euclidean distance
-    else:
-        ind = np.where(np.sum(F, axis=1) == 1)[0]
-        S = []
-        for i in ind:
-            Sigmai = np.zeros((nbAtt, nbAtt))
-            for k in range(n):
-                omegai = np.tile(F[i, :], (K, 1))
-                indAj = np.where(np.sum(np.minimum(omegai, F), axis=1) > 0)[0]
-                for j in indAj:
-                    aux = x[k, :] - gplus[j-1, :]
-                    Sigmai += np.sum(F[j, :]) ** (alpha - 1) * m[k, j-1] ** beta * np.outer(aux, aux)
-            Si = np.linalg.det(Sigmai) ** (1/nbAtt) * np.linalg.inv(Sigmai)
-            S.append(Si)
-
-    Smean = []
-    for i in range(nbFoc-1):
-        aux = np.zeros((nbAtt, nbAtt))
-        for j in range(K):
-            aux += F[i+1, j] * S[j]
-        Smean.append(aux / max(np.sum(F[i+1, :]), 1))
-
-    D = np.zeros((n, nbFoc-1))
-    for j in range(nbFoc-1):
-        aux = x - np.tile(gplus[j, :], (n, 1))
-        if distance == 0:
-            D[:, j] = np.diag(np.dot(aux, aux.T))
-        else:
-            D[:, j] = np.diag(np.dot(np.dot(aux, Smean[j]), aux.T))
-
-    return {'D': D, 'Smean': Smean}
-
-
-
-
-
-
-
-
-
-
-
-#--------------------------- solqp---------------------------------------------
-def solqp(Q, A, b, c, x, verbose=False, toler=1e-5, beta=0.8):
-    """
-    Solve the quadratic program in standard form:
-        minimize    0.5 * (x'Qx) + c'x
-        subject to  Ax = b, x >= 0
-
-    Parameters:
-    ----------
-    Q (ndarray):
-        Sparse symmetric objective matrix.
-    A (ndarray): 
-        Sparse constraint left-hand matrix.
-    b (ndarray): 
-        Constraint right-hand column vector.
-    c (ndarray): 
-        Objective column vector.
-    x (ndarray): 
-        Initial solution vector.
-    verbose (bool): 
-        If True, print the message when the optimal solution is found.
-    toler (float): 
-        Relative stopping tolerance. The optimization stops when the objective value 
-        is close to the local optimal value within the range of the tolerance.
-    beta (float): 
-        Step size for the algorithm. 0 < beta < 1.
-
-    Returns:
-    ----------
-    dict: A dictionary containing the optimal solution and additional information.
-    'x': 
-        Optimal solution vector.
-    'y': 
-        Optimal dual solution (Lagrange multiplier).
-    'obhis': 
-        Objective value history vs iterations.
-    """
-    m = A.shape[0]
-    n = A.shape[1]
-    eps = np.finfo(float).eps
-
-    #ob = 0.5 * np.dot(x.T, np.dot(Q, x)) + np.dot(c.T, x)
-    ob = 0.5 * x.T @ Q @ x + c@ x
-
-    alpha = 0.9
-    comp = np.random.uniform(size=n)
-    #comp = np.linalg.solve(np.block([[np.diag(comp), A], [A.T, np.zeros((m, m))]]),np.concatenate([comp, np.zeros(m)]))[:n]
-    #comp = np.linalg.pinv(np.block([[np.diag(comp), A.T], [A, np.zeros((m, m))]])) @ np.concatenate([comp, np.zeros(m)])
-    
-    comp = np.linalg.solve(np.vstack((np.hstack((np.diag(comp), A.T)), np.hstack((A, np.zeros((m, m)))))),
-                          np.vstack((comp.reshape(-1, 1), np.zeros((m, 1)))))
-
-    comp = comp[:n]
-    comp = comp / x
-    nora = np.min(comp)
-    if nora < 0:
-        nora = -0.01 / nora
-    else:
-        nora = np.max(comp)
-        if nora == 0:
-            print('The problem has a unique feasible point')
-            #return
-        nora = 0.01 / nora
-        
-    x = x + nora * comp
-
-    obvalue = np.dot(x.T, np.dot(Q, x)) / 2 + np.dot(c, x)
-    obvalue = obvalue[0, 0]
-    
-    obvalue = np.sum(x.T @ (Q @ x)/2 + c @ x)
-    
-    obhis = [obvalue]
-    lower = -np.inf
-    zhis = [lower]
-    gap = 1
-    lamda = max(1, np.abs(obvalue) / np.sqrt(np.sqrt(n)))
-    iter = 0
-
-    while gap >= toler:
-        iter += 1
-
-        # spphase2
-        lamda = (1 - beta) * lamda
-        go = 0
-        #gg = np.dot(Q, x) + c
-        gg = np.dot(Q, x.reshape(-1, 1)) + c.reshape(-1, 1)
-        XX = np.diag(x)
-        AA = np.dot(A, XX)
-        XX = np.dot(XX, np.dot(Q, XX))
-
-        # Repeatly solve an ellipsoid constrained QP problem by solving a linear system equation until find a positive solution.
-        while go <= 0:
-            #u = np.linalg.solve(np.block([[XX + lamda * np.diag(np.ones(n)), AA.T], [AA, np.zeros((m, m))]]), np.concatenate([- np.multiply(x, gg.T.flatten()).reshape(-1, 1), np.zeros((m, 1))], axis=0))
-            #u = np.linalg.solve(np.block([[XX + lamda * np.diag(np.ones(n)), AA.T], [AA, np.zeros((m, m))]]), np.vstack([- np.multiply(x, gg.T).T, np.zeros((m, 1))]))
-            
-            a = np.hstack((XX + lamda * np.diag(np.ones(n)), AA.T))
-            b = np.hstack((AA, np.zeros((m, m))))
-            ree = np.vstack((a,b))
-            res = np.vstack((- np.multiply(x, gg.T).T, np.zeros((m, 1))))
-            u = np.linalg.solve(ree,res)
-
-            xx = x + np.multiply(x, u[:n].flatten())
-            xx = xx.T
-            go = np.min(xx)
-            if go > 0:
-                ob = float(np.dot(np.dot(xx, Q), xx.T)) / 2 + np.dot(c, xx.T)
-                go = min(go, obvalue - ob + eps)[0, 0]
-            lamda = 2 * lamda
-            if lamda >= (1 + np.abs(obvalue)) / toler:
-                print('The problem seems unbounded.')
-                y = -u[n:n+m]
-
-
-        y = -u[n:n+m]
-        u = u[:n]
-        nora = min(u)
-        if nora < 0:
-            nora = -alpha / nora
-        else:
-            if nora == 0:
-                nora = alpha
-            else:
-                nora = np.inf
-
-        u = np.multiply(x, u.flatten())
-        w1 = np.dot(np.dot(u, Q), u.T)[0, 0]
-        w2 = np.dot(-u, gg)[0, 0]
-
-        if w1 > 0:
-            nora = min(w2 / w1, nora)
-        if nora == np.inf:
-            ob = -np.inf
-        else:
-            x = x + nora * u
-            ob = np.dot(np.dot(x, Q), x.T) / 2 + np.dot(c, x.T)
-            ob = ob[0, 0]
-
-        # This is the Phase 2 procedure called by SPSOLQP.
-        if ob == -np.inf:
-            gap = 0
-            print('The problem is unbounded.')
-        else:
-            obhis.append(ob)
-            comp = np.dot(Q, x.T) + c - np.dot(A.T, y)
-            if np.min(comp) >= 0:
-                zhis.append(ob - np.dot(x, comp))
-                lower = zhis[iter]
-                gap = (ob - lower) / (1 + np.abs(ob))
-                obvalue = ob
-            else:
-                zhis.append(zhis[-1])
-                lower = zhis[iter]
-                gap = (obvalue - ob) / (1 + np.abs(ob))
-                obvalue = ob
-
-        if iter > 200:
-            print([gap, toler])
-
-    if verbose:
-        print('A (local) optimal solution is found.')
-
-    return {'x': x, 'y': y, 'obhis': obhis}
-
-
-
-
-
 
 
 
@@ -828,10 +433,7 @@ def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
 
 
 
-
-
-
-#---------------------- plot------------------------------------------------
+#---------------------- plot with pca------------------------------------------------
 def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
     """
     Plot PCA results with cluster colors. 
@@ -886,7 +488,6 @@ def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
         sns.scatterplot(data=mean_coords, x="Dim.1", y="Dim.2", s=(cex+25), hue="Cluster", 
                         palette=pcolor, style="Cluster",legend=False)
 
-        
     sns.despine()
     legend = plt.legend(title="Cluster", loc='lower right', markerscale=0.3)
     plt.setp(legend.get_title(), fontsize=7) 
@@ -897,3 +498,205 @@ def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
     plt.xlabel(f"Dim 1 ({variance_percent[0]}%)")
     plt.ylabel(f"Dim 2 ({variance_percent[1]}%)")
     plt.show()
+    
+    
+    
+    
+    
+
+#---------------------- Utils for cat ecm------------------------------------------------  
+def catecm_get_dom_vals_and_size(X):
+    """Get the feature domains and size.
+    
+    Parameters
+    ----------
+    X : ndarray of shape (n_samples, n_features)
+        Training instances to cluster.
+
+    Returns
+    -------
+    dom_vals : array of shape n_unique_vals
+        The domains of the features.
+
+    n_attr_doms : int
+        The length of the number of categories of X.
+    """
+    dom_vals = []
+    n_attr_doms = []
+    n_features = X.shape[1]
+    for k in range(n_features):
+        unique = list(np.unique(X[:, k]))
+        dom_vals += unique
+        n_attr_doms += [len(unique)]
+    return dom_vals, n_attr_doms
+
+def catecm_check_params(X):
+    """Check the correcteness of input parameters.
+
+    Parameters
+    ----------
+    X : ndarray of shape (n_samples, n_features)
+        The input intances to be clustered.
+
+    Returns
+    -------
+    X : ndarray of shape (n_samples, n_features)
+        If X contains features with one unique category the feature is dropped.
+    """
+    attr_with_one_uniq_val = list()
+    for l in range(X.shape[1]):
+        _, uniq_vals = np.unique(X[:, l], return_counts=True)
+        n_l = len(uniq_vals)
+        if n_l == 1:
+            attr_with_one_uniq_val.append(l)
+    if attr_with_one_uniq_val:
+        message = f"Attributes {attr_with_one_uniq_val} contain one unique\
+            value,they will be dropped before training."
+        X = np.delete(X, attr_with_one_uniq_val, axis=1)
+    return X
+
+def catecm_init_centers_singletons(n_attr_doms, f, c, size_attr_doms):
+    """Initialize the centers of clusters."""
+    w0 = np.zeros((n_attr_doms, f), dtype='float')
+    for j in range(1, c + 1):
+        k = 0
+        l = 0
+        for n_l in size_attr_doms:
+            l += n_l
+            rand_num = np.abs(np.random.randn(n_l))
+            rand_num /= np.sum(rand_num)
+            w0[k:l, j] = rand_num
+            k = l
+    return w0
+
+def catecm_update_centers_focalsets_gt_2(c, f, F, w):
+    """Update the centers of focal sets with size greater than two."""
+    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
+    for i in range(c + 1, f):
+        idx = list(focalsets[i])
+        w[:, i] = w[:, idx].mean(axis=1)
+    return w
+
+def catecm_distance_objects_to_centers(F, f, n, size_attr_doms, _dom_vals, X, w):
+    """Compute the distance between objects and clusters.
+
+    Parameters
+    ----------
+    X : ndarray of shape (n_samples, n_features)
+        Training instances to cluster.
+    w : ndarray of shape (n_attr_doms, n_clusters)
+        The centers of clusters.
+
+    Returns
+    -------
+    dist : np.array
+        The distances between objects and clusters.
+    """
+    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
+    dim_dist = f - 1
+    dist = np.zeros((n, dim_dist), dtype='float')
+    for i in range(n):
+        xi = X[i]
+        for j in range(dim_dist):
+            sum_ = 0.0
+            k = 0
+            l = 0
+            for x_l, n_l in zip(xi, size_attr_doms):
+                l += n_l
+                dom_val = np.array(_dom_vals[k:l])
+                w_ = np.array(w[k:l, j])
+                sum_ += 1 - np.sum(w_[dom_val == x_l])
+                k += n_l
+            dist[i, j] = sum_ / len(focalsets[j + 1])
+    return dist
+
+def catecm_get_credal_partition(alpha, beta, delta, n, f, F,  dist):
+    """Compute the credal partition from the distances between objects and cluster centers."""
+    power_alpha = -alpha / (beta - 1)
+    power_beta = -2.0 / (beta - 1)
+    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
+    credal_p = np.zeros((n, f), dtype='float')
+    for i in range(n):
+        if 0 in dist[i, :]:
+            credal_p[i, 1:] = 0
+            idx_0 = dist[i, :].tolist().index(0)
+            #  If the index in dist is i, the index in m is i + 1 as dim(m) = dim(dist) + 1
+            idx_0 += 1
+            credal_p[i, idx_0] = 1
+        else:
+            sum_dij = np.sum([
+                len(focalsets[k + 1])**power_alpha *
+                dist[i, k]**power_beta for k in range(f - 1)
+            ])
+            for j in range(1, f):
+                len_fs = len(focalsets[j])
+                credal_p[i, j] = (len_fs**power_alpha *
+                                    dist[i, j - 1]**power_beta) / (
+                                        sum_dij + delta**power_beta)
+    credal_p[:, 0] = 1 - np.sum(credal_p[:, 1:], axis=1)
+    credal_p = np.where(credal_p < np.finfo("float").eps, 0, credal_p)
+    return credal_p
+
+def catecm_update_centers_singletons(alpha, beta, f, F, c, size_attr_doms, n_attr_doms, _dom_vals, X, credal_p):
+    """Update the centers of singletons.
+
+    Parameters
+    ----------
+    X : ndarray of shape (n, p)
+        Training instances to cluster.
+
+    credal_p : ndarray (n, f)
+        The credal partition.
+
+    Returns
+    -------
+    w : ndarray of shape (n_attr_doms, f)
+        The updated centers of singletons.
+    """
+    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
+    try:
+        mbeta = credal_p**beta
+        w = np.zeros((n_attr_doms, f), dtype='float')
+        for j in range(1, c + 1):
+            s = 0
+            z = 0
+            for l, n_l in enumerate(size_attr_doms):
+                s += n_l
+                w_jl = w[z:s, j]
+                a_l = _dom_vals[z:s]
+                
+                attr_values_freq = np.zeros((n_l), dtype="float")
+                for t in range(n_l):
+                    len_fs = len(focalsets[j])
+                    freq = np.sum(mbeta[np.array(X[:, l]) == a_l[t], j])
+                    attr_values_freq[t] = len_fs**(alpha - 1) * freq
+                idx_max_freq = np.argmax(attr_values_freq)
+                w_jl[idx_max_freq] = 1
+                w[z:s,j] = w_jl
+                z = s
+    except RuntimeWarning:
+        exit()
+    return w
+
+def catecm_cost(F, dist, beta, alpha, delta, credal_p):
+    """Compute the cost (intertia) from an iteration.
+
+    Parameters
+    ----------
+    dist : ndarray of shape (n_samples, n_clusters)
+        The distance between objects and clusters.
+
+    credal_p : ndarray of shape (n_samples, n_focalsets)
+        The credal partition matrix.
+
+    Returns
+    -------
+    cost : float
+        The cost of the current iteration.
+    """
+    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
+    len_fs = np.array([len(fs) for fs in focalsets[1:]])
+    bba = np.copy(credal_p)
+    bba_power = np.where(bba > 0, bba**beta, bba)
+    cost = np.sum(len_fs**alpha * bba_power[:, 1:] * dist**2.) + np.sum(delta**2. * bba_power[:, 0])
+    return cost
