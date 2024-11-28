@@ -74,7 +74,7 @@ $ pip install evclust
 
 ## Usage
 
-Par example, `ecm` computes a credal partition from a matrix of attribute data using the Evidential c-means (ECM) algorithm.
+For example, `ecm` computes a credal partition from a matrix of attribute data using the Evidential c-means (ECM) algorithm.
 
 ```python
 # Import test data
