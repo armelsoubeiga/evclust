@@ -15,17 +15,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -35,10 +37,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=1c202f92" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../_static/documentation_options.js?v=98feffa1"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -55,7 +58,8 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jul 17, 2024"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Nov 29, 2024"/>
   </head>
   
   
@@ -71,19 +75,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -91,7 +84,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -99,8 +91,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -118,7 +110,8 @@
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -148,7 +141,7 @@
     
     
     <img src="../../_static/logo.png" class="logo__image only-light" alt="evclust - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="evclust - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="evclust - Home"/>
   
   
 </a></div>
@@ -180,15 +173,11 @@
 </ul></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -199,17 +188,26 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../autoapi/evclust/index.html">evclust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/catecm/index.html">evclust.catecm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/datasets/index.html">evclust.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/ecm/index.html">evclust.ecm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/ecmdd/index.html">evclust.ecmdd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/recm/index.html">evclust.recm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/utils/index.html">evclust.utils</a></li>
-</ul>
-</details></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/available/index.html">available</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/evclust/index.html">evclust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/bpec/index.html">evclust.bpec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/catecm/index.html">evclust.catecm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/ccm/index.html">evclust.ccm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/datasets/index.html">evclust.datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/ecm/index.html">evclust.ecm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/ecmdd/index.html">evclust.ecmdd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/egmm/index.html">evclust.egmm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/kevclus/index.html">evclust.kevclus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/mecm/index.html">evclust.mecm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/mecmdd_rwg/index.html">evclust.mecmdd_rwg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/mecmdd_rwl/index.html">evclust.mecmdd_rwl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/metrics/index.html">evclust.metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/recm/index.html">evclust.recm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/utils/index.html">evclust.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/wmvec/index.html">evclust.wmvec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/wmvec_fp/index.html">evclust.wmvec_fp</a></li>
 </ul>
 </details></li>
 </ul>
@@ -329,24 +327,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 
 </div></div>
       
@@ -378,56 +368,86 @@ document.write(`
 <span class="c1"># Armel SOUBEIGA (armelsoubeiga.github.io), France, 2024</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">This module contains the main function for catecm :</span>
+<span class="sd">This module contains the main function for catecm.</span>
+
 <span class="sd">    A. J. Djiberou Mahamadou, V. Antoine, G. J. Christie and S. Moreno, &quot;Evidential clustering for categorical data,&quot; </span>
 <span class="sd">    2019 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE), New Orleans, LA, USA.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1">#---------------------- Packages------------------------------------------------</span>
-
-
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">evclust.utils</span> <span class="kn">import</span> <span class="n">makeF</span><span class="p">,</span> <span class="n">extractMass</span>
-<span class="kn">from</span> <span class="nn">evclust.utils</span> <span class="kn">import</span> <span class="n">catecm_get_dom_vals_and_size</span><span class="p">,</span> <span class="n">catecm_check_params</span><span class="p">,</span> <span class="n">catecm_init_centers_singletons</span>
-<span class="kn">from</span> <span class="nn">evclust.utils</span> <span class="kn">import</span> <span class="n">catecm_init_centers_singletons</span><span class="p">,</span> <span class="n">catecm_update_centers_focalsets_gt_2</span><span class="p">,</span> <span class="n">catecm_cost</span>
-<span class="kn">from</span> <span class="nn">evclust.utils</span> <span class="kn">import</span> <span class="n">catecm_distance_objects_to_centers</span><span class="p">,</span> <span class="n">catecm_get_credal_partition</span><span class="p">,</span> <span class="n">catecm_update_centers_singletons</span>
+
 
 
 <span class="c1">#---------------------- catecm------------------------------------------------</span>
 <div class="viewcode-block" id="catecm">
 <a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm">[docs]</a>
 <span class="k">def</span> <span class="nf">catecm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">delta</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="n">epsi</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">disp</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Categorical Evidential c-emans algorithm.. `catecm` Evidential clustering for categorical data.</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Categorical Evidential c-means algorithm. `catecm` Evidential clustering for categorical data.</span>
+<span class="sd">    The proposed algorithm, referred to as catECM, considers a new dissimilarity measure and introduces an alternating minimization scheme in order to obtain a credal partition.</span>
+<span class="sd">    </span>
 <span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">        X (DataFrame):</span>
-<span class="sd">            Data containing only categorical variables with each variable having more than 1 modality</span>
-<span class="sd">        c (int):</span>
-<span class="sd">            The number of desired clusters.</span>
-<span class="sd">        alpha (float):</span>
-<span class="sd">            Weighting exponent to penalize focal sets with high elements. The value of alpha should be &gt; 1.</span>
-<span class="sd">        beta (float):</span>
-<span class="sd">            The fuzziness weigthing exponent. The default value.</span>
-<span class="sd">        delta (float):</span>
-<span class="sd">            The distance to the empty set i.e. if the distance between an object and a cluster is greater than delta, the object is considered as an outlier.</span>
-<span class="sd">        type (str): </span>
-<span class="sd">            Type of focal sets (&quot;simple&quot;: empty set, singletons, and Omega; &quot;full&quot;: all 2^c subsets of Omega;</span>
-<span class="sd">            &quot;pairs&quot;: empty set, singletons, Omega, and all or selected pairs).</span>
-<span class="sd">        epsi (float):</span>
-<span class="sd">            The stop criteria i.e., if the absolute difference between two consecutive inertia is less than epsillon, then the algorithm will stop.</span>
-<span class="sd">        maxit (int): </span>
-<span class="sd">            Maximum number of iterations.</span>
-<span class="sd">        disp (bool): </span>
-<span class="sd">            If True (default), intermediate results are displayed.</span>
+<span class="sd">    ------------</span>
+<span class="sd">    X (DataFrame):</span>
+<span class="sd">        Data containing only categorical variables with each variable having more than 1 modality</span>
+<span class="sd">    c (int):</span>
+<span class="sd">        The number of desired clusters.</span>
+<span class="sd">    alpha (float):</span>
+<span class="sd">        Weighting exponent to penalize focal sets with high elements. The value of alpha should be &gt; 1.</span>
+<span class="sd">    beta (float):</span>
+<span class="sd">        The fuzziness weigthing exponent. The default value.</span>
+<span class="sd">    delta (float):</span>
+<span class="sd">        The distance to the empty set i.e. if the distance between an object and a cluster is greater than delta, the object is considered as an outlier.</span>
+<span class="sd">    type (str): </span>
+<span class="sd">        Type of focal sets (&quot;simple&quot;: empty set, singletons, and Omega; &quot;full&quot;: all 2^c subsets of Omega;</span>
+<span class="sd">        &quot;pairs&quot;: empty set, singletons, Omega, and all or selected pairs).</span>
+<span class="sd">    epsi (float):</span>
+<span class="sd">        The stop criteria i.e., if the absolute difference between two consecutive inertia is less than epsillon, then the algorithm will stop.</span>
+<span class="sd">    maxit (int): </span>
+<span class="sd">        Maximum number of iterations.</span>
+<span class="sd">    disp (bool): </span>
+<span class="sd">        If True (default), intermediate results are displayed.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
-<span class="sd">        The credal partition (an object of class &quot;credpart&quot;).</span>
+<span class="sd">    The credal partition (an object of class &quot;credpart&quot;).</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    .. highlight:: python</span>
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        # CATECM clustering</span>
+<span class="sd">        import numpy as np</span>
+<span class="sd">        from evclust.catecm import catecm</span>
+
+<span class="sd">        df = np.loadtxt(&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/soybean/soybean-small.data&quot;,</span>
+<span class="sd">        delimiter=&quot;,&quot;, dtype=&quot;O&quot;)</span>
+<span class="sd">        soybean = np.delete(df,  df.shape[1] - 1, axis=1)</span>
+<span class="sd">        clus = catecm(soybean, c=4, type=&#39;full&#39;, alpha=1, beta=2, delta=10,  epsi=1e-3, disp=True)</span>
+<span class="sd">        clus[&#39;mass&quot;]</span>
+
 
 <span class="sd">    References:</span>
 <span class="sd">    -----------</span>
 <span class="sd">        A. J. Djiberou Mahamadou, V. Antoine, G. J. Christie and S. Moreno, &quot;Evidential clustering for categorical data,&quot; </span>
 <span class="sd">        2019 IEEE International Conference on Fuzzy Systems (FUZZ-IEEE), New Orleans, LA, USA.</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        :func:`~extractMass`, :func:`~makeF`,</span>
+<span class="sd">        :func:`~catecm_get_dom_vals_and_size`, :func:`~catecm_check_params`,</span>
+<span class="sd">        :func:`~catecm_init_centers_singletons`, :func:`~catecm_update_centers_focalsets_gt_2`,</span>
+<span class="sd">        :func:`~catecm_distance_objects_to_centers`, :func:`~catecm_get_credal_partition`,</span>
+<span class="sd">        :func:`~catecm_update_centers_singletons`, :func:`~catecm_cost`</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Keywords : clustering, categorical data, credal partition, evidential c-means, belief functions</span>
+<span class="sd">        Preliminary results on three data sets show that cat-ECM is efficient for the analysis of data sets containing outliers and overlapping clusters. </span>
+<span class="sd">        Additional validation work needs to be performed to understand how changes to the various parameters of cat-ECM affects the clustering solution, how these results vary with the</span>
+<span class="sd">        number of objects in a data set, and how the performance of cat-ECM compares to closed categorical clustering methods.</span>
+<span class="sd">        Nevertheless, the ability of cat-ECM to handle categorical data  makes it highly useful for the analysis of survey data, which</span>
+<span class="sd">        are common in for e.g. health research and which often contain     categorical, discrete and continuous data types.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1">#---------------------- initialisations --------------------------------------</span>
@@ -468,6 +488,170 @@ document.write(`
   
     <span class="n">clus</span> <span class="o">=</span> <span class="n">extractMass</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;catecm&quot;</span><span class="p">,</span> <span class="n">crit</span><span class="o">=</span><span class="n">J</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="n">alpha</span><span class="p">,</span> <span class="s1">&#39;beta&#39;</span><span class="p">:</span> <span class="n">beta</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">:</span> <span class="n">delta</span><span class="p">})</span>
     <span class="k">return</span> <span class="n">clus</span></div>
+
+
+
+
+
+
+<span class="c1">#---------------------- Utils for cat ecm------------------------------------------------  </span>
+<div class="viewcode-block" id="catecm_get_dom_vals_and_size">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_get_dom_vals_and_size">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_get_dom_vals_and_size</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the feature domains and size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dom_vals</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_attr_doms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">):</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]))</span>
+        <span class="n">dom_vals</span> <span class="o">+=</span> <span class="n">unique</span>
+        <span class="n">n_attr_doms</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">dom_vals</span><span class="p">,</span> <span class="n">n_attr_doms</span></div>
+
+
+<div class="viewcode-block" id="catecm_check_params">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_check_params">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_check_params</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the correcteness of input parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">attr_with_one_uniq_val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">uniq_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">l</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">n_l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">uniq_vals</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n_l</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">attr_with_one_uniq_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">attr_with_one_uniq_val</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">attr_with_one_uniq_val</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">X</span></div>
+
+
+<div class="viewcode-block" id="catecm_init_centers_singletons">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_init_centers_singletons">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_init_centers_singletons</span><span class="p">(</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the centers of clusters.&quot;&quot;&quot;</span>
+    <span class="n">w0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="n">size_attr_doms</span><span class="p">:</span>
+            <span class="n">l</span> <span class="o">+=</span> <span class="n">n_l</span>
+            <span class="n">rand_num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_l</span><span class="p">))</span>
+            <span class="n">rand_num</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_num</span><span class="p">)</span>
+            <span class="n">w0</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand_num</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">l</span>
+    <span class="k">return</span> <span class="n">w0</span></div>
+
+
+<div class="viewcode-block" id="catecm_update_centers_focalsets_gt_2">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_update_centers_focalsets_gt_2">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_update_centers_focalsets_gt_2</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the centers of focal sets with size greater than two.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">w</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">w</span></div>
+
+
+<div class="viewcode-block" id="catecm_distance_objects_to_centers">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_distance_objects_to_centers">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_distance_objects_to_centers</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">,</span> <span class="n">_dom_vals</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the distance between objects and clusters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="n">dim_dist</span> <span class="o">=</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">dim_dist</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim_dist</span><span class="p">):</span>
+            <span class="n">sum_</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">x_l</span><span class="p">,</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">):</span>
+                <span class="n">l</span> <span class="o">+=</span> <span class="n">n_l</span>
+                <span class="n">dom_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_dom_vals</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">])</span>
+                <span class="n">w_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+                <span class="n">sum_</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w_</span><span class="p">[</span><span class="n">dom_val</span> <span class="o">==</span> <span class="n">x_l</span><span class="p">])</span>
+                <span class="n">k</span> <span class="o">+=</span> <span class="n">n_l</span>
+            <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum_</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dist</span></div>
+
+
+<div class="viewcode-block" id="catecm_get_credal_partition">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_get_credal_partition">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_get_credal_partition</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span>  <span class="n">dist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the credal partition from the distances between objects and cluster centers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">power_alpha</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">power_beta</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="n">credal_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]:</span>
+            <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">idx_0</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1">#  If the index in dist is i, the index in m is i + 1 as dim(m) = dim(dist) + 1</span>
+            <span class="n">idx_0</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx_0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sum_dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="n">power_alpha</span> <span class="o">*</span>
+                <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="n">power_beta</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">])</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+                <span class="n">len_fs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">len_fs</span><span class="o">**</span><span class="n">power_alpha</span> <span class="o">*</span>
+                                    <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="n">power_beta</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+                                        <span class="n">sum_dij</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="n">power_beta</span><span class="p">)</span>
+    <span class="n">credal_p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">credal_p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">credal_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">credal_p</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">credal_p</span></div>
+
+
+<div class="viewcode-block" id="catecm_update_centers_singletons">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_update_centers_singletons">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_update_centers_singletons</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">,</span> <span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">_dom_vals</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the centers of singletons.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mbeta</span> <span class="o">=</span> <span class="n">credal_p</span><span class="o">**</span><span class="n">beta</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">size_attr_doms</span><span class="p">):</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">n_l</span>
+                <span class="n">w_jl</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="n">a_l</span> <span class="o">=</span> <span class="n">_dom_vals</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">]</span>
+                
+                <span class="n">attr_values_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_l</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_l</span><span class="p">):</span>
+                    <span class="n">len_fs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+                    <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mbeta</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">l</span><span class="p">])</span> <span class="o">==</span> <span class="n">a_l</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">j</span><span class="p">])</span>
+                    <span class="n">attr_values_freq</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">len_fs</span><span class="o">**</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">freq</span>
+                <span class="n">idx_max_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">attr_values_freq</span><span class="p">)</span>
+                <span class="n">w_jl</span><span class="p">[</span><span class="n">idx_max_freq</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">w</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_jl</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">s</span>
+    <span class="k">except</span> <span class="ne">RuntimeWarning</span><span class="p">:</span>
+        <span class="n">exit</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">w</span></div>
+
+
+<div class="viewcode-block" id="catecm_cost">
+<a class="viewcode-back" href="../../autoapi/evclust/catecm/index.html#evclust.catecm.catecm_cost">[docs]</a>
+<span class="k">def</span> <span class="nf">catecm_cost</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the cost (intertia) from an iteration.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
+    <span class="n">len_fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span> <span class="k">for</span> <span class="n">fs</span> <span class="ow">in</span> <span class="n">focalsets</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
+    <span class="n">bba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">credal_p</span><span class="p">)</span>
+    <span class="n">bba_power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">bba</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bba</span><span class="o">**</span><span class="n">beta</span><span class="p">,</span> <span class="n">bba</span><span class="p">)</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">len_fs</span><span class="o">**</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">bba_power</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">dist</span><span class="o">**</span><span class="mf">2.</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">delta</span><span class="o">**</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">bba_power</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">cost</span></div>
 
 </pre></div>
 
@@ -516,7 +700,7 @@ By Armel SOUBEIGA
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jul 17, 2024.
+  Last updated on Nov 29, 2024.
   <br/>
 </p>
   </div>
@@ -534,8 +718,8 @@ By Armel SOUBEIGA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>

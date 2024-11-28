@@ -12,7 +12,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 from scipy.spatial import ConvexHull
-from itertools import combinations
 import seaborn as sns
 from sklearn.decomposition import PCA
 
@@ -40,7 +39,7 @@ def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
 
     Returns:
     --------
-        ndarray: A matrix (f, c) of focal sets.
+    ndarray: A matrix (f, c) of focal sets.
     """
     if type == 'full':  # All the 2^c focal sets
         ii = np.arange(2**c)
@@ -74,6 +73,18 @@ def makeF(c, type=['simple', 'full', 'pairs'], pairs=None, Omega=True):
 #---------------------- get_ensembles------------------------------------------
 
 def get_ensembles(table):
+    """
+    Get cluster name using mass
+    
+    Parameters:
+    ------------
+    table (ndarray):
+        Matrix of mass functions. The first column corresponds to the degree of conflict.
+
+    Returns:
+    --------
+    Returns a list of cluster names in order according to the max mass approach
+    """
     result = []
     for row in table:
         row_str = 'Cl_' + '_'.join([str(i + 1) if elem == 1 else str(int(elem)) for i, elem in enumerate(row) if elem != 0])
@@ -92,96 +103,97 @@ def get_ensembles(table):
 #---------------------- extractMass--------------------------------------------
 
 def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trace=None, D=None, W=None, J=None, param=None):
-    """Creates an object of class "credpart". `extractMass` computes different outputs (hard, fuzzy, rough partitions, etc.)
-        from a credal partition and creates an object of class "credpart".
+    """
+    Creates an object of class credpart. extractMass computes different outputs (hard, fuzzy, rough partitions, etc.)
+    from a credal partition and creates an object of class credpart.
 
     Parameters:
     ------------
-        mass (ndarray): 
-            Matrix of mass functions. The first column corresponds to the degree of conflict.
-        F (ndarray): 
-            Matrix of focal sets. The first row always corresponds to the empty set.
-        g (ndarray, optional): 
-            The prototypes (if defined). Defaults to None.
-        S (ndarray, optional): 
-            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.
-        method (str): 
-            The method used to construct the credal partition.
-        crit (float, optional): 
-            The value of the optimized criterion (depends on the method used). Defaults to None.
-        Kmat (ndarray, optional): 
-            The matrix of degrees of conflict. Same size as D (for method "kevclus"). Defaults to None.
-        trace (ndarray, optional): 
-            The trace of criterion values (for methods "kevclus" and "EkNNclus"). Defaults to None.
-        D (ndarray, optional): 
-            The normalized dissimilarity matrix (for method "kevclus"). Defaults to None.
-        W (ndarray, optional): 
-            The weight matrix (for method "EkNNclus"). Defaults to None.
-        J (ndarray, optional): 
-            The matrix of indices (for method "kevclus"). Defaults to None.
-        param (list, optional): 
-            A method-dependent list of parameters. Defaults to None.
+    mass (ndarray): 
+        Matrix of mass functions. The first column corresponds to the degree of conflict.
+    F (ndarray): 
+        Matrix of focal sets. The first row always corresponds to the empty set.
+    g (ndarray, optional): 
+        The prototypes (if defined). Defaults to None.
+    S (ndarray, optional): 
+        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.
+    method (str): 
+        The method used to construct the credal partition.
+    crit (float, optional): 
+        The value of the optimized criterion (depends on the method used). Defaults to None.
+    Kmat (ndarray, optional): 
+        The matrix of degrees of conflict. Same size as D. Defaults to None.
+    trace (ndarray, optional): 
+        The trace of criterion values. Defaults to None.
+    D (ndarray, optional): 
+        The normalized dissimilarity matrix. Defaults to None.
+    W (ndarray, optional): 
+        The weight matrix. Defaults to None.
+    J (ndarray, optional): 
+        The matrix of indices. Defaults to None.
+    param (list, optional): 
+        A method-dependent list of parameters. Defaults to None.
 
     Returns:
     ---------
-        method (str): 
-            The method used to construct the credal partition.
-        F (ndarray): 
-            Matrix of focal sets. The first row always corresponds to the empty set.
-        mass (ndarray): 
-            Mass functions.
-        g (ndarray, optional): 
-            The prototypes (if defined).
-        S (ndarray, optional): 
-            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).
-        pl (ndarray): 
-            Unnormalized plausibilities of the singletons.
-        pl_n (ndarray): 
-            Normalized plausibilities of the singletons.
-        p (ndarray): 
-            Probabilities derived from pl by the plausibility transformation.
-        bel (ndarray): 
-            Unnormalized beliefs of the singletons.
-        bel_n (ndarray): 
-            Normalized beliefs of the singletons.
-        y_pl (ndarray): 
-            Maximum plausibility clusters.
-        y_bel (ndarray): 
-            Maximum belief clusters.
-        betp (ndarray): 
-            Unnormalized pignistic probabilities of the singletons.
-        betp_n (ndarray):
-            Normalized pignistic probabilities of the singletons.
-        Y (ndarray): 
-            Sets of clusters with maximum mass.
-        outlier (ndarray): 
-            Array of 0's and 1's, indicating which objects are outliers.
-        lower_approx (list): 
-            Lower approximations of clusters, a list of length c.
-        upper_approx (list): 
-            Upper approximations of clusters, a list of length c.
-        Ynd (ndarray): 
-            Sets of clusters selected by the interval dominance rule.
-        lower_approx_nd (list):
-            Lower approximations of clusters using the interval dominance rule, a list of length c.
-        upper_approx_nd (list): 
-            Upper approximations of clusters using the interval dominance rule, a list of length c.
-        N (float): 
-            Average nonspecificity.
-        crit (float, optional): 
-            The value of the optimized criterion (depends on the method used).
-        Kmat (ndarray, optional): 
-            The matrix of degrees of conflict. Same size as D (for method "kevclus").
-        D (ndarray, optional): 
-            The normalized dissimilarity matrix (for method "kevclus").
-        trace (ndarray, optional): 
-            The trace of criterion values (for methods "kevclus" and "EkNNclus").
-        W (ndarray, optional): 
-            The weight matrix (for method "EkNNclus").
-        J (ndarray, optional): 
-            The matrix of indices (for method "kevclus").
-        param (list, optional): 
-            A method-dependent list of parameters.
+    method (str): 
+        The method used to construct the credal partition.
+    F (ndarray): 
+        Matrix of focal sets. The first row always corresponds to the empty set.
+    mass (ndarray): 
+        Mass functions.
+    g (ndarray, optional): 
+        The prototypes (if defined).
+    S (ndarray, optional): 
+        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).
+    pl (ndarray): 
+        Unnormalized plausibilities of the singletons.
+    pl_n (ndarray): 
+        Normalized plausibilities of the singletons.
+    p (ndarray): 
+        Probabilities derived from pl by the plausibility transformation.
+    bel (ndarray): 
+        Unnormalized beliefs of the singletons.
+    bel_n (ndarray): 
+        Normalized beliefs of the singletons.
+    y_pl (ndarray): 
+        Maximum plausibility clusters.
+    y_bel (ndarray): 
+        Maximum belief clusters.
+    betp (ndarray): 
+        Unnormalized pignistic probabilities of the singletons.
+    betp_n (ndarray):
+        Normalized pignistic probabilities of the singletons.
+    Y (ndarray): 
+        Sets of clusters with maximum mass.
+    outlier (ndarray): 
+        Array of 0's and 1's, indicating which objects are outliers.
+    lower_approx (list): 
+        Lower approximations of clusters, a list of length c.
+    upper_approx (list): 
+        Upper approximations of clusters, a list of length c.
+    Ynd (ndarray): 
+        Sets of clusters selected by the interval dominance rule.
+    lower_approx_nd (list):
+        Lower approximations of clusters using the interval dominance rule, a list of length c.
+    upper_approx_nd (list): 
+        Upper approximations of clusters using the interval dominance rule, a list of length c.
+    N (float): 
+        Average nonspecificity.
+    crit (float, optional): 
+        The value of the optimized criterion (depends on the method used).
+    Kmat (ndarray, optional): 
+        The matrix of degrees of conflict. Same size as D .
+    D (ndarray, optional): 
+        The normalized dissimilarity matrix .
+    trace (ndarray, optional): 
+        The trace of criterion values .
+    W (ndarray, optional): 
+        The weight matrix .
+    J (ndarray, optional): 
+        The matrix of indices.
+    param (list, optional): 
+        A method-dependent list of parameters.
  
     References:
     ------------
@@ -257,10 +269,8 @@ def extractMass(mass, F, g=None, S=None, method=None, crit=None, Kmat=None, trac
 #---------------------- summary------------------------------------------------
 def ev_summary(clus):
     """
-    Summary of a credal partition. `summary_credpart` is the summary method for "credpart" objects.
-    
-    This function extracts basic information from "credpart" objects, such as created by
-    ecm, recm, cecm, EkNNclus, or kevclus.
+    Summary of a credal partition. summary_credpart is the summary method for credpart objects.
+    This function extracts basic information from credpart objects.
     
     Parameters:
     -----------
@@ -271,22 +281,6 @@ def ev_summary(clus):
     --------
     None
         Prints basic information on the credal partition.
-    
-    
-    References:
-    -----------
-    T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, Possibilistic and Rough: An
-    Investigation of Belief Functions in Clustering. 8th International conference on soft
-    methods in probability and statistics, Rome, 12-14 September, 2016.
-
-    M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm.
-    Pattern Recognition, Vol. 41, Issue 4, pages 1384--1397, 2008.
-
-    T. Denoeux, S. Sriboonchitta and O. Kanjanatarakul. Evidential clustering of large
-    dissimilarity data. Knowledge-Based Systems, vol. 106, pages 179-195, 2016.
-    
-    Examples:
-    ---------
     """
     c = clus['F'].shape[1]
     n = clus['mass'].shape[0]
@@ -319,9 +313,8 @@ def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
     Plotting a credal partition. Generates plots of a credal partition.     
     This function plots different views of a credal partition in a two-dimensional attribute space.
     
-    
     Parameters:
-    ----------
+    -----------
     x : object
         An object of class "credpart", encoding a credal partition.
     X : array-like, optional
@@ -349,7 +342,7 @@ def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
     ask : bool, optional
         Logical; if True, the user is asked before each plot.
     plot_Shepard : bool, optional
-        Logical; if True and if the credal partition was generated by kevclus, the Shepard diagram is plotted.
+        Logical.
     plot_approx : bool, optional
         Logical; if True (default) the convex hulls of the lower and upper approximations are plotted.
     plot_protos : bool, optional
@@ -358,16 +351,10 @@ def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
         Label of horizontal axis.
     ylab : str, optional
         Label of vertical axis.
-    
+        
     Returns:
     ----------
-    None
-    
-    The maximum plausibility hard partition, as well as the lower and upper approximations of each cluster
-    are drawn in the two-dimensional space specified by matrix X. If prototypes are defined (for methods "ecm"
-    and "cecm"), they are also represented on the plot. For methods "kevclus", "kcevclus" or "nnevclus",
-    a second plot with Shepard's diagram (degrees of conflict vs. transformed dissimilarities) is drawn.
-    If input X is not supplied and the Shepard diagram exists, then only the Shepard diagram is drawn.
+        None
     """
   
     clus = x
@@ -437,12 +424,11 @@ def ev_plot(x, X=None, ytrue=None, Outliers=True, Approx=1, cex=1,
 def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
     """
     Plot PCA results with cluster colors. 
-    
     This function performs PCA on the input data and plots the resulting PCA scores,
     using the specified cluster information in 'x'.
 
     Parameters:
-    ----------
+    -----------
     data : DataFrame
         The input data containing the attributes (columns) and samples (rows).
     x : object
@@ -453,10 +439,8 @@ def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
         If True, provides access to several different axes-level functions that show the views of clusters. 
 
     Returns:
-    --------
-    None
-
-    The function plots the PCA scores in a scatter plot with cluster colors.
+    ---------
+        None
     """
     if normalize:
         data = (data - data.mean()) / data.std()  # Normalize the data
@@ -503,200 +487,60 @@ def ev_pcaplot(data, x, normalize=False, splite=False, cex=8, cex_protos=5):
     
     
     
-
-#---------------------- Utils for cat ecm------------------------------------------------  
-def catecm_get_dom_vals_and_size(X):
-    """Get the feature domains and size.
-    
-    Parameters
-    ----------
-    X : ndarray of shape (n_samples, n_features)
-        Training instances to cluster.
-
-    Returns
-    -------
-    dom_vals : array of shape n_unique_vals
-        The domains of the features.
-
-    n_attr_doms : int
-        The length of the number of categories of X.
+#---------------------- plot for time series------------------------------------------------
+def ev_tsplot(X, V, clus, plot_centers=True):
     """
-    dom_vals = []
-    n_attr_doms = []
-    n_features = X.shape[1]
-    for k in range(n_features):
-        unique = list(np.unique(X[:, k]))
-        dom_vals += unique
-        n_attr_doms += [len(unique)]
-    return dom_vals, n_attr_doms
-
-def catecm_check_params(X):
-    """Check the correcteness of input parameters.
+    Plot the results of evidential clustering algorithm for time series.
 
     Parameters
-    ----------
-    X : ndarray of shape (n_samples, n_features)
-        The input intances to be clustered.
-
-    Returns
-    -------
-    X : ndarray of shape (n_samples, n_features)
-        If X contains features with one unique category the feature is dropped.
+    -----------
+    X : array-like
+        The time series data.
+    V : array-like
+        The medoid (center) time series for each cluster.
+    clus : dict
+        The clustering results, with 'mass' and 'F' keys.
+    plot_centers : bool, optional
+        If True, plot the cluster centers in color. If False, plot the individual series and the cluster centers in black. 
+        Default is True.
     """
-    attr_with_one_uniq_val = list()
-    for l in range(X.shape[1]):
-        _, uniq_vals = np.unique(X[:, l], return_counts=True)
-        n_l = len(uniq_vals)
-        if n_l == 1:
-            attr_with_one_uniq_val.append(l)
-    if attr_with_one_uniq_val:
-        message = f"Attributes {attr_with_one_uniq_val} contain one unique\
-            value,they will be dropped before training."
-        X = np.delete(X, attr_with_one_uniq_val, axis=1)
-    return X
+    # Get the cluster labels from 'clus'
+    mas = pd.DataFrame(clus['mass'])
+    mas.columns = get_ensembles(clus['F'])
+    cluster = pd.Categorical(mas.apply(lambda row: row.idxmax(), axis=1))
 
-def catecm_init_centers_singletons(n_attr_doms, f, c, size_attr_doms):
-    """Initialize the centers of clusters."""
-    w0 = np.zeros((n_attr_doms, f), dtype='float')
-    for j in range(1, c + 1):
-        k = 0
-        l = 0
-        for n_l in size_attr_doms:
-            l += n_l
-            rand_num = np.abs(np.random.randn(n_l))
-            rand_num /= np.sum(rand_num)
-            w0[k:l, j] = rand_num
-            k = l
-    return w0
+    # Number of clusters
+    unique_clusters = np.unique(cluster)
+    k = len(unique_clusters)
 
-def catecm_update_centers_focalsets_gt_2(c, f, F, w):
-    """Update the centers of focal sets with size greater than two."""
-    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
-    for i in range(c + 1, f):
-        idx = list(focalsets[i])
-        w[:, i] = w[:, idx].mean(axis=1)
-    return w
+    # Number grid
+    grid_cols = int(np.ceil(np.sqrt(k)))
+    grid_rows = int(np.ceil(k / grid_cols))
 
-def catecm_distance_objects_to_centers(F, f, n, size_attr_doms, _dom_vals, X, w):
-    """Compute the distance between objects and clusters.
+    fig, axes = plt.subplots(nrows=grid_rows, ncols=grid_cols, figsize=(10, 6))
+    plt.rcParams["figure.dpi"] = 100
 
-    Parameters
-    ----------
-    X : ndarray of shape (n_samples, n_features)
-        Training instances to cluster.
-    w : ndarray of shape (n_attr_doms, n_clusters)
-        The centers of clusters.
+    colors = plt.cm.viridis(np.linspace(0, 1, k))  
 
-    Returns
-    -------
-    dist : np.array
-        The distances between objects and clusters.
-    """
-    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
-    dim_dist = f - 1
-    dist = np.zeros((n, dim_dist), dtype='float')
-    for i in range(n):
-        xi = X[i]
-        for j in range(dim_dist):
-            sum_ = 0.0
-            k = 0
-            l = 0
-            for x_l, n_l in zip(xi, size_attr_doms):
-                l += n_l
-                dom_val = np.array(_dom_vals[k:l])
-                w_ = np.array(w[k:l, j])
-                sum_ += 1 - np.sum(w_[dom_val == x_l])
-                k += n_l
-            dist[i, j] = sum_ / len(focalsets[j + 1])
-    return dist
+    for i in range(grid_rows):
+        for j in range(grid_cols):
+            idx = i * grid_cols + j
+            if idx < k:
+                ax = axes[i, j]
+                if plot_centers:
+                    ax.plot(V[idx], color=colors[idx], linewidth=2)
+                else:
+                    cluster_series = X[cluster == unique_clusters[idx]]
+                    for series in cluster_series:
+                        ax.plot(series, color=colors[idx], alpha=0.5)
+                        ax.plot(V[idx], color='black', linewidth=2)
+                ax.set_title(f'Cluster {unique_clusters[idx]}')
 
-def catecm_get_credal_partition(alpha, beta, delta, n, f, F,  dist):
-    """Compute the credal partition from the distances between objects and cluster centers."""
-    power_alpha = -alpha / (beta - 1)
-    power_beta = -2.0 / (beta - 1)
-    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
-    credal_p = np.zeros((n, f), dtype='float')
-    for i in range(n):
-        if 0 in dist[i, :]:
-            credal_p[i, 1:] = 0
-            idx_0 = dist[i, :].tolist().index(0)
-            #  If the index in dist is i, the index in m is i + 1 as dim(m) = dim(dist) + 1
-            idx_0 += 1
-            credal_p[i, idx_0] = 1
-        else:
-            sum_dij = np.sum([
-                len(focalsets[k + 1])**power_alpha *
-                dist[i, k]**power_beta for k in range(f - 1)
-            ])
-            for j in range(1, f):
-                len_fs = len(focalsets[j])
-                credal_p[i, j] = (len_fs**power_alpha *
-                                    dist[i, j - 1]**power_beta) / (
-                                        sum_dij + delta**power_beta)
-    credal_p[:, 0] = 1 - np.sum(credal_p[:, 1:], axis=1)
-    credal_p = np.where(credal_p < np.finfo("float").eps, 0, credal_p)
-    return credal_p
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+            else:
+                axes[i, j].axis('off')
 
-def catecm_update_centers_singletons(alpha, beta, f, F, c, size_attr_doms, n_attr_doms, _dom_vals, X, credal_p):
-    """Update the centers of singletons.
-
-    Parameters
-    ----------
-    X : ndarray of shape (n, p)
-        Training instances to cluster.
-
-    credal_p : ndarray (n, f)
-        The credal partition.
-
-    Returns
-    -------
-    w : ndarray of shape (n_attr_doms, f)
-        The updated centers of singletons.
-    """
-    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
-    try:
-        mbeta = credal_p**beta
-        w = np.zeros((n_attr_doms, f), dtype='float')
-        for j in range(1, c + 1):
-            s = 0
-            z = 0
-            for l, n_l in enumerate(size_attr_doms):
-                s += n_l
-                w_jl = w[z:s, j]
-                a_l = _dom_vals[z:s]
-                
-                attr_values_freq = np.zeros((n_l), dtype="float")
-                for t in range(n_l):
-                    len_fs = len(focalsets[j])
-                    freq = np.sum(mbeta[np.array(X[:, l]) == a_l[t], j])
-                    attr_values_freq[t] = len_fs**(alpha - 1) * freq
-                idx_max_freq = np.argmax(attr_values_freq)
-                w_jl[idx_max_freq] = 1
-                w[z:s,j] = w_jl
-                z = s
-    except RuntimeWarning:
-        exit()
-    return w
-
-def catecm_cost(F, dist, beta, alpha, delta, credal_p):
-    """Compute the cost (intertia) from an iteration.
-
-    Parameters
-    ----------
-    dist : ndarray of shape (n_samples, n_clusters)
-        The distance between objects and clusters.
-
-    credal_p : ndarray of shape (n_samples, n_focalsets)
-        The credal partition matrix.
-
-    Returns
-    -------
-    cost : float
-        The cost of the current iteration.
-    """
-    focalsets = [tuple(index + 1 for index in row.nonzero()[0]) for row in F]
-    len_fs = np.array([len(fs) for fs in focalsets[1:]])
-    bba = np.copy(credal_p)
-    bba_power = np.where(bba > 0, bba**beta, bba)
-    cost = np.sum(len_fs**alpha * bba_power[:, 1:] * dist**2.) + np.sum(delta**2. * bba_power[:, 0])
-    return cost
+    plt.tight_layout()
+    plt.show()
+    return fig, axes

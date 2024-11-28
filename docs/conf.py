@@ -32,12 +32,11 @@ extensions = [
 suppress_warnings = ["myst.domains", "ref.ref"]
 
 autoapi_type = 'python'
-autoapi_dirs = ["../src/evclust"]
+autoapi_dirs = ["../src/available", "../src/evclust"]
+autoapi_keep_files = False
 autoapi_options = [
-    'undoc-members'
+    'undoc-members',
 ]
-
-
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -62,7 +61,8 @@ html_theme_options = {
         "thebe": True,
     },
     "home_page_in_toc": True,
-    "show_navbar_depth": 2,
+    "collapse_navigation": True,  
+    "navigation_depth": 1, 
     "show_toc_level": 2,
         "logo": {
         "image_dark": "assets/logo.png",
@@ -108,3 +108,26 @@ myst_enable_extensions = [
     "substitution",
     "tasklist",
 ]
+
+
+
+# autoapi-skip-member
+def skip_member(app, what, name, obj, skip, options):
+    fonctions_a_exclure = ['build_matrices',
+                           'catecm_get_dom_vals_and_size', 'catecm_check_params',
+                           'catecm_init_centers_singletons', 'catecm_update_centers_focalsets_gt_2',
+                           'catecm_distance_objects_to_centers', 'catecm_get_credal_partition',
+                           'catecm_update_centers_singletons', 'catecm_cost',
+                           'createD', 'setDistances', 'init_params_random', 'init_params_kmeans',
+                           'Centroids_Initialization', 'get_distance_wmvec', 'update_Aj_wmvec',
+                           'update_M_wmvec', 'update_R_wmvec', 'update_V_wmvec', 'update_jaccard_wmvec',
+                           'update_Aj_fp', 'get_distance_fp', 'update_M_fp', 'update_R_fp', 'update_V_fp',
+                           'update_W_fp', 'update_jaccard_fp', 'Centroids_Initialization_fp',
+                           'init_params_random_egmm', 'init_params_kmeans_egmm',
+                           'setDistances', 'createD']
+    if name in fonctions_a_exclure:
+        skip = True
+    return skip
+
+def setup(app):
+    app.connect('autoapi-skip-member', skip_member)

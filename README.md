@@ -1,12 +1,12 @@
 # Introduction
 
-## evclust: Evidential Clustering
+## evclust : An Python library for evidential clustering
 
 [![Documentation Status](https://readthedocs.org/projects/evclust/badge/?version=latest)](https://evclust.readthedocs.io/en/latest/)
-![tests](https://github.com/py-pkgs/py-pkgs-cookiecutter/workflows/test/badge.svg)
+[![tests](https://github.com/py-pkgs/py-pkgs-cookiecutter/workflows/test/badge.svg)](https://github.com/py-pkgs/py-pkgs-cookiecutter/workflows/test/badge.svg)
 [![release](https://img.shields.io/github/v/release/armelsoubeiga/evclust.svg)](https://github.com/armelsoubeiga/evclust/releases)
-[![python](https://img.shields.io/badge/python-%5E3.8-blue)]()
-[![os](https://img.shields.io/badge/OS-Ubuntu%2C%20Mac%2C%20Windows-purple)]()
+[![python](https://img.shields.io/badge/python-%5E3.8-blue)](https://img.shields.io/badge/python-%5E3.8-blue)
+[![os](https://img.shields.io/badge/OS-Ubuntu%2C%20Mac%2C%20Windows-purple)](https://img.shields.io/badge/OS-Ubuntu%2C%20Mac%2C%20Windows-purple)
 
 <br/>
 
@@ -23,23 +23,43 @@
 Various clustering algorithms that produce a credal partition, i.e., a set of Dempster-Shafer mass functions representing the membership of objects to clusters. The mass functions quantify the cluster-membership uncertainty of the objects. 
 
 ## News
-* The available algorithms are: Evidential c-Means (ecm), Relational Evidential c-Means (recm), Evidential c-Medoids (ecmdd), and Evidential c-Mods for categorical data (catecm). 
+* More than 10 uncertainty-based clustering algorithms. [See full list](https://evclust.readthedocs.io/en/latest/autoapi/available/index.html). 
 
 * Coming soon :
-    * New notebook examples for using the ecmdd and catecm algorithms
-    * Constrained Evidential c-Means (cecm), Evidential c-Medians (ecmm), Credal c-Means (cc-Means)
+    * More notebook examples 
+    * Belief Shift Clustering (BSC), 
+    * Dynamic evidential c-means clustering (DECM), 
+    * Deep Evidential Clustering (DEC),
+    * Decision tree-based evidential clustering (DTEC),
+    * Transfer learning-based evidential c-means clustering (TECM),
+    * Etc ..
 
 ## Informations
 
 * Title: Evidential Clustering
-* Version: 0.1.5 -- Date: 2024-07-17
-* Previous version: 0.1.1 -- Date: 2023-09-01
+* Version: 0.2 -- Date: 2024-29-11
+* Previous version: 
+    - 0.1.5 -- Date: 2024-07-17
+    - 0.1.1 -- Date: 2023-09-01
 * License: MIT
 * Depends: Pyhton >=3.8
 * Author: [Armel SOUBEIGA](https://armelsoubeiga.github.io/)
-* Maintainer: [armel.soubeiga@uca.fr](armel.soubeiga@uca.fr)
+* Maintainer: [armel.soubeiga@uca.fr](https://armelsoubeiga.github.io/)
 * Contributors : [Violaine ANTOINE](https://perso.isima.fr/~viantoin/)
 
+
+## Citation 
+
+```
+Paper in preparation ...
+
+@article{soubeiga2024,
+  title={evclust : An Python library for evidential clustering},
+  author={Soubeiga, Armel and Antoine, Violaine},
+  journal={arXiv preprint arXiv:~~},
+  year={2024}
+}
+```
 
 ## References
 
@@ -54,7 +74,7 @@ $ pip install evclust
 
 ## Usage
 
-`ecm` Computes a credal partition from a matrix of attribute data using the Evidential c-means (ECM) algorithm.
+Par example, `ecm` computes a credal partition from a matrix of attribute data using the Evidential c-means (ECM) algorithm.
 
 ```python
 # Import test data

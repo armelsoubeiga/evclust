@@ -3,10 +3,11 @@
 
 ```{toctree}
 :maxdepth: 1
+:caption: API Reference
 
-autoapi/index
+autoapi/available/index
+autoapi/evclust/index
 ```
-
 
 ```{toctree}
 :maxdepth: 1

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "evclust"
-version = "0.1.5"
+version = "0.2"
 description = "Evidential Clustering"
 authors = ["Armel SOUBEIGA"]
 license = "MIT"

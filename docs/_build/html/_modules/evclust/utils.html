@@ -15,17 +15,19 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
@@ -35,10 +37,11 @@
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=1c202f92" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
     <script src="../../_static/documentation_options.js?v=98feffa1"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -55,7 +58,8 @@
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jul 17, 2024"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Nov 29, 2024"/>
   </head>
   
   
@@ -71,19 +75,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -91,7 +84,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -99,8 +91,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -118,7 +110,8 @@
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -148,7 +141,7 @@
     
     
     <img src="../../_static/logo.png" class="logo__image only-light" alt="evclust - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="evclust - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="evclust - Home"/>
   
   
 </a></div>
@@ -180,15 +173,11 @@
 </ul></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -199,17 +188,26 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/index.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../autoapi/evclust/index.html">evclust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/catecm/index.html">evclust.catecm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/datasets/index.html">evclust.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/ecm/index.html">evclust.ecm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/ecmdd/index.html">evclust.ecmdd</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/recm/index.html">evclust.recm</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../autoapi/evclust/utils/index.html">evclust.utils</a></li>
-</ul>
-</details></li>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../autoapi/available/index.html">available</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../autoapi/evclust/index.html">evclust</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/bpec/index.html">evclust.bpec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/catecm/index.html">evclust.catecm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/ccm/index.html">evclust.ccm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/datasets/index.html">evclust.datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/ecm/index.html">evclust.ecm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/ecmdd/index.html">evclust.ecmdd</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/egmm/index.html">evclust.egmm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/kevclus/index.html">evclust.kevclus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/mecm/index.html">evclust.mecm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/mecmdd_rwg/index.html">evclust.mecmdd_rwg</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/mecmdd_rwl/index.html">evclust.mecmdd_rwl</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/metrics/index.html">evclust.metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/recm/index.html">evclust.recm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/utils/index.html">evclust.utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/wmvec/index.html">evclust.wmvec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autoapi/evclust/wmvec_fp/index.html">evclust.wmvec_fp</a></li>
 </ul>
 </details></li>
 </ul>
@@ -329,24 +327,16 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
+</button>
 
 </div></div>
       
@@ -387,7 +377,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">mcolors</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">ConvexHull</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
 
@@ -417,7 +406,7 @@ document.write(`
 
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
-<span class="sd">        ndarray: A matrix (f, c) of focal sets.</span>
+<span class="sd">    ndarray: A matrix (f, c) of focal sets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>  <span class="c1"># All the 2^c focal sets</span>
         <span class="n">ii</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">c</span><span class="p">)</span>
@@ -454,6 +443,18 @@ document.write(`
 <div class="viewcode-block" id="get_ensembles">
 <a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.get_ensembles">[docs]</a>
 <span class="k">def</span> <span class="nf">get_ensembles</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get cluster name using mass</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
+<span class="sd">    table (ndarray):</span>
+<span class="sd">        Matrix of mass functions. The first column corresponds to the degree of conflict.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    --------</span>
+<span class="sd">    Returns a list of cluster names in order according to the max mass approach</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="p">:</span>
         <span class="n">row_str</span> <span class="o">=</span> <span class="s1">&#39;Cl_&#39;</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">elem</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">elem</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">if</span> <span class="n">elem</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">])</span>
@@ -475,96 +476,97 @@ document.write(`
 <div class="viewcode-block" id="extractMass">
 <a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.extractMass">[docs]</a>
 <span class="k">def</span> <span class="nf">extractMass</span><span class="p">(</span><span class="n">mass</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">g</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Kmat</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">W</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">J</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates an object of class &quot;credpart&quot;. `extractMass` computes different outputs (hard, fuzzy, rough partitions, etc.)</span>
-<span class="sd">        from a credal partition and creates an object of class &quot;credpart&quot;.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates an object of class credpart. extractMass computes different outputs (hard, fuzzy, rough partitions, etc.)</span>
+<span class="sd">    from a credal partition and creates an object of class credpart.</span>
 
 <span class="sd">    Parameters:</span>
 <span class="sd">    ------------</span>
-<span class="sd">        mass (ndarray): </span>
-<span class="sd">            Matrix of mass functions. The first column corresponds to the degree of conflict.</span>
-<span class="sd">        F (ndarray): </span>
-<span class="sd">            Matrix of focal sets. The first row always corresponds to the empty set.</span>
-<span class="sd">        g (ndarray, optional): </span>
-<span class="sd">            The prototypes (if defined). Defaults to None.</span>
-<span class="sd">        S (ndarray, optional): </span>
-<span class="sd">            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.</span>
-<span class="sd">        method (str): </span>
-<span class="sd">            The method used to construct the credal partition.</span>
-<span class="sd">        crit (float, optional): </span>
-<span class="sd">            The value of the optimized criterion (depends on the method used). Defaults to None.</span>
-<span class="sd">        Kmat (ndarray, optional): </span>
-<span class="sd">            The matrix of degrees of conflict. Same size as D (for method &quot;kevclus&quot;). Defaults to None.</span>
-<span class="sd">        trace (ndarray, optional): </span>
-<span class="sd">            The trace of criterion values (for methods &quot;kevclus&quot; and &quot;EkNNclus&quot;). Defaults to None.</span>
-<span class="sd">        D (ndarray, optional): </span>
-<span class="sd">            The normalized dissimilarity matrix (for method &quot;kevclus&quot;). Defaults to None.</span>
-<span class="sd">        W (ndarray, optional): </span>
-<span class="sd">            The weight matrix (for method &quot;EkNNclus&quot;). Defaults to None.</span>
-<span class="sd">        J (ndarray, optional): </span>
-<span class="sd">            The matrix of indices (for method &quot;kevclus&quot;). Defaults to None.</span>
-<span class="sd">        param (list, optional): </span>
-<span class="sd">            A method-dependent list of parameters. Defaults to None.</span>
+<span class="sd">    mass (ndarray): </span>
+<span class="sd">        Matrix of mass functions. The first column corresponds to the degree of conflict.</span>
+<span class="sd">    F (ndarray): </span>
+<span class="sd">        Matrix of focal sets. The first row always corresponds to the empty set.</span>
+<span class="sd">    g (ndarray, optional): </span>
+<span class="sd">        The prototypes (if defined). Defaults to None.</span>
+<span class="sd">    S (ndarray, optional): </span>
+<span class="sd">        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined). Defaults to None.</span>
+<span class="sd">    method (str): </span>
+<span class="sd">        The method used to construct the credal partition.</span>
+<span class="sd">    crit (float, optional): </span>
+<span class="sd">        The value of the optimized criterion (depends on the method used). Defaults to None.</span>
+<span class="sd">    Kmat (ndarray, optional): </span>
+<span class="sd">        The matrix of degrees of conflict. Same size as D. Defaults to None.</span>
+<span class="sd">    trace (ndarray, optional): </span>
+<span class="sd">        The trace of criterion values. Defaults to None.</span>
+<span class="sd">    D (ndarray, optional): </span>
+<span class="sd">        The normalized dissimilarity matrix. Defaults to None.</span>
+<span class="sd">    W (ndarray, optional): </span>
+<span class="sd">        The weight matrix. Defaults to None.</span>
+<span class="sd">    J (ndarray, optional): </span>
+<span class="sd">        The matrix of indices. Defaults to None.</span>
+<span class="sd">    param (list, optional): </span>
+<span class="sd">        A method-dependent list of parameters. Defaults to None.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    ---------</span>
-<span class="sd">        method (str): </span>
-<span class="sd">            The method used to construct the credal partition.</span>
-<span class="sd">        F (ndarray): </span>
-<span class="sd">            Matrix of focal sets. The first row always corresponds to the empty set.</span>
-<span class="sd">        mass (ndarray): </span>
-<span class="sd">            Mass functions.</span>
-<span class="sd">        g (ndarray, optional): </span>
-<span class="sd">            The prototypes (if defined).</span>
-<span class="sd">        S (ndarray, optional): </span>
-<span class="sd">            The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).</span>
-<span class="sd">        pl (ndarray): </span>
-<span class="sd">            Unnormalized plausibilities of the singletons.</span>
-<span class="sd">        pl_n (ndarray): </span>
-<span class="sd">            Normalized plausibilities of the singletons.</span>
-<span class="sd">        p (ndarray): </span>
-<span class="sd">            Probabilities derived from pl by the plausibility transformation.</span>
-<span class="sd">        bel (ndarray): </span>
-<span class="sd">            Unnormalized beliefs of the singletons.</span>
-<span class="sd">        bel_n (ndarray): </span>
-<span class="sd">            Normalized beliefs of the singletons.</span>
-<span class="sd">        y_pl (ndarray): </span>
-<span class="sd">            Maximum plausibility clusters.</span>
-<span class="sd">        y_bel (ndarray): </span>
-<span class="sd">            Maximum belief clusters.</span>
-<span class="sd">        betp (ndarray): </span>
-<span class="sd">            Unnormalized pignistic probabilities of the singletons.</span>
-<span class="sd">        betp_n (ndarray):</span>
-<span class="sd">            Normalized pignistic probabilities of the singletons.</span>
-<span class="sd">        Y (ndarray): </span>
-<span class="sd">            Sets of clusters with maximum mass.</span>
-<span class="sd">        outlier (ndarray): </span>
-<span class="sd">            Array of 0&#39;s and 1&#39;s, indicating which objects are outliers.</span>
-<span class="sd">        lower_approx (list): </span>
-<span class="sd">            Lower approximations of clusters, a list of length c.</span>
-<span class="sd">        upper_approx (list): </span>
-<span class="sd">            Upper approximations of clusters, a list of length c.</span>
-<span class="sd">        Ynd (ndarray): </span>
-<span class="sd">            Sets of clusters selected by the interval dominance rule.</span>
-<span class="sd">        lower_approx_nd (list):</span>
-<span class="sd">            Lower approximations of clusters using the interval dominance rule, a list of length c.</span>
-<span class="sd">        upper_approx_nd (list): </span>
-<span class="sd">            Upper approximations of clusters using the interval dominance rule, a list of length c.</span>
-<span class="sd">        N (float): </span>
-<span class="sd">            Average nonspecificity.</span>
-<span class="sd">        crit (float, optional): </span>
-<span class="sd">            The value of the optimized criterion (depends on the method used).</span>
-<span class="sd">        Kmat (ndarray, optional): </span>
-<span class="sd">            The matrix of degrees of conflict. Same size as D (for method &quot;kevclus&quot;).</span>
-<span class="sd">        D (ndarray, optional): </span>
-<span class="sd">            The normalized dissimilarity matrix (for method &quot;kevclus&quot;).</span>
-<span class="sd">        trace (ndarray, optional): </span>
-<span class="sd">            The trace of criterion values (for methods &quot;kevclus&quot; and &quot;EkNNclus&quot;).</span>
-<span class="sd">        W (ndarray, optional): </span>
-<span class="sd">            The weight matrix (for method &quot;EkNNclus&quot;).</span>
-<span class="sd">        J (ndarray, optional): </span>
-<span class="sd">            The matrix of indices (for method &quot;kevclus&quot;).</span>
-<span class="sd">        param (list, optional): </span>
-<span class="sd">            A method-dependent list of parameters.</span>
+<span class="sd">    method (str): </span>
+<span class="sd">        The method used to construct the credal partition.</span>
+<span class="sd">    F (ndarray): </span>
+<span class="sd">        Matrix of focal sets. The first row always corresponds to the empty set.</span>
+<span class="sd">    mass (ndarray): </span>
+<span class="sd">        Mass functions.</span>
+<span class="sd">    g (ndarray, optional): </span>
+<span class="sd">        The prototypes (if defined).</span>
+<span class="sd">    S (ndarray, optional): </span>
+<span class="sd">        The matrices S_j defining the metrics for each cluster and each group of clusters (if defined).</span>
+<span class="sd">    pl (ndarray): </span>
+<span class="sd">        Unnormalized plausibilities of the singletons.</span>
+<span class="sd">    pl_n (ndarray): </span>
+<span class="sd">        Normalized plausibilities of the singletons.</span>
+<span class="sd">    p (ndarray): </span>
+<span class="sd">        Probabilities derived from pl by the plausibility transformation.</span>
+<span class="sd">    bel (ndarray): </span>
+<span class="sd">        Unnormalized beliefs of the singletons.</span>
+<span class="sd">    bel_n (ndarray): </span>
+<span class="sd">        Normalized beliefs of the singletons.</span>
+<span class="sd">    y_pl (ndarray): </span>
+<span class="sd">        Maximum plausibility clusters.</span>
+<span class="sd">    y_bel (ndarray): </span>
+<span class="sd">        Maximum belief clusters.</span>
+<span class="sd">    betp (ndarray): </span>
+<span class="sd">        Unnormalized pignistic probabilities of the singletons.</span>
+<span class="sd">    betp_n (ndarray):</span>
+<span class="sd">        Normalized pignistic probabilities of the singletons.</span>
+<span class="sd">    Y (ndarray): </span>
+<span class="sd">        Sets of clusters with maximum mass.</span>
+<span class="sd">    outlier (ndarray): </span>
+<span class="sd">        Array of 0&#39;s and 1&#39;s, indicating which objects are outliers.</span>
+<span class="sd">    lower_approx (list): </span>
+<span class="sd">        Lower approximations of clusters, a list of length c.</span>
+<span class="sd">    upper_approx (list): </span>
+<span class="sd">        Upper approximations of clusters, a list of length c.</span>
+<span class="sd">    Ynd (ndarray): </span>
+<span class="sd">        Sets of clusters selected by the interval dominance rule.</span>
+<span class="sd">    lower_approx_nd (list):</span>
+<span class="sd">        Lower approximations of clusters using the interval dominance rule, a list of length c.</span>
+<span class="sd">    upper_approx_nd (list): </span>
+<span class="sd">        Upper approximations of clusters using the interval dominance rule, a list of length c.</span>
+<span class="sd">    N (float): </span>
+<span class="sd">        Average nonspecificity.</span>
+<span class="sd">    crit (float, optional): </span>
+<span class="sd">        The value of the optimized criterion (depends on the method used).</span>
+<span class="sd">    Kmat (ndarray, optional): </span>
+<span class="sd">        The matrix of degrees of conflict. Same size as D .</span>
+<span class="sd">    D (ndarray, optional): </span>
+<span class="sd">        The normalized dissimilarity matrix .</span>
+<span class="sd">    trace (ndarray, optional): </span>
+<span class="sd">        The trace of criterion values .</span>
+<span class="sd">    W (ndarray, optional): </span>
+<span class="sd">        The weight matrix .</span>
+<span class="sd">    J (ndarray, optional): </span>
+<span class="sd">        The matrix of indices.</span>
+<span class="sd">    param (list, optional): </span>
+<span class="sd">        A method-dependent list of parameters.</span>
 <span class="sd"> </span>
 <span class="sd">    References:</span>
 <span class="sd">    ------------</span>
@@ -643,10 +645,8 @@ document.write(`
 <a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.ev_summary">[docs]</a>
 <span class="k">def</span> <span class="nf">ev_summary</span><span class="p">(</span><span class="n">clus</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Summary of a credal partition. `summary_credpart` is the summary method for &quot;credpart&quot; objects.</span>
-<span class="sd">    </span>
-<span class="sd">    This function extracts basic information from &quot;credpart&quot; objects, such as created by</span>
-<span class="sd">    ecm, recm, cecm, EkNNclus, or kevclus.</span>
+<span class="sd">    Summary of a credal partition. summary_credpart is the summary method for credpart objects.</span>
+<span class="sd">    This function extracts basic information from credpart objects.</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters:</span>
 <span class="sd">    -----------</span>
@@ -657,22 +657,6 @@ document.write(`
 <span class="sd">    --------</span>
 <span class="sd">    None</span>
 <span class="sd">        Prints basic information on the credal partition.</span>
-<span class="sd">    </span>
-<span class="sd">    </span>
-<span class="sd">    References:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    T. Denoeux and O. Kanjanatarakul. Beyond Fuzzy, Possibilistic and Rough: An</span>
-<span class="sd">    Investigation of Belief Functions in Clustering. 8th International conference on soft</span>
-<span class="sd">    methods in probability and statistics, Rome, 12-14 September, 2016.</span>
-
-<span class="sd">    M.-H. Masson and T. Denoeux. ECM: An evidential version of the fuzzy c-means algorithm.</span>
-<span class="sd">    Pattern Recognition, Vol. 41, Issue 4, pages 1384--1397, 2008.</span>
-
-<span class="sd">    T. Denoeux, S. Sriboonchitta and O. Kanjanatarakul. Evidential clustering of large</span>
-<span class="sd">    dissimilarity data. Knowledge-Based Systems, vol. 106, pages 179-195, 2016.</span>
-<span class="sd">    </span>
-<span class="sd">    Examples:</span>
-<span class="sd">    ---------</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">c</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">clus</span><span class="p">[</span><span class="s1">&#39;mass&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -708,9 +692,8 @@ document.write(`
 <span class="sd">    Plotting a credal partition. Generates plots of a credal partition.     </span>
 <span class="sd">    This function plots different views of a credal partition in a two-dimensional attribute space.</span>
 <span class="sd">    </span>
-<span class="sd">    </span>
 <span class="sd">    Parameters:</span>
-<span class="sd">    ----------</span>
+<span class="sd">    -----------</span>
 <span class="sd">    x : object</span>
 <span class="sd">        An object of class &quot;credpart&quot;, encoding a credal partition.</span>
 <span class="sd">    X : array-like, optional</span>
@@ -738,7 +721,7 @@ document.write(`
 <span class="sd">    ask : bool, optional</span>
 <span class="sd">        Logical; if True, the user is asked before each plot.</span>
 <span class="sd">    plot_Shepard : bool, optional</span>
-<span class="sd">        Logical; if True and if the credal partition was generated by kevclus, the Shepard diagram is plotted.</span>
+<span class="sd">        Logical.</span>
 <span class="sd">    plot_approx : bool, optional</span>
 <span class="sd">        Logical; if True (default) the convex hulls of the lower and upper approximations are plotted.</span>
 <span class="sd">    plot_protos : bool, optional</span>
@@ -747,16 +730,10 @@ document.write(`
 <span class="sd">        Label of horizontal axis.</span>
 <span class="sd">    ylab : str, optional</span>
 <span class="sd">        Label of vertical axis.</span>
-<span class="sd">    </span>
+<span class="sd">        </span>
 <span class="sd">    Returns:</span>
 <span class="sd">    ----------</span>
-<span class="sd">    None</span>
-<span class="sd">    </span>
-<span class="sd">    The maximum plausibility hard partition, as well as the lower and upper approximations of each cluster</span>
-<span class="sd">    are drawn in the two-dimensional space specified by matrix X. If prototypes are defined (for methods &quot;ecm&quot;</span>
-<span class="sd">    and &quot;cecm&quot;), they are also represented on the plot. For methods &quot;kevclus&quot;, &quot;kcevclus&quot; or &quot;nnevclus&quot;,</span>
-<span class="sd">    a second plot with Shepard&#39;s diagram (degrees of conflict vs. transformed dissimilarities) is drawn.</span>
-<span class="sd">    If input X is not supplied and the Shepard diagram exists, then only the Shepard diagram is drawn.</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
   
     <span class="n">clus</span> <span class="o">=</span> <span class="n">x</span>
@@ -829,12 +806,11 @@ document.write(`
 <span class="k">def</span> <span class="nf">ev_pcaplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">splite</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cex</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">cex_protos</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot PCA results with cluster colors. </span>
-<span class="sd">    </span>
 <span class="sd">    This function performs PCA on the input data and plots the resulting PCA scores,</span>
 <span class="sd">    using the specified cluster information in &#39;x&#39;.</span>
 
 <span class="sd">    Parameters:</span>
-<span class="sd">    ----------</span>
+<span class="sd">    -----------</span>
 <span class="sd">    data : DataFrame</span>
 <span class="sd">        The input data containing the attributes (columns) and samples (rows).</span>
 <span class="sd">    x : object</span>
@@ -845,10 +821,8 @@ document.write(`
 <span class="sd">        If True, provides access to several different axes-level functions that show the views of clusters. </span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">    --------</span>
-<span class="sd">    None</span>
-
-<span class="sd">    The function plots the PCA scores in a scatter plot with cluster colors.</span>
+<span class="sd">    ---------</span>
+<span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">normalize</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>  <span class="c1"># Normalize the data</span>
@@ -896,226 +870,65 @@ document.write(`
     
     
     
-
-<span class="c1">#---------------------- Utils for cat ecm------------------------------------------------  </span>
-<div class="viewcode-block" id="catecm_get_dom_vals_and_size">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_get_dom_vals_and_size">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_get_dom_vals_and_size</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the feature domains and size.</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
-<span class="sd">        Training instances to cluster.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    dom_vals : array of shape n_unique_vals</span>
-<span class="sd">        The domains of the features.</span>
-
-<span class="sd">    n_attr_doms : int</span>
-<span class="sd">        The length of the number of categories of X.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">dom_vals</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">n_attr_doms</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">):</span>
-        <span class="n">unique</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]))</span>
-        <span class="n">dom_vals</span> <span class="o">+=</span> <span class="n">unique</span>
-        <span class="n">n_attr_doms</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">unique</span><span class="p">)]</span>
-    <span class="k">return</span> <span class="n">dom_vals</span><span class="p">,</span> <span class="n">n_attr_doms</span></div>
-
-
-<div class="viewcode-block" id="catecm_check_params">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_check_params">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_check_params</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check the correcteness of input parameters.</span>
+<span class="c1">#---------------------- plot for time series------------------------------------------------</span>
+<div class="viewcode-block" id="ev_tsplot">
+<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.ev_tsplot">[docs]</a>
+<span class="k">def</span> <span class="nf">ev_tsplot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">clus</span><span class="p">,</span> <span class="n">plot_centers</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the results of evidential clustering algorithm for time series.</span>
 
 <span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
-<span class="sd">        The input intances to be clustered.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
-<span class="sd">        If X contains features with one unique category the feature is dropped.</span>
+<span class="sd">    -----------</span>
+<span class="sd">    X : array-like</span>
+<span class="sd">        The time series data.</span>
+<span class="sd">    V : array-like</span>
+<span class="sd">        The medoid (center) time series for each cluster.</span>
+<span class="sd">    clus : dict</span>
+<span class="sd">        The clustering results, with &#39;mass&#39; and &#39;F&#39; keys.</span>
+<span class="sd">    plot_centers : bool, optional</span>
+<span class="sd">        If True, plot the cluster centers in color. If False, plot the individual series and the cluster centers in black. </span>
+<span class="sd">        Default is True.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">attr_with_one_uniq_val</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">uniq_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">l</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">n_l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">uniq_vals</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">n_l</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">attr_with_one_uniq_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">attr_with_one_uniq_val</span><span class="p">:</span>
-        <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Attributes </span><span class="si">{</span><span class="n">attr_with_one_uniq_val</span><span class="si">}</span><span class="s2"> contain one unique</span><span class="se">\</span>
-<span class="s2">            value,they will be dropped before training.&quot;</span>
-        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">attr_with_one_uniq_val</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">X</span></div>
+    <span class="c1"># Get the cluster labels from &#39;clus&#39;</span>
+    <span class="n">mas</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;mass&#39;</span><span class="p">])</span>
+    <span class="n">mas</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">get_ensembles</span><span class="p">(</span><span class="n">clus</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">])</span>
+    <span class="n">cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">mas</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
 
+    <span class="c1"># Number of clusters</span>
+    <span class="n">unique_clusters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">cluster</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_clusters</span><span class="p">)</span>
 
-<div class="viewcode-block" id="catecm_init_centers_singletons">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_init_centers_singletons">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_init_centers_singletons</span><span class="p">(</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the centers of clusters.&quot;&quot;&quot;</span>
-    <span class="n">w0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="n">size_attr_doms</span><span class="p">:</span>
-            <span class="n">l</span> <span class="o">+=</span> <span class="n">n_l</span>
-            <span class="n">rand_num</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_l</span><span class="p">))</span>
-            <span class="n">rand_num</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">rand_num</span><span class="p">)</span>
-            <span class="n">w0</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand_num</span>
-            <span class="n">k</span> <span class="o">=</span> <span class="n">l</span>
-    <span class="k">return</span> <span class="n">w0</span></div>
+    <span class="c1"># Number grid</span>
+    <span class="n">grid_cols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="p">)))</span>
+    <span class="n">grid_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="n">grid_cols</span><span class="p">))</span>
 
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="n">grid_rows</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="n">grid_cols</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.dpi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
 
-<div class="viewcode-block" id="catecm_update_centers_focalsets_gt_2">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_update_centers_focalsets_gt_2">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_update_centers_focalsets_gt_2</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the centers of focal sets with size greater than two.&quot;&quot;&quot;</span>
-    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="n">w</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">w</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">w</span></div>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>  
 
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_rows</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">grid_cols</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">grid_cols</span> <span class="o">+</span> <span class="n">j</span>
+            <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+                <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">plot_centers</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">cluster_series</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">cluster</span> <span class="o">==</span> <span class="n">unique_clusters</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span>
+                    <span class="k">for</span> <span class="n">series</span> <span class="ow">in</span> <span class="n">cluster_series</span><span class="p">:</span>
+                        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Cluster </span><span class="si">{</span><span class="n">unique_clusters</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="catecm_distance_objects_to_centers">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_distance_objects_to_centers">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_distance_objects_to_centers</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">,</span> <span class="n">_dom_vals</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">w</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the distance between objects and clusters.</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    X : ndarray of shape (n_samples, n_features)</span>
-<span class="sd">        Training instances to cluster.</span>
-<span class="sd">    w : ndarray of shape (n_attr_doms, n_clusters)</span>
-<span class="sd">        The centers of clusters.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    dist : np.array</span>
-<span class="sd">        The distances between objects and clusters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
-    <span class="n">dim_dist</span> <span class="o">=</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">dim_dist</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="n">xi</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim_dist</span><span class="p">):</span>
-            <span class="n">sum_</span> <span class="o">=</span> <span class="mf">0.0</span>
-            <span class="n">k</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">x_l</span><span class="p">,</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">):</span>
-                <span class="n">l</span> <span class="o">+=</span> <span class="n">n_l</span>
-                <span class="n">dom_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_dom_vals</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">])</span>
-                <span class="n">w_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">w</span><span class="p">[</span><span class="n">k</span><span class="p">:</span><span class="n">l</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
-                <span class="n">sum_</span> <span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">w_</span><span class="p">[</span><span class="n">dom_val</span> <span class="o">==</span> <span class="n">x_l</span><span class="p">])</span>
-                <span class="n">k</span> <span class="o">+=</span> <span class="n">n_l</span>
-            <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum_</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">dist</span></div>
-
-
-<div class="viewcode-block" id="catecm_get_credal_partition">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_get_credal_partition">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_get_credal_partition</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span>  <span class="n">dist</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the credal partition from the distances between objects and cluster centers.&quot;&quot;&quot;</span>
-    <span class="n">power_alpha</span> <span class="o">=</span> <span class="o">-</span><span class="n">alpha</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">power_beta</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">beta</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
-    <span class="n">credal_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-        <span class="k">if</span> <span class="mi">0</span> <span class="ow">in</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]:</span>
-            <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">idx_0</span> <span class="o">=</span> <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="c1">#  If the index in dist is i, the index in m is i + 1 as dim(m) = dim(dist) + 1</span>
-            <span class="n">idx_0</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx_0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">sum_dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span>
-                <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="n">power_alpha</span> <span class="o">*</span>
-                <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span><span class="o">**</span><span class="n">power_beta</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="p">])</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
-                <span class="n">len_fs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-                <span class="n">credal_p</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">len_fs</span><span class="o">**</span><span class="n">power_alpha</span> <span class="o">*</span>
-                                    <span class="n">dist</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="n">power_beta</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
-                                        <span class="n">sum_dij</span> <span class="o">+</span> <span class="n">delta</span><span class="o">**</span><span class="n">power_beta</span><span class="p">)</span>
-    <span class="n">credal_p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">credal_p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">credal_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">credal_p</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">credal_p</span></div>
-
-
-<div class="viewcode-block" id="catecm_update_centers_singletons">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_update_centers_singletons">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_update_centers_singletons</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">size_attr_doms</span><span class="p">,</span> <span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">_dom_vals</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Update the centers of singletons.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    X : ndarray of shape (n, p)</span>
-<span class="sd">        Training instances to cluster.</span>
-
-<span class="sd">    credal_p : ndarray (n, f)</span>
-<span class="sd">        The credal partition.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    w : ndarray of shape (n_attr_doms, f)</span>
-<span class="sd">        The updated centers of singletons.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">mbeta</span> <span class="o">=</span> <span class="n">credal_p</span><span class="o">**</span><span class="n">beta</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_attr_doms</span><span class="p">,</span> <span class="n">f</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">n_l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">size_attr_doms</span><span class="p">):</span>
-                <span class="n">s</span> <span class="o">+=</span> <span class="n">n_l</span>
-                <span class="n">w_jl</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
-                <span class="n">a_l</span> <span class="o">=</span> <span class="n">_dom_vals</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">]</span>
-                
-                <span class="n">attr_values_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_l</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_l</span><span class="p">):</span>
-                    <span class="n">len_fs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">focalsets</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
-                    <span class="n">freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">mbeta</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">l</span><span class="p">])</span> <span class="o">==</span> <span class="n">a_l</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">j</span><span class="p">])</span>
-                    <span class="n">attr_values_freq</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">len_fs</span><span class="o">**</span><span class="p">(</span><span class="n">alpha</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">freq</span>
-                <span class="n">idx_max_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">attr_values_freq</span><span class="p">)</span>
-                <span class="n">w_jl</span><span class="p">[</span><span class="n">idx_max_freq</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-                <span class="n">w</span><span class="p">[</span><span class="n">z</span><span class="p">:</span><span class="n">s</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">w_jl</span>
-                <span class="n">z</span> <span class="o">=</span> <span class="n">s</span>
-    <span class="k">except</span> <span class="ne">RuntimeWarning</span><span class="p">:</span>
-        <span class="n">exit</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">w</span></div>
-
-
-<div class="viewcode-block" id="catecm_cost">
-<a class="viewcode-back" href="../../autoapi/evclust/utils/index.html#evclust.utils.catecm_cost">[docs]</a>
-<span class="k">def</span> <span class="nf">catecm_cost</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">credal_p</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the cost (intertia) from an iteration.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    dist : ndarray of shape (n_samples, n_clusters)</span>
-<span class="sd">        The distance between objects and clusters.</span>
-
-<span class="sd">    credal_p : ndarray of shape (n_samples, n_focalsets)</span>
-<span class="sd">        The credal partition matrix.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    cost : float</span>
-<span class="sd">        The cost of the current iteration.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">focalsets</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">F</span><span class="p">]</span>
-    <span class="n">len_fs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">fs</span><span class="p">)</span> <span class="k">for</span> <span class="n">fs</span> <span class="ow">in</span> <span class="n">focalsets</span><span class="p">[</span><span class="mi">1</span><span class="p">:]])</span>
-    <span class="n">bba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">credal_p</span><span class="p">)</span>
-    <span class="n">bba_power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">bba</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">bba</span><span class="o">**</span><span class="n">beta</span><span class="p">,</span> <span class="n">bba</span><span class="p">)</span>
-    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">len_fs</span><span class="o">**</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">bba_power</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">*</span> <span class="n">dist</span><span class="o">**</span><span class="mf">2.</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">delta</span><span class="o">**</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">bba_power</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">cost</span></div>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span></div>
 
 </pre></div>
 
@@ -1164,7 +977,7 @@ By Armel SOUBEIGA
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jul 17, 2024.
+  Last updated on Nov 29, 2024.
   <br/>
 </p>
   </div>
@@ -1182,8 +995,8 @@ By Armel SOUBEIGA
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
   </footer>
