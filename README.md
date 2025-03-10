@@ -1,6 +1,6 @@
 # Introduction
 
-## evclust : An Python library for evidential clustering
+## evclust: Python library for evidential clustering
 
 [![Documentation Status](https://readthedocs.org/projects/evclust/badge/?version=latest)](https://evclust.readthedocs.io/en/latest/)
 [![tests](https://github.com/py-pkgs/py-pkgs-cookiecutter/workflows/test/badge.svg)](https://github.com/py-pkgs/py-pkgs-cookiecutter/workflows/test/badge.svg)
@@ -37,8 +37,9 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 ## Informations
 
 * Title: Evidential Clustering
-* Version: 0.2 -- Date: 2024-29-11
+* Version: 0.2.1 -- Date: 2024-03-10
 * Previous version: 
+    - 0.2 -- Date: 2024-29-11
     - 0.1.5 -- Date: 2024-07-17
     - 0.1.1 -- Date: 2023-09-01
 * License: MIT
@@ -51,20 +52,17 @@ Various clustering algorithms that produce a credal partition, i.e., a set of De
 ## Citation 
 
 ```
-Paper in preparation ...
-
-@article{soubeiga2024,
-  title={evclust : An Python library for evidential clustering},
-  author={Soubeiga, Armel and Antoine, Violaine},
-  journal={arXiv preprint arXiv:~~},
-  year={2024}
+@misc{soubeiga2024,
+      title={evclust: Python library for evidential clustering}, 
+      author={Armel Soubeiga and Violaine Antoine},
+      year={2025},
+      eprint={2502.06587},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE},
+      url={https://arxiv.org/abs/2502.06587}, 
 }
+
 ```
-
-## References
-
-* [1] Denœux, T. (Year). evclust: An R Package for Evidential Clustering. Université de technologie de Compiègne. url [https://cran.r-project.org/web/packages/evclust/index.html](https://cran.r-project.org/web/packages/evclust/index.html)
-
 
 ## Installation
 
@@ -102,6 +100,11 @@ This package offers efficient algorithms for evidential clustering. The package 
 **evclust** is referenced by [**The Belief Functions and Applications Society (BFAS)**](https://bfasociety.org/)
 
 **evclust** is also available in **R** by [**Thierry Denoeux**](https://cran.rstudio.com/web/packages/evclust/vignettes/evclust_vignette.pdf)
+
+
+## References
+
+* [1] Denœux, T. (Year). evclust: An R Package for Evidential Clustering. Université de technologie de Compiègne. url [https://cran.r-project.org/web/packages/evclust/index.html](https://cran.r-project.org/web/packages/evclust/index.html)
 
 
 ## Contributing

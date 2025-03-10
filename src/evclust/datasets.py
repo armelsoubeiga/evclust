@@ -49,5 +49,5 @@ def load_fourclass():
 #---------------------- Data 5-------------------------------------------------
 def load_prop():
     """Load ProP.mat data and return it as a list of views."""
-    prop_data = loadmat(DATASETS_DIR  + '/ProP.mat')
+    prop_data = loadmat(str(DATASETS_DIR / 'ProP.mat'))
     return [prop_data['gene_repert'], prop_data['proteome_comp'], prop_data['text']]

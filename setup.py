@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='evclust',
-    version='0.2',
+    version='0.2.1',
     author='Armel SOUBEIGA',
     author_email='armel.soubeiga@yahoo.fr',
     packages=['evclust','evclust.test'],
