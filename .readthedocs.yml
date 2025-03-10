@@ -1,6 +1,9 @@
 # Required
 version: 2
 
+sphinx:
+  configuration: docs/conf.py
+
 # Image to use
 build:
   os: ubuntu-22.04
